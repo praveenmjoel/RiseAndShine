@@ -1,0 +1,1321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rise and Shine Academy — Nagpur's Premier Learning Centre</title>
+<meta name="description" content="Rise and Shine Academy, Nagpur. Expert coaching in Phonics, Language Development, Spoken English, Cambridge & IB, and All-Subject Tuition. Founded by Aahana Ma'am with 20+ years experience.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+/* ─── DESIGN TOKENS ─────────────────────────────────── */
+:root {
+  --blue-900: #061E30;
+  --blue-800: #0B3C5D;
+  --blue-700: #0E4D78;
+  --blue-600: #1565A0;
+  --blue-100: #E8F1F8;
+  --blue-50:  #F0F6FB;
+  --gold:     #C8860A;
+  --gold-light: #E8A000;
+  --gold-pale: #FDF3E0;
+  --white:    #FFFFFF;
+  --grey-50:  #F8F9FA;
+  --grey-100: #F1F3F5;
+  --grey-200: #E9ECEF;
+  --grey-400: #ADB5BD;
+  --grey-600: #6C757D;
+  --grey-800: #343A40;
+  --text:     #1A2B3C;
+  --text-muted: #5A6A7A;
+  --border:   rgba(11,60,93,0.10);
+
+  --r-sm: 6px;
+  --r-md: 12px;
+  --r-lg: 20px;
+
+  --shadow-sm: 0 2px 12px rgba(11,60,93,0.08);
+  --shadow-md: 0 8px 32px rgba(11,60,93,0.12);
+  --shadow-lg: 0 20px 60px rgba(11,60,93,0.16);
+}
+
+/* ─── RESET ─────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--white);
+  color: var(--text);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+img { max-width: 100%; display: block; }
+a { text-decoration: none; color: inherit; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; }
+
+/* ─── TYPOGRAPHY ─────────────────────────────────────── */
+.serif { font-family: 'Playfair Display', serif; }
+.eyebrow {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-size: 0.68rem; font-weight: 600; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--gold);
+}
+.eyebrow::before {
+  content: ''; display: block; width: 24px; height: 1.5px;
+  background: var(--gold); flex-shrink: 0;
+}
+
+h1, h2, h3 { font-family: 'Playfair Display', serif; line-height: 1.15; }
+.section-title {
+  font-size: clamp(1.85rem, 3vw, 2.6rem);
+  font-weight: 500; color: var(--blue-800); letter-spacing: -0.02em;
+}
+.section-body {
+  font-size: 1rem; line-height: 1.8; color: var(--text-muted); font-weight: 400;
+}
+
+/* ─── BUTTONS ─────────────────────────────────────────── */
+.btn {
+  display: inline-flex; align-items: center; gap: 9px;
+  font-family: 'Inter', sans-serif; font-size: 0.82rem; font-weight: 600;
+  letter-spacing: 0.04em; border-radius: var(--r-sm);
+  padding: 14px 28px; transition: all 0.22s ease; cursor: pointer;
+  border: none; text-decoration: none; white-space: nowrap;
+}
+.btn-primary {
+  background: var(--gold-light); color: var(--white);
+  box-shadow: 0 4px 16px rgba(200,134,10,0.35);
+}
+.btn-primary:hover { background: var(--gold); transform: translateY(-1px); box-shadow: 0 6px 22px rgba(200,134,10,0.4); }
+.btn-outline {
+  background: transparent; color: var(--blue-800);
+  border: 1.5px solid var(--blue-800);
+}
+.btn-outline:hover { background: var(--blue-800); color: var(--white); }
+.btn-white {
+  background: var(--white); color: var(--blue-800); font-weight: 600;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+}
+.btn-white:hover { background: var(--gold-pale); color: var(--gold); }
+.btn-ghost-white {
+  background: rgba(255,255,255,0.12); color: var(--white);
+  border: 1.5px solid rgba(255,255,255,0.3);
+}
+.btn-ghost-white:hover { background: rgba(255,255,255,0.22); }
+.btn svg { flex-shrink: 0; transition: transform 0.2s; }
+.btn:hover svg.arrow { transform: translateX(3px); }
+
+/* ─── LAYOUT ──────────────────────────────────────────── */
+.container { max-width: 1200px; margin: 0 auto; padding: 0 5%; }
+.section { padding: 96px 5%; }
+
+/* ─── ANNOUNCEMENT BAR ───────────────────────────────── */
+.announce-bar {
+  background: var(--blue-900); color: rgba(255,255,255,0.75);
+  text-align: center; padding: 10px 20px;
+  font-size: 0.75rem; letter-spacing: 0.06em;
+}
+.announce-bar strong { color: var(--gold-light); }
+.announce-bar a { color: var(--gold-light); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+
+/* ─── NAVBAR ─────────────────────────────────────────── */
+nav {
+  position: sticky; top: 0; z-index: 900;
+  background: rgba(255,255,255,0.97);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 5%; display: flex; align-items: center;
+  justify-content: space-between; height: 70px;
+  transition: box-shadow 0.3s;
+}
+nav.scrolled { box-shadow: var(--shadow-md); }
+.nav-brand {
+  display: flex; align-items: center; gap: 10px; cursor: pointer;
+}
+.nav-brand-icon {
+  width: 38px; height: 38px; background: var(--blue-800); border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+}
+.nav-brand-icon span {
+  font-family: 'Playfair Display', serif; font-size: 1rem;
+  font-weight: 700; color: var(--gold-light);
+}
+.nav-brand-text { line-height: 1.2; }
+.nav-brand-name {
+  font-family: 'Playfair Display', serif; font-size: 1.05rem;
+  font-weight: 600; color: var(--blue-800);
+}
+.nav-brand-sub {
+  font-size: 0.6rem; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--grey-400); font-weight: 500;
+}
+.nav-links {
+  display: flex; align-items: center; gap: 4px; list-style: none;
+}
+.nav-links a {
+  font-size: 0.82rem; font-weight: 500; color: var(--text-muted);
+  padding: 8px 14px; border-radius: var(--r-sm);
+  transition: color 0.2s, background 0.2s;
+}
+.nav-links a:hover { color: var(--blue-800); background: var(--blue-50); }
+.nav-right { display: flex; align-items: center; gap: 12px; }
+.nav-wa {
+  display: flex; align-items: center; gap: 7px;
+  font-size: 0.78rem; font-weight: 600; color: #25D366;
+  padding: 8px 14px; border-radius: var(--r-sm);
+  border: 1.5px solid rgba(37,211,102,0.3);
+  transition: all 0.2s;
+}
+.nav-wa:hover { background: rgba(37,211,102,0.08); }
+.nav-cta { background: var(--blue-800); color: var(--white) !important; padding: 10px 22px !important; border-radius: var(--r-sm) !important; font-size: 0.8rem !important; font-weight: 600 !important; }
+.nav-cta:hover { background: var(--blue-700) !important; color: var(--white) !important; }
+.hamburger { display: none; flex-direction: column; gap: 5px; padding: 8px; cursor: pointer; }
+.hamburger span { display: block; width: 22px; height: 2px; background: var(--blue-800); border-radius: 2px; transition: all 0.3s; }
+.mobile-menu {
+  display: none; position: fixed; top: 70px; left: 0; right: 0;
+  background: var(--white); border-bottom: 1px solid var(--border);
+  padding: 20px 5%; z-index: 899; flex-direction: column; gap: 4px;
+  box-shadow: var(--shadow-md);
+}
+.mobile-menu.open { display: flex; }
+.mobile-menu a { font-size: 0.95rem; font-weight: 500; color: var(--text); padding: 12px 16px; border-radius: var(--r-sm); }
+.mobile-menu a:hover { background: var(--blue-50); color: var(--blue-800); }
+.mobile-menu .mobile-cta { background: var(--blue-800); color: var(--white); text-align: center; margin-top: 8px; font-weight: 600; }
+
+/* ─── HERO ───────────────────────────────────────────── */
+.hero {
+  min-height: calc(100vh - 116px);
+  display: grid; grid-template-columns: 1fr 1fr;
+  background: var(--blue-50);
+  position: relative; overflow: hidden;
+}
+.hero-left {
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 80px 5% 80px 7%; position: relative;
+}
+.hero-trust {
+  display: flex; align-items: center; gap: 8px;
+  margin-bottom: 28px;
+}
+.hero-trust-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--gold-light); flex-shrink: 0;
+}
+.hero-trust-text {
+  font-size: 0.72rem; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--text-muted); font-weight: 500;
+}
+.hero-h1 {
+  font-size: clamp(2.4rem, 4.5vw, 3.8rem);
+  font-weight: 500; line-height: 1.08; color: var(--blue-900);
+  letter-spacing: -0.03em; margin-bottom: 24px;
+}
+.hero-h1 em { font-style: italic; color: var(--blue-700); }
+.hero-h1 .gold { color: var(--gold); }
+.hero-desc {
+  font-size: 1.05rem; line-height: 1.78; color: var(--text-muted);
+  max-width: 460px; margin-bottom: 36px; font-weight: 400;
+}
+.hero-ctas { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 52px; }
+.hero-stats { display: flex; gap: 0; }
+.stat-item { padding-right: 32px; }
+.stat-item:not(:last-child) { padding-right: 32px; margin-right: 32px; border-right: 1px solid var(--border); }
+.stat-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.2rem; font-weight: 500; color: var(--blue-800);
+  line-height: 1; letter-spacing: -0.03em;
+}
+.stat-num sup { font-size: 1rem; color: var(--gold); vertical-align: super; }
+.stat-label { font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--grey-400); margin-top: 5px; }
+
+.hero-right {
+  position: relative; overflow: hidden;
+  background: var(--blue-800);
+}
+.hero-img {
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: center;
+  opacity: 0.72;
+  mix-blend-mode: luminosity;
+}
+.hero-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(11,60,93,0.6) 0%, rgba(6,30,48,0.3) 100%);
+}
+.hero-badge-wrap {
+  position: absolute; bottom: 40px; left: 40px;
+  display: flex; gap: 12px;
+}
+.hero-badge {
+  background: rgba(255,255,255,0.12);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: var(--r-md); padding: 16px 20px;
+  text-align: center; min-width: 100px;
+}
+.hero-badge-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.8rem; font-weight: 500; color: var(--white);
+  line-height: 1; letter-spacing: -0.02em;
+}
+.hero-badge-num sup { font-size: 0.9rem; color: var(--gold-light); }
+.hero-badge-lbl { font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.6); margin-top: 5px; }
+.hero-deco-ring {
+  position: absolute; top: -100px; right: -100px;
+  width: 400px; height: 400px; border-radius: 50%;
+  border: 1px solid rgba(200,134,10,0.15); pointer-events: none;
+}
+.hero-deco-ring-2 {
+  position: absolute; top: -50px; right: -50px;
+  width: 250px; height: 250px; border-radius: 50%;
+  border: 1px solid rgba(200,134,10,0.1); pointer-events: none;
+}
+
+/* ─── SOCIAL PROOF STRIP ──────────────────────────────── */
+.proof-strip {
+  background: var(--blue-900); padding: 28px 5%;
+}
+.proof-strip-inner {
+  max-width: 1200px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 24px; flex-wrap: wrap;
+}
+.proof-item {
+  display: flex; align-items: center; gap: 12px;
+  color: rgba(255,255,255,0.7); font-size: 0.85rem;
+}
+.proof-item-icon { color: var(--gold-light); flex-shrink: 0; }
+.proof-divider { width: 1px; height: 28px; background: rgba(255,255,255,0.12); }
+
+/* ─── PROGRAMS ───────────────────────────────────────── */
+.programs-section { background: var(--white); }
+.programs-header { display: flex; align-items: flex-end; justify-content: space-between; gap: 40px; margin-bottom: 56px; }
+.programs-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.program-card {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: var(--r-md); padding: 32px 28px 28px;
+  cursor: pointer; transition: all 0.25s ease;
+  position: relative; overflow: hidden;
+  display: flex; flex-direction: column;
+}
+.program-card::after {
+  content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--gold-light), var(--gold));
+  transform: scaleX(0); transform-origin: left; transition: transform 0.35s ease;
+}
+.program-card:hover { box-shadow: var(--shadow-md); transform: translateY(-4px); border-color: rgba(11,60,93,0.15); }
+.program-card:hover::after { transform: scaleX(1); }
+.program-icon-wrap {
+  width: 44px; height: 44px; border-radius: var(--r-sm);
+  background: var(--blue-50); display: flex; align-items: center;
+  justify-content: center; margin-bottom: 20px;
+}
+.program-icon-wrap svg { width: 22px; height: 22px; stroke: var(--blue-700); fill: none; stroke-width: 1.6; }
+.program-tag { font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); font-weight: 600; margin-bottom: 8px; }
+.program-card h3 {
+  font-family: 'Playfair Display', serif; font-size: 1.12rem;
+  font-weight: 500; color: var(--blue-900); margin-bottom: 10px; letter-spacing: -0.01em;
+}
+.program-card p { font-size: 0.86rem; line-height: 1.75; color: var(--text-muted); font-weight: 400; flex: 1; margin-bottom: 22px; }
+.program-link {
+  display: inline-flex; align-items: center; gap: 7px;
+  font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase;
+  font-weight: 600; color: var(--blue-700); transition: gap 0.2s;
+}
+.program-card:hover .program-link { gap: 12px; }
+.program-link svg { width: 12px; height: 12px; stroke: var(--blue-700); fill: none; stroke-width: 2.5; }
+.program-card.cta-card {
+  background: linear-gradient(135deg, var(--blue-800), var(--blue-900));
+  border-color: transparent;
+}
+.program-card.cta-card .program-tag { color: rgba(200,134,10,0.8); }
+.program-card.cta-card h3 { color: var(--white); }
+.program-card.cta-card p { color: rgba(255,255,255,0.6); }
+.program-card.cta-card .program-icon-wrap { background: rgba(255,255,255,0.08); }
+.program-card.cta-card .program-icon-wrap svg { stroke: rgba(255,255,255,0.6); }
+.program-card.cta-card .program-link { color: var(--gold-light); }
+.program-card.cta-card .program-link svg { stroke: var(--gold-light); }
+
+/* ─── WHY US ─────────────────────────────────────────── */
+.why-section { background: var(--blue-50); }
+.why-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); border-radius: var(--r-md); overflow: hidden; }
+.why-card {
+  background: var(--white); padding: 40px 32px;
+  position: relative; transition: background 0.22s;
+}
+.why-card:hover { background: var(--blue-50); }
+.why-card-num {
+  position: absolute; top: 28px; right: 28px;
+  font-family: 'Playfair Display', serif; font-size: 0.7rem;
+  color: var(--grey-200); font-weight: 400;
+}
+.why-icon {
+  width: 42px; height: 42px; border-radius: var(--r-sm);
+  background: var(--blue-50); display: flex; align-items: center;
+  justify-content: center; margin-bottom: 20px;
+}
+.why-icon svg { width: 20px; height: 20px; stroke: var(--blue-700); fill: none; stroke-width: 1.6; }
+.why-card h3 {
+  font-family: 'Playfair Display', serif; font-size: 1.05rem;
+  font-weight: 500; color: var(--blue-900); margin-bottom: 10px;
+}
+.why-card p { font-size: 0.85rem; line-height: 1.78; color: var(--text-muted); }
+
+/* ─── FOUNDER ────────────────────────────────────────── */
+.founder-section {
+  display: grid; grid-template-columns: 1fr 1fr;
+  min-height: 560px; background: var(--white);
+}
+.founder-visual {
+  position: relative; overflow: hidden;
+  background: var(--blue-900);
+}
+.founder-img {
+  width: 100%; height: 100%; object-fit: cover;
+  opacity: 0.6; mix-blend-mode: luminosity;
+}
+.founder-visual-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to right, rgba(6,30,48,0.5) 0%, rgba(6,30,48,0.15) 100%);
+}
+.founder-monogram-wrap {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column; align-items: center;
+  justify-content: center; gap: 16px;
+}
+.founder-monogram {
+  width: 100px; height: 100px; border-radius: 50%;
+  border: 1.5px solid rgba(200,134,10,0.4);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Playfair Display', serif; font-size: 2rem;
+  font-weight: 400; color: var(--gold-light);
+}
+.founder-name-display {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.4rem; color: var(--white); text-align: center;
+}
+.founder-role-display {
+  font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase;
+  color: rgba(200,134,10,0.6); text-align: center;
+}
+.founder-bg-text {
+  position: absolute; bottom: -10px; left: 20px;
+  font-family: 'Playfair Display', serif; font-size: 8rem;
+  font-weight: 500; color: rgba(200,134,10,0.04);
+  line-height: 1; letter-spacing: -0.04em; pointer-events: none;
+}
+.founder-content {
+  background: var(--blue-900); padding: 80px 7%;
+  display: flex; flex-direction: column; justify-content: center;
+}
+.founder-content .eyebrow::before { background: rgba(200,134,10,0.5); }
+.founder-content .eyebrow { color: rgba(200,134,10,0.7); margin-bottom: 20px; }
+.founder-content h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.7rem, 2.5vw, 2.2rem); font-weight: 500;
+  color: #E8F1F8; letter-spacing: -0.02em; margin-bottom: 24px;
+}
+.founder-quote {
+  border-left: 2px solid rgba(200,134,10,0.5);
+  padding-left: 18px; margin: 0 0 24px;
+  font-family: 'Playfair Display', serif; font-style: italic;
+  font-size: 1.05rem; color: rgba(200,134,10,0.75); line-height: 1.7;
+}
+.founder-body { font-size: 0.9rem; line-height: 1.88; color: rgba(180,210,240,0.55); margin-bottom: 32px; }
+
+/* ─── TESTIMONIALS ───────────────────────────────────── */
+.testi-section { background: var(--grey-50); }
+.testi-header { margin-bottom: 52px; }
+.testi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.testi-card {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: var(--r-md); padding: 32px 28px;
+  display: flex; flex-direction: column;
+}
+.testi-stars { display: flex; gap: 3px; margin-bottom: 16px; }
+.testi-stars svg { width: 13px; height: 13px; fill: var(--gold-light); }
+.testi-text {
+  font-family: 'Playfair Display', serif; font-style: italic;
+  font-size: 0.97rem; color: var(--text); line-height: 1.78;
+  flex: 1; margin-bottom: 24px;
+}
+.testi-divider { height: 1px; background: var(--border); margin-bottom: 18px; }
+.testi-author { display: flex; align-items: center; gap: 12px; }
+.testi-avatar {
+  width: 40px; height: 40px; border-radius: 50%; flex-shrink: 0;
+  background: linear-gradient(135deg, var(--blue-700), var(--blue-900));
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Playfair Display', serif; font-weight: 500;
+  color: var(--gold-light); font-size: 0.85rem;
+}
+.testi-name { font-size: 0.88rem; font-weight: 600; color: var(--blue-900); }
+.testi-role { font-size: 0.72rem; color: var(--grey-400); margin-top: 2px; }
+
+/* ─── WORKSHEETS TEASER ──────────────────────────────── */
+.worksheets-section { background: var(--white); }
+.worksheets-header { display: flex; align-items: flex-end; justify-content: space-between; gap: 40px; margin-bottom: 52px; }
+.ws-usplabel {
+  display: inline-flex; align-items: center; gap: 7px;
+  background: var(--gold-pale); color: var(--gold); font-size: 0.68rem;
+  font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase;
+  padding: 5px 12px; border-radius: 100px; margin-bottom: 14px;
+}
+.ws-usplabel svg { width: 12px; height: 12px; fill: var(--gold-light); }
+.worksheets-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.ws-card {
+  border: 1px solid var(--border); border-radius: var(--r-md);
+  overflow: hidden; transition: all 0.25s; display: flex; flex-direction: column;
+}
+.ws-card:hover { box-shadow: var(--shadow-md); transform: translateY(-3px); }
+.ws-card-top {
+  padding: 28px 24px 24px;
+  display: flex; flex-direction: column; flex: 1;
+}
+.ws-cat-badge {
+  display: inline-flex; align-items: center;
+  background: var(--blue-50); color: var(--blue-700);
+  font-size: 0.62rem; font-weight: 600; letter-spacing: 0.14em;
+  text-transform: uppercase; padding: 4px 10px; border-radius: 100px;
+  margin-bottom: 14px; width: fit-content;
+}
+.ws-card h4 {
+  font-family: 'Playfair Display', serif; font-size: 1.05rem;
+  font-weight: 500; color: var(--blue-900); margin-bottom: 8px;
+}
+.ws-card p { font-size: 0.84rem; line-height: 1.7; color: var(--text-muted); flex: 1; }
+.ws-card-foot {
+  padding: 16px 24px; border-top: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+  background: var(--grey-50);
+}
+.ws-price { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 500; color: var(--blue-800); }
+.ws-price span { font-family: 'Inter', sans-serif; font-size: 0.7rem; color: var(--grey-400); font-weight: 400; }
+.ws-buy {
+  background: var(--blue-800); color: var(--white);
+  font-size: 0.72rem; font-weight: 600; letter-spacing: 0.08em;
+  padding: 8px 16px; border-radius: var(--r-sm);
+  transition: background 0.2s;
+}
+.ws-buy:hover { background: var(--blue-700); }
+.ws-coming {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 0.72rem; color: var(--grey-400); font-weight: 500;
+}
+
+/* ─── CTA BAND ───────────────────────────────────────── */
+.cta-band {
+  background: linear-gradient(135deg, var(--blue-800) 0%, var(--blue-900) 100%);
+  padding: 88px 5%; text-align: center; position: relative; overflow: hidden;
+}
+.cta-band::before {
+  content: ''; position: absolute; inset: 0;
+  background: repeating-linear-gradient(-45deg, transparent, transparent 60px, rgba(200,134,10,0.025) 60px, rgba(200,134,10,0.025) 61px);
+}
+.cta-band .eyebrow { color: rgba(200,134,10,0.65); position: relative; margin-bottom: 18px; }
+.cta-band h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.8rem, 3vw, 2.7rem); font-weight: 500;
+  color: var(--white); letter-spacing: -0.02em; margin-bottom: 14px;
+  position: relative;
+}
+.cta-band p { color: rgba(200,220,240,0.65); font-size: 1rem; margin-bottom: 36px; position: relative; }
+.cta-band-btns { display: flex; align-items: center; justify-content: center; gap: 14px; flex-wrap: wrap; position: relative; }
+
+/* ─── FOOTER ─────────────────────────────────────────── */
+footer { background: var(--blue-900); padding: 72px 5% 32px; }
+.footer-inner { max-width: 1200px; margin: 0 auto; }
+.footer-grid {
+  display: grid; grid-template-columns: 1.8fr 1fr 1fr 1fr;
+  gap: 48px; padding-bottom: 48px;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+}
+.footer-brand-name {
+  font-family: 'Playfair Display', serif; font-size: 1.2rem;
+  font-weight: 600; color: var(--white); margin-bottom: 12px;
+}
+.footer-brand-desc {
+  font-size: 0.84rem; line-height: 1.82; color: rgba(180,210,240,0.35);
+  max-width: 260px; margin-bottom: 20px;
+}
+.footer-social { display: flex; gap: 8px; }
+.footer-social a {
+  width: 34px; height: 34px; border: 1px solid rgba(255,255,255,0.08);
+  border-radius: var(--r-sm); display: flex; align-items: center;
+  justify-content: center; transition: all 0.2s;
+}
+.footer-social a:hover { border-color: var(--gold-light); background: rgba(200,134,10,0.1); }
+.footer-social a svg { width: 14px; height: 14px; fill: rgba(180,210,240,0.35); transition: fill 0.2s; }
+.footer-social a:hover svg { fill: var(--gold-light); }
+footer h4 {
+  font-family: 'Playfair Display', serif; font-size: 0.88rem;
+  font-weight: 500; color: rgba(200,134,10,0.75); margin-bottom: 18px;
+}
+footer ul { list-style: none; }
+footer ul li { margin-bottom: 9px; }
+footer ul li a {
+  font-size: 0.82rem; color: rgba(180,210,240,0.38);
+  transition: color 0.2s; font-weight: 400;
+}
+footer ul li a:hover { color: var(--gold-light); }
+.footer-address { font-size: 0.82rem; line-height: 1.9; color: rgba(180,210,240,0.38); font-style: normal; }
+.footer-address a { color: rgba(180,210,240,0.6); }
+.footer-address a:hover { color: var(--gold-light); }
+.footer-bottom {
+  padding-top: 28px; display: flex; align-items: center;
+  justify-content: space-between; flex-wrap: wrap; gap: 12px;
+}
+.footer-bottom p { font-size: 0.72rem; color: rgba(255,255,255,0.18); letter-spacing: 0.04em; }
+
+/* ─── WHATSAPP FLOAT ─────────────────────────────────── */
+.wa-float {
+  position: fixed; bottom: 28px; right: 28px; z-index: 800;
+  width: 56px; height: 56px; border-radius: 50%;
+  background: #25D366; display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 6px 24px rgba(37,211,102,0.4);
+  transition: transform 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+}
+.wa-float:hover { transform: scale(1.08); box-shadow: 0 8px 32px rgba(37,211,102,0.5); }
+.wa-float svg { width: 28px; height: 28px; fill: white; }
+.wa-float-tooltip {
+  position: absolute; right: 68px; top: 50%; transform: translateY(-50%);
+  background: var(--blue-900); color: white; font-size: 0.75rem; font-weight: 500;
+  padding: 7px 13px; border-radius: 6px; white-space: nowrap;
+  opacity: 0; pointer-events: none; transition: opacity 0.2s;
+}
+.wa-float:hover .wa-float-tooltip { opacity: 1; }
+
+/* ─── LEAD POPUP ─────────────────────────────────────── */
+.popup-overlay {
+  position: fixed; inset: 0; z-index: 1000;
+  background: rgba(6,30,48,0.65); backdrop-filter: blur(4px);
+  display: flex; align-items: center; justify-content: center;
+  padding: 20px; opacity: 0; pointer-events: none; transition: opacity 0.3s;
+}
+.popup-overlay.active { opacity: 1; pointer-events: all; }
+.popup {
+  background: var(--white); border-radius: var(--r-lg);
+  max-width: 540px; width: 100%;
+  box-shadow: 0 32px 80px rgba(6,30,48,0.3);
+  transform: translateY(20px); transition: transform 0.3s;
+  overflow: hidden;
+}
+.popup-overlay.active .popup { transform: translateY(0); }
+.popup-top {
+  background: linear-gradient(135deg, var(--blue-800), var(--blue-900));
+  padding: 36px 36px 28px; position: relative;
+}
+.popup-close {
+  position: absolute; top: 16px; right: 16px;
+  width: 30px; height: 30px; border-radius: 50%;
+  background: rgba(255,255,255,0.12); border: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  color: rgba(255,255,255,0.7); font-size: 1.1rem; transition: background 0.2s;
+}
+.popup-close:hover { background: rgba(255,255,255,0.22); }
+.popup-badge {
+  display: inline-flex; align-items: center; gap: 7px;
+  background: rgba(200,134,10,0.15); color: var(--gold-light);
+  font-size: 0.65rem; font-weight: 600; letter-spacing: 0.14em;
+  text-transform: uppercase; padding: 5px 12px; border-radius: 100px; margin-bottom: 14px;
+}
+.popup-top h3 {
+  font-family: 'Playfair Display', serif; font-size: 1.6rem;
+  font-weight: 500; color: var(--white); margin-bottom: 8px;
+}
+.popup-top p { font-size: 0.88rem; color: rgba(200,220,240,0.65); line-height: 1.65; }
+.popup-body { padding: 28px 36px 32px; }
+.form-group { margin-bottom: 14px; }
+.form-group label {
+  display: block; font-size: 0.68rem; font-weight: 600;
+  letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted);
+  margin-bottom: 6px;
+}
+.form-group input,
+.form-group select {
+  width: 100%; padding: 11px 14px;
+  border: 1.5px solid var(--border); border-radius: var(--r-sm);
+  background: var(--grey-50); font-family: 'Inter', sans-serif;
+  font-size: 0.9rem; color: var(--text); outline: none; transition: border-color 0.2s;
+}
+.form-group input:focus,
+.form-group select:focus { border-color: var(--blue-600); background: var(--white); }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.popup-submit {
+  width: 100%; padding: 14px; border-radius: var(--r-sm);
+  background: var(--blue-800); color: var(--white);
+  font-size: 0.85rem; font-weight: 600; border: none; cursor: pointer;
+  margin-top: 6px; transition: background 0.2s;
+}
+.popup-submit:hover { background: var(--blue-700); }
+.popup-wa-alt {
+  text-align: center; margin-top: 14px;
+  font-size: 0.78rem; color: var(--text-muted);
+}
+.popup-wa-alt a { color: #25D366; font-weight: 600; }
+
+/* ─── RESPONSIVE ─────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .programs-grid { grid-template-columns: repeat(2, 1fr); }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 900px) {
+  .hero { grid-template-columns: 1fr; }
+  .hero-right { min-height: 340px; max-height: 400px; }
+  .founder-section { grid-template-columns: 1fr; }
+  .founder-visual { min-height: 300px; }
+  .why-grid { grid-template-columns: 1fr 1fr; }
+  .testi-grid { grid-template-columns: 1fr; }
+  .worksheets-grid { grid-template-columns: 1fr 1fr; }
+  .programs-header { flex-direction: column; align-items: flex-start; gap: 16px; }
+  .worksheets-header { flex-direction: column; align-items: flex-start; gap: 16px; }
+  .proof-strip-inner { justify-content: center; }
+  .proof-divider { display: none; }
+}
+@media (max-width: 640px) {
+  .section { padding: 64px 5%; }
+  .hero-left { padding: 60px 5%; }
+  .why-grid { grid-template-columns: 1fr; }
+  .programs-grid { grid-template-columns: 1fr; }
+  .worksheets-grid { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: 1fr; gap: 32px; }
+  .footer-bottom { flex-direction: column; text-align: center; }
+  .hero-stats { gap: 16px; flex-wrap: wrap; }
+  .stat-item { border-right: none !important; padding-right: 0 !important; margin-right: 0 !important; }
+  .nav-links { display: none; }
+  .nav-right .nav-wa { display: none; }
+  .hamburger { display: flex; }
+  .hero-ctas { flex-direction: column; }
+  .hero-ctas .btn { width: 100%; justify-content: center; }
+  .cta-band-btns { flex-direction: column; align-items: stretch; }
+  .cta-band-btns .btn { justify-content: center; }
+  .form-row { grid-template-columns: 1fr; }
+  .popup-top { padding: 28px 24px 22px; }
+  .popup-body { padding: 20px 24px 28px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Announcement Bar -->
+<div class="announce-bar">
+  New batch starting April 2025 — <strong>Limited seats available.</strong>
+  <a href="contact.html"> Enquire now →</a>
+</div>
+
+<!-- Navbar -->
+<nav id="navbar">
+  <a href="index.html" class="nav-brand">
+    <div class="nav-brand-icon"><span>R&S</span></div>
+    <div class="nav-brand-text">
+      <div class="nav-brand-name">Rise And Shine</div>
+      <div class="nav-brand-sub">Learn · Grow · Succeed</div>
+    </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="programs.html">Programs</a></li>
+    <li><a href="worksheets.html">Worksheets</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="https://wa.me/919823888638" target="_blank" class="nav-wa">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.917 1.04 5.592 2.757 7.671L.947 23.243l3.682-1.77A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 0 1-5.024-1.378l-.36-.215-3.728.977.995-3.638-.235-.374A9.818 9.818 0 1 1 12 21.818z"/></svg>
+      WhatsApp
+    </a>
+    <a href="contact.html" class="nav-links nav-cta" style="padding:10px 22px;border-radius:6px;font-size:0.8rem;font-weight:600;background:var(--blue-800);color:white;display:inline-block;">Book a Demo</a>
+  </div>
+  <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html">Home</a>
+  <a href="about.html">About</a>
+  <a href="programs.html">Programs</a>
+  <a href="worksheets.html">Worksheets</a>
+  <a href="contact.html">Contact</a>
+  <a href="https://wa.me/919823888638" target="_blank">WhatsApp Us</a>
+  <a href="contact.html" class="mobile-cta">Book a Free Demo</a>
+</div>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-trust">
+      <div class="hero-trust-dot"></div>
+      <span class="hero-trust-text">Nagpur's trusted learning centre · Est. 2004</span>
+    </div>
+    <h1 class="hero-h1">
+      Where children learn<br>to <em>rise</em> — and truly<br><span class="gold">shine.</span>
+    </h1>
+    <p class="hero-desc">
+      Founded by Aahana Ma'am with 20+ years of experience, Rise and Shine builds confident, curious, and capable learners — from Phonics to Cambridge.
+    </p>
+    <div class="hero-ctas">
+      <a href="contact.html" class="btn btn-primary">
+        Book a Free Demo
+        <svg class="arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+      <a href="programs.html" class="btn btn-outline">
+        Explore Programs
+      </a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-item">
+        <div class="stat-num">20<sup>+</sup></div>
+        <div class="stat-label">Years of Teaching</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">500<sup>+</sup></div>
+        <div class="stat-label">Students Taught</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">6</div>
+        <div class="stat-label">Programs Offered</div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-right">
+    <img class="hero-img"
+      src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=900&q=85&auto=format&fit=crop"
+      alt="Children learning at Rise and Shine Academy">
+    <div class="hero-overlay"></div>
+    <div class="hero-deco-ring"></div>
+    <div class="hero-deco-ring-2"></div>
+    <div class="hero-badge-wrap">
+      <div class="hero-badge">
+        <div class="hero-badge-num">20<sup>+</sup></div>
+        <div class="hero-badge-lbl">Years of<br>Excellence</div>
+      </div>
+      <div class="hero-badge">
+        <div class="hero-badge-num">500<sup>+</sup></div>
+        <div class="hero-badge-lbl">Students<br>Transformed</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Social Proof Strip -->
+<div class="proof-strip">
+  <div class="proof-strip-inner">
+    <div class="proof-item">
+      <svg class="proof-item-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+      CBSE · ICSE · State Board
+    </div>
+    <div class="proof-divider"></div>
+    <div class="proof-item">
+      <svg class="proof-item-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+      Cambridge IGCSE & IB
+    </div>
+    <div class="proof-divider"></div>
+    <div class="proof-item">
+      <svg class="proof-item-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      Small Batch Sizes · Personalised Attention
+    </div>
+    <div class="proof-divider"></div>
+    <div class="proof-item">
+      <svg class="proof-item-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" fill="currentColor"/></svg>
+      5-Star Parent Reviews
+    </div>
+  </div>
+</div>
+
+<!-- Programs Section -->
+<section class="section programs-section">
+  <div class="container">
+    <div class="programs-header">
+      <div>
+        <div class="eyebrow" style="margin-bottom:14px">Our Programs</div>
+        <h2 class="section-title">Find the perfect program<br>for your child</h2>
+      </div>
+      <a href="programs.html" class="btn btn-outline" style="flex-shrink:0">
+        View All Programs
+        <svg class="arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+    </div>
+    <div class="programs-grid">
+
+      <a href="programs.html#phonics" class="program-card">
+        <div class="program-icon-wrap">
+          <svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+        </div>
+        <div class="program-tag">Early Learning · Ages 4–8</div>
+        <h3>Phonics & Reading</h3>
+        <p>A strong foundation in reading and pronunciation using a structured, multi-sensory approach. Ideal for Pre-KG to Grade 3.</p>
+        <div class="program-link">Learn More <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
+      </a>
+
+      <a href="programs.html#language" class="program-card">
+        <div class="program-icon-wrap">
+          <svg viewBox="0 0 24 24"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
+        </div>
+        <div class="program-tag">English Skills · Grades 3–10</div>
+        <h3>Language Development</h3>
+        <p>Comprehensive English proficiency — vocabulary, grammar, comprehension, and creative writing across all major boards.</p>
+        <div class="program-link">Learn More <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
+      </a>
+
+      <a href="programs.html#spoken" class="program-card">
+        <div class="program-icon-wrap">
+          <svg viewBox="0 0 24 24"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+        </div>
+        <div class="program-tag">Confidence · Grades 4–12</div>
+        <h3>Spoken English & Communication</h3>
+        <p>Transforming hesitant children into confident, articulate speakers — for presentations, debates, interviews, and life.</p>
+        <div class="program-link">Learn More <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
+      </a>
+
+      <a href="programs.html#cambridge" class="program-card">
+        <div class="program-icon-wrap">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        </div>
+        <div class="program-tag">Cambridge & IB · Grades 1–12</div>
+        <h3>Cambridge & IB English</h3>
+        <p>Expert curriculum-specific guidance for IGCSE and IB students — comprehension, essay writing, literature, and exam strategy.</p>
+        <div class="program-link">Learn More <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
+      </a>
+
+      <a href="programs.html#tuition" class="program-card">
+        <div class="program-icon-wrap">
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        </div>
+        <div class="program-tag">All Subjects · Grades 1–12</div>
+        <h3>All-Subject Tuition</h3>
+        <p>Comprehensive academic support across all subjects and boards — CBSE, ICSE, State Board, and IGCSE with regular assessments.</p>
+        <div class="program-link">Learn More <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
+      </a>
+
+      <a href="contact.html" class="program-card cta-card">
+        <div class="program-icon-wrap">
+          <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        </div>
+        <div class="program-tag">Get Started</div>
+        <h3>Not sure which program fits?</h3>
+        <p>Book a free demo and let Aahana Ma'am personally assess your child and recommend the best program.</p>
+        <div class="program-link">Book a Free Demo <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- Why Section -->
+<section class="section why-section">
+  <div class="container">
+    <div class="section-header" style="margin-bottom:52px">
+      <div class="eyebrow" style="margin-bottom:14px">Why Families Choose Us</div>
+      <h2 class="section-title" style="max-width:540px">More than tuition.<br>A place where children grow.</h2>
+    </div>
+    <div class="why-grid">
+      <div class="why-card">
+        <span class="why-card-num">01</span>
+        <div class="why-icon">
+          <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <h3>Aahana Ma'am's Personal Touch</h3>
+        <p>Founded and led personally — every child receives individualised attention from an educator who genuinely knows and cares for each student.</p>
+      </div>
+      <div class="why-card">
+        <span class="why-card-num">02</span>
+        <div class="why-icon">
+          <svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+        </div>
+        <h3>Every Board, Every Grade</h3>
+        <p>CBSE, ICSE, State Board, Cambridge, or IB — a thoughtfully designed program for your child's exact curriculum, from Grade 1 to 12.</p>
+      </div>
+      <div class="why-card">
+        <span class="why-card-num">03</span>
+        <div class="why-icon">
+          <svg viewBox="0 0 24 24"><line x1="9" y1="18" x2="15" y2="18"/><line x1="10" y1="22" x2="14" y2="22"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"/></svg>
+        </div>
+        <h3>Beyond the Textbook</h3>
+        <p>We build academic foundations while nurturing critical thinking, communication, and a genuine love for learning that lasts a lifetime.</p>
+      </div>
+      <div class="why-card">
+        <span class="why-card-num">04</span>
+        <div class="why-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+        </div>
+        <h3>Communication-First</h3>
+        <p>Articulate, confident children open more doors. Communication skills are woven into every program — spoken, written, and everything in between.</p>
+      </div>
+      <div class="why-card">
+        <span class="why-card-num">05</span>
+        <div class="why-icon">
+          <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        </div>
+        <h3>Classes They Look Forward To</h3>
+        <p>Our classrooms are lively, interactive, and warm. Children participate, question, discover, and leave feeling genuinely capable.</p>
+      </div>
+      <div class="why-card">
+        <span class="why-card-num">06</span>
+        <div class="why-icon">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
+        </div>
+        <h3>A Track Record Mothers Trust</h3>
+        <p>Hundreds of students. Two decades of results. Many of Nagpur's most confident young learners found their voice right here.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Founder Section -->
+<section class="founder-section">
+  <div class="founder-visual">
+    <img class="founder-img"
+      src="https://images.unsplash.com/photo-1571260899304-425eee4c7efc?w=800&q=85&auto=format&fit=crop"
+      alt="Aahana Ma'am, Founder of Rise and Shine">
+    <div class="founder-visual-overlay"></div>
+    <div class="founder-monogram-wrap">
+      <div class="founder-monogram">AC</div>
+      <div class="founder-name-display">Aahana Chugh</div>
+      <div class="founder-role-display">Founder & Lead Educator</div>
+    </div>
+    <div class="founder-bg-text">20+</div>
+  </div>
+  <div class="founder-content">
+    <div class="eyebrow">Meet the Founder</div>
+    <h2>A name Nagpur's mothers have trusted for two decades.</h2>
+    <blockquote class="founder-quote">
+      "Children learn best when they are curious, confident, and actively involved. My classrooms are built around that belief."
+    </blockquote>
+    <p class="founder-body">
+      For over 20 years, Aahana Ma'am has worked with hundreds of students across different age groups and academic boards. Her approach builds strong academic foundations while nurturing communication skills, critical thinking, and a genuine love for learning that lasts well beyond the classroom.
+    </p>
+    <a href="about.html" class="btn btn-ghost-white">
+      Read Her Story
+      <svg class="arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+    </a>
+  </div>
+</section>
+
+<!-- Testimonials -->
+<section class="section testi-section">
+  <div class="container">
+    <div class="testi-header">
+      <div class="eyebrow" style="margin-bottom:14px">What Mothers Are Saying</div>
+      <h2 class="section-title">Stories from our families</h2>
+    </div>
+    <div class="testi-grid">
+      <div class="testi-card">
+        <div class="testi-stars">
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
+        <p class="testi-text">"My daughter was very shy and hesitant to speak in class. After just three months with Aahana Ma'am, she gave her first school presentation confidently. I couldn't believe the transformation."</p>
+        <div class="testi-divider"></div>
+        <div class="testi-author">
+          <div class="testi-avatar">PR</div>
+          <div>
+            <div class="testi-name">Priya Rathi</div>
+            <div class="testi-role">Mother of Grade 5 student</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-stars">
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
+        <p class="testi-text">"The phonics program was exactly what my son needed. His reading improved dramatically and he actually looks forward to going to class now. That says everything!"</p>
+        <div class="testi-divider"></div>
+        <div class="testi-author">
+          <div class="testi-avatar">SM</div>
+          <div>
+            <div class="testi-name">Sneha Mehta</div>
+            <div class="testi-role">Mother of Grade 2 student</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-stars">
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
+        <p class="testi-text">"My son is in Cambridge board and was really struggling with comprehension. Aahana Ma'am understood exactly what the curriculum requires. His marks jumped 25 points in one term."</p>
+        <div class="testi-divider"></div>
+        <div class="testi-author">
+          <div class="testi-avatar">AP</div>
+          <div>
+            <div class="testi-name">Anjali Parekh</div>
+            <div class="testi-role">Mother of Grade 9 IGCSE student</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Worksheets Teaser (USP) -->
+<section class="section worksheets-section">
+  <div class="container">
+    <div class="worksheets-header">
+      <div>
+        <div class="ws-usplabel">
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          Exclusive Resource
+        </div>
+        <div class="eyebrow" style="margin-bottom:14px">Worksheet Marketplace</div>
+        <h2 class="section-title">Curated worksheets crafted<br>by Aahana Ma'am</h2>
+        <p class="section-body" style="margin-top:12px;max-width:480px">Expertly designed practice materials for Phonics, Grammar, and Cambridge English — available instantly for purchase.</p>
+      </div>
+      <a href="worksheets.html" class="btn btn-outline" style="flex-shrink:0">
+        Browse All Worksheets
+        <svg class="arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+    </div>
+    <div class="worksheets-grid">
+      <div class="ws-card">
+        <div class="ws-card-top">
+          <div class="ws-cat-badge">Phonics & Reading</div>
+          <h4>Blending & Segmenting Workbook — Level 1</h4>
+          <p>30 structured worksheets covering CVC words, initial blends, and sight word recognition for early readers.</p>
+        </div>
+        <div class="ws-card-foot">
+          <div class="ws-price">₹149 <span>/ PDF download</span></div>
+          <a href="worksheets.html" class="ws-buy">Buy Now</a>
+        </div>
+      </div>
+      <div class="ws-card">
+        <div class="ws-card-top">
+          <div class="ws-cat-badge">English Grammar</div>
+          <h4>Grammar Essentials — Grades 4 to 6</h4>
+          <p>Comprehensive practice on tenses, prepositions, determiners, and sentence transformation with answer keys.</p>
+        </div>
+        <div class="ws-card-foot">
+          <div class="ws-price">₹199 <span>/ PDF download</span></div>
+          <a href="worksheets.html" class="ws-buy">Buy Now</a>
+        </div>
+      </div>
+      <div class="ws-card">
+        <div class="ws-card-top">
+          <div class="ws-cat-badge">Cambridge</div>
+          <h4>IGCSE Directed Writing — Practice Pack</h4>
+          <p>10 full directed writing exercises with model answers and examiner-style feedback notes for Paper 2.</p>
+        </div>
+        <div class="ws-card-foot">
+          <div class="ws-price">₹299 <span>/ PDF download</span></div>
+          <a href="worksheets.html" class="ws-buy">Buy Now</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA Band -->
+<section class="cta-band">
+  <div class="container" style="position:relative">
+    <div class="eyebrow">Ready to Begin?</div>
+    <h2>Book a free demo class today.<br>No commitment, just a conversation.</h2>
+    <p>Aahana Ma'am will personally assess your child and recommend the best path forward.</p>
+    <div class="cta-band-btns">
+      <a href="contact.html" class="btn btn-primary">
+        Book a Free Demo
+        <svg class="arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+      <a href="https://wa.me/919823888638?text=Hi%2C%20I%27d%20like%20to%20enquire%20about%20a%20demo%20class%20at%20Rise%20and%20Shine." target="_blank" class="btn btn-ghost-white">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.917 1.04 5.592 2.757 7.671L.947 23.243l3.682-1.77A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 0 1-5.024-1.378l-.36-.215-3.728.977.995-3.638-.235-.374A9.818 9.818 0 1 1 12 21.818z"/></svg>
+        WhatsApp Us
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand-name">Rise And Shine</div>
+        <p class="footer-brand-desc">Nagpur's trusted learning centre for over two decades, nurturing confident and capable learners across every stage of education.</p>
+        <div class="footer-social">
+          <a href="#" aria-label="Instagram">
+            <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+          </a>
+          <a href="#" aria-label="Facebook">
+            <svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+          </a>
+          <a href="https://wa.me/919823888638" target="_blank" aria-label="WhatsApp">
+            <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.917 1.04 5.592 2.757 7.671L.947 23.243l3.682-1.77A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 0 1-5.024-1.378l-.36-.215-3.728.977.995-3.638-.235-.374A9.818 9.818 0 1 1 12 21.818z"/></svg>
+          </a>
+        </div>
+      </div>
+      <div>
+        <h4>Programs</h4>
+        <ul>
+          <li><a href="programs.html#phonics">Phonics & Reading</a></li>
+          <li><a href="programs.html#language">Language Development</a></li>
+          <li><a href="programs.html#spoken">Spoken English</a></li>
+          <li><a href="programs.html#cambridge">Cambridge & IB</a></li>
+          <li><a href="programs.html#tuition">All-Subject Tuition</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="about.html">About Aahana Ma'am</a></li>
+          <li><a href="worksheets.html">Worksheets</a></li>
+          <li><a href="contact.html">Book a Demo</a></li>
+          <li><a href="contact.html">Enquiry Form</a></li>
+          <li><a href="https://wa.me/919823888638" target="_blank">WhatsApp</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <address class="footer-address">
+          NIKHAR HERITAGE, Plot no-4<br>
+          HB Town, Bhandara Road<br>
+          Old Pardi Naka Square<br>
+          Nagpur, Maharashtra 440035<br><br>
+          <a href="tel:+919823888638">+91 98238 88638</a><br>
+          Mon–Sat, 9 AM – 7 PM
+        </address>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 Rise and Shine Academy, Nagpur. All rights reserved.</p>
+      <p>Crafted with care for Nagpur's families.</p>
+    </div>
+  </div>
+</footer>
+
+<!-- WhatsApp Float -->
+<a class="wa-float" href="https://wa.me/919823888638?text=Hi%2C%20I%27d%20like%20to%20enquire%20about%20Rise%20and%20Shine%20Academy." target="_blank" aria-label="Chat on WhatsApp">
+  <div class="wa-float-tooltip">Chat with us</div>
+  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.917 1.04 5.592 2.757 7.671L.947 23.243l3.682-1.77A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 0 1-5.024-1.378l-.36-.215-3.728.977.995-3.638-.235-.374A9.818 9.818 0 1 1 12 21.818z"/></svg>
+</a>
+
+<!-- Lead Capture Popup -->
+<div class="popup-overlay" id="leadPopup">
+  <div class="popup">
+    <div class="popup-top">
+      <button class="popup-close" onclick="closePopup()" aria-label="Close">✕</button>
+      <div class="popup-badge">
+        <svg viewBox="0 0 24 24" width="12" height="12"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" fill="currentColor"/></svg>
+        Limited Seats Available
+      </div>
+      <h3>Book a Free Demo Class</h3>
+      <p>Let Aahana Ma'am personally assess your child and recommend the right program — absolutely free.</p>
+    </div>
+    <div class="popup-body">
+      <form onsubmit="submitPopupForm(event)">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Parent Name *</label>
+            <input type="text" placeholder="Your name" required>
+          </div>
+          <div class="form-group">
+            <label>Child's Name *</label>
+            <input type="text" placeholder="Child's name" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Phone Number *</label>
+            <input type="tel" placeholder="+91 XXXXX XXXXX" required>
+          </div>
+          <div class="form-group">
+            <label>Grade</label>
+            <select>
+              <option value="">Select grade</option>
+              <option>Pre-Primary / KG</option>
+              <option>Grade 1</option><option>Grade 2</option><option>Grade 3</option>
+              <option>Grade 4</option><option>Grade 5</option><option>Grade 6</option>
+              <option>Grade 7</option><option>Grade 8</option><option>Grade 9</option>
+              <option>Grade 10</option><option>Grade 11</option><option>Grade 12</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Program of Interest</label>
+          <select>
+            <option value="">Select a program</option>
+            <option>Phonics & Reading</option>
+            <option>Language Development</option>
+            <option>Spoken English & Communication</option>
+            <option>Cambridge & IB English</option>
+            <option>All-Subject Tuition</option>
+            <option>Not sure — need guidance</option>
+          </select>
+        </div>
+        <button type="submit" class="popup-submit">Request Free Demo Class →</button>
+      </form>
+      <p class="popup-wa-alt">
+        Prefer WhatsApp?
+        <a href="https://wa.me/919823888638?text=Hi%2C%20I%27d%20like%20to%20book%20a%20free%20demo%20class." target="_blank">Message us directly</a>
+      </p>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── Navbar scroll shadow
+window.addEventListener('scroll', () => {
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 20);
+});
+
+// ── Mobile menu
+function toggleMenu() {
+  document.getElementById('mobileMenu').classList.toggle('open');
+}
+document.addEventListener('click', (e) => {
+  const menu = document.getElementById('mobileMenu');
+  const ham = document.getElementById('hamburger');
+  if (!menu.contains(e.target) && !ham.contains(e.target)) {
+    menu.classList.remove('open');
+  }
+});
+
+// ── Lead Popup logic
+let popupShown = false;
+function showPopup() {
+  if (popupShown) return;
+  if (sessionStorage.getItem('popupDismissed')) return;
+  popupShown = true;
+  document.getElementById('leadPopup').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+function closePopup() {
+  document.getElementById('leadPopup').classList.remove('active');
+  document.body.style.overflow = '';
+  sessionStorage.setItem('popupDismissed', '1');
+}
+
+// Entry popup — 4 second delay
+setTimeout(showPopup, 4000);
+
+// Exit intent popup
+document.addEventListener('mouseleave', (e) => {
+  if (e.clientY <= 0) showPopup();
+});
+
+// Close on overlay click
+document.getElementById('leadPopup').addEventListener('click', (e) => {
+  if (e.target === document.getElementById('leadPopup')) closePopup();
+});
+
+// ── Form submit placeholder
+function submitPopupForm(e) {
+  e.preventDefault();
+  closePopup();
+  // TODO: Replace with actual Supabase / Firebase API call
+  alert('Thank you! We will contact you within 24 hours to confirm your free demo class.');
+}
+</script>
+</body>
+</html>
