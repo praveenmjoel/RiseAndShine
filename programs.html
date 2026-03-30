@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Programs — Rise and Shine Academy, Nagpur</title>
+<meta name="description" content="Explore all programs at Rise and Shine Academy — Phonics, Language Development, Spoken English, Cambridge & IB, Grammar, and All-Subject Tuition for Grades 1–12.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ─── TOKENS ─────────────────────────────────────────── */
+:root {
+  --blue-900: #061E30; --blue-800: #0B3C5D; --blue-700: #0E4D78;
+  --blue-600: #1565A0; --blue-50: #F0F6FB;
+  --gold: #C8860A; --gold-light: #E8A000; --gold-pale: #FDF3E0;
+  --white: #FFFFFF; --grey-50: #F8F9FA; --grey-200: #E9ECEF;
+  --grey-400: #ADB5BD; --text: #1A2B3C; --text-muted: #5A6A7A;
+  --border: rgba(11,60,93,0.10);
+  --r-sm: 6px; --r-md: 12px; --r-lg: 20px;
+  --shadow-sm: 0 2px 12px rgba(11,60,93,0.08);
+  --shadow-md: 0 8px 32px rgba(11,60,93,0.12);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body { font-family: 'Inter', sans-serif; background: var(--white); color: var(--text); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+img { max-width: 100%; display: block; }
+a { text-decoration: none; color: inherit; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; }
+
+/* ─── TYPOGRAPHY ─────────────────────────────────────── */
+.eyebrow {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-size: 0.68rem; font-weight: 600; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--gold);
+}
+.eyebrow::before { content: ''; display: block; width: 24px; height: 1.5px; background: var(--gold); flex-shrink: 0; }
+
+/* ─── BUTTONS ─────────────────────────────────────────── */
+.btn {
+  display: inline-flex; align-items: center; gap: 9px;
+  font-family: 'Inter', sans-serif; font-size: 0.82rem; font-weight: 600;
+  letter-spacing: 0.04em; border-radius: var(--r-sm);
+  padding: 14px 28px; transition: all 0.22s ease; cursor: pointer;
+  border: none; text-decoration: none; white-space: nowrap;
+}
+.btn-primary { background: var(--gold-light); color: var(--white); box-shadow: 0 4px 16px rgba(200,134,10,0.35); }
+.btn-primary:hover { background: var(--gold); transform: translateY(-1px); }
+.btn-outline { background: transparent; color: var(--blue-800); border: 1.5px solid var(--blue-800); }
+.btn-outline:hover { background: var(--blue-800); color: var(--white); }
+.btn-white { background: var(--white); color: var(--blue-800); font-weight: 600; }
+.btn-white:hover { background: var(--gold-pale); color: var(--gold); }
+.btn-ghost-white { background: rgba(255,255,255,0.12); color: var(--white); border: 1.5px solid rgba(255,255,255,0.3); }
+.btn-ghost-white:hover { background: rgba(255,255,255,0.22); }
+.btn svg { flex-shrink: 0; transition: transform 0.2s; }
+.btn:hover svg.arrow { transform: translateX(3px); }
+
+/* ─── LAYOUT ──────────────────────────────────────────── */
+.container { max-width: 1200px; margin: 0 auto; padding: 0 5%; }
+
+/* ─── ANNOUNCE BAR ───────────────────────────────────── */
+.announce-bar { background: var(--blue-900); color: rgba(255,255,255,0.75); text-align: center; padding: 10px 20px; font-size: 0.75rem; letter-spacing: 0.06em; }
+.announce-bar strong { color: var(--gold-light); }
+.announce-bar a { color: var(--gold-light); text-decoration: underline; text-underline-offset: 3px; }
+
+/* ─── NAVBAR ─────────────────────────────────────────── */
+nav { position: sticky; top: 0; z-index: 900; background: rgba(255,255,255,0.97); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); padding: 0 5%; display: flex; align-items: center; justify-content: space-between; height: 70px; transition: box-shadow 0.3s; }
+nav.scrolled { box-shadow: var(--shadow-md); }
+.nav-brand { display: flex; align-items: center; gap: 10px; }
+.nav-brand-icon { width: 42px; height: 42px; border-radius: 8px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.nav-brand-icon img { width: 42px; height: 42px; object-fit: contain; }
+.nav-brand-text { line-height: 1.2; }
+.nav-brand-name { font-family: 'Playfair Display', serif; font-size: 1.05rem; font-weight: 600; color: var(--blue-800); }
+.nav-brand-sub { font-size: 0.6rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--grey-400); font-weight: 500; }
+.nav-links { display: flex; align-items: center; gap: 4px; list-style: none; }
+.nav-links a { font-size: 0.82rem; font-weight: 500; color: var(--text-muted); padding: 8px 14px; border-radius: var(--r-sm); transition: color 0.2s, background 0.2s; }
+.nav-links a:hover, .nav-links a.active { color: var(--blue-800); background: var(--blue-50); }
+.nav-right { display: flex; align-items: center; gap: 12px; }
+.nav-wa { display: flex; align-items: center; gap: 7px; font-size: 0.78rem; font-weight: 600; color: #25D366; padding: 8px 14px; border-radius: var(--r-sm); border: 1.5px solid rgba(37,211,102,0.3); transition: all 0.2s; }
+.nav-wa:hover { background: rgba(37,211,102,0.08); }
+.nav-cta-link { background: var(--blue-800); color: var(--white) !important; padding: 10px 22px; border-radius: var(--r-sm); font-size: 0.8rem; font-weight: 600; display: inline-block; transition: background 0.2s; }
+.nav-cta-link:hover { background: var(--blue-700) !important; }
+.hamburger { display: none; flex-direction: column; gap: 5px; padding: 8px; cursor: pointer; }
+.hamburger span { display: block; width: 22px; height: 2px; background: var(--blue-800); border-radius: 2px; }
+.mobile-menu { display: none; position: fixed; top: 70px; left: 0; right: 0; background: var(--white); border-bottom: 1px solid var(--border); padding: 20px 5%; z-index: 899; flex-direction: column; gap: 4px; box-shadow: var(--shadow-md); }
+.mobile-menu.open { display: flex; }
+.mobile-menu a { font-size: 0.95rem; font-weight: 500; color: var(--text); padding: 12px 16px; border-radius: var(--r-sm); }
+.mobile-menu a:hover { background: var(--blue-50); color: var(--blue-800); }
+.mobile-menu .mobile-cta { background: var(--blue-800); color: var(--white); text-align: center; margin-top: 8px; font-weight: 600; }
+
+/* ─── PAGE HERO ──────────────────────────────────────── */
+.page-hero { background: linear-gradient(135deg, var(--blue-800) 0%, var(--blue-900) 100%); padding: 72px 5%; position: relative; overflow: hidden; }
+.page-hero::before { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(-45deg, transparent, transparent 60px, rgba(200,134,10,0.025) 60px, rgba(200,134,10,0.025) 61px); }
+.page-hero-inner { max-width: 1200px; margin: 0 auto; position: relative; display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+.page-hero .eyebrow { color: rgba(200,134,10,0.7); margin-bottom: 16px; }
+.page-hero .eyebrow::before { background: rgba(200,134,10,0.5); }
+.page-hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 4vw, 3rem); font-weight: 500; color: var(--white); letter-spacing: -0.02em; margin-bottom: 14px; }
+.page-hero p { font-size: 1rem; color: rgba(200,220,240,0.65); max-width: 480px; line-height: 1.75; margin-bottom: 28px; }
+.hero-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+.hero-tag { font-size: 0.65rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; padding: 6px 14px; border: 1px solid rgba(255,255,255,0.15); color: rgba(255,255,255,0.55); border-radius: 100px; }
+.page-hero-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.hero-stat-card { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: var(--r-md); padding: 22px 20px; }
+.hero-stat-num { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 500; color: var(--white); line-height: 1; letter-spacing: -0.03em; }
+.hero-stat-num sup { font-size: 0.9rem; color: var(--gold-light); }
+.hero-stat-label { font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.45); margin-top: 6px; }
+
+/* ─── PROGRAM NAV ────────────────────────────────────── */
+.prog-nav { background: var(--white); border-bottom: 1px solid var(--border); position: sticky; top: 70px; z-index: 800; }
+.prog-nav-inner { max-width: 1200px; margin: 0 auto; padding: 0 5%; display: flex; gap: 0; overflow-x: auto; scrollbar-width: none; }
+.prog-nav-inner::-webkit-scrollbar { display: none; }
+.prog-nav-btn { font-size: 0.78rem; font-weight: 500; color: var(--text-muted); padding: 16px 18px; border-bottom: 2px solid transparent; white-space: nowrap; transition: all 0.2s; background: none; border-top: none; border-left: none; border-right: none; cursor: pointer; }
+.prog-nav-btn:hover { color: var(--blue-800); }
+.prog-nav-btn.active { color: var(--blue-800); border-bottom-color: var(--gold-light); font-weight: 600; }
+
+/* ─── PROGRAM BLOCKS ─────────────────────────────────── */
+.programs-wrap { padding: 0; }
+
+.prog-block {
+  padding: 88px 5%; border-bottom: 1px solid var(--border);
+  scroll-margin-top: 130px;
+}
+.prog-block:nth-child(odd) { background: var(--white); }
+.prog-block:nth-child(even) { background: var(--grey-50); }
+.prog-block:last-child { border-bottom: none; }
+
+.prog-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: center; }
+.prog-block:nth-child(even) .prog-visual { order: 2; }
+.prog-block:nth-child(even) .prog-text { order: 1; }
+
+/* Visual panel */
+.prog-visual { position: relative; border-radius: var(--r-lg); overflow: hidden; aspect-ratio: 4/3; }
+.prog-visual img { width: 100%; height: 100%; object-fit: cover; }
+.prog-visual-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(6,30,48,0.7) 0%, rgba(6,30,48,0.1) 60%); }
+.prog-visual-badge {
+  position: absolute; bottom: 24px; left: 24px; right: 24px;
+  background: rgba(255,255,255,0.1); backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.18); border-radius: var(--r-md);
+  padding: 16px 18px; display: flex; align-items: center; gap: 14px;
+}
+.prog-visual-icon { width: 40px; height: 40px; border-radius: var(--r-sm); background: rgba(232,160,0,0.2); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.prog-visual-icon svg { width: 20px; height: 20px; stroke: var(--gold-light); fill: none; stroke-width: 1.6; }
+.prog-visual-badge-title { font-family: 'Playfair Display', serif; font-size: 0.95rem; font-weight: 500; color: var(--white); }
+.prog-visual-badge-sub { font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.55); margin-top: 2px; }
+
+/* Text panel */
+.prog-age-tag {
+  display: inline-flex; align-items: center; gap: 7px;
+  background: var(--blue-50); color: var(--blue-700);
+  font-size: 0.65rem; font-weight: 600; letter-spacing: 0.14em;
+  text-transform: uppercase; padding: 5px 12px; border-radius: 100px; margin-bottom: 16px;
+}
+.prog-age-tag svg { width: 11px; height: 11px; stroke: var(--blue-700); fill: none; stroke-width: 2; }
+.prog-text h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.6rem, 2.5vw, 2.1rem); font-weight: 500; color: var(--blue-900); letter-spacing: -0.02em; margin-bottom: 14px; }
+.prog-desc { font-size: 0.95rem; line-height: 1.85; color: var(--text-muted); margin-bottom: 22px; }
+.prog-highlight { font-family: 'Playfair Display', serif; font-style: italic; font-size: 1rem; color: var(--blue-700); border-left: 2px solid var(--gold-light); padding-left: 16px; margin-bottom: 24px; line-height: 1.7; }
+
+.prog-list { list-style: none; margin-bottom: 28px; }
+.prog-list li { font-size: 0.88rem; color: var(--text-muted); padding: 10px 0; border-bottom: 1px solid var(--border); display: flex; align-items: flex-start; gap: 12px; }
+.prog-list li:last-child { border-bottom: none; }
+.prog-list-check { width: 18px; height: 18px; border-radius: 50%; background: var(--blue-50); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+.prog-list-check svg { width: 9px; height: 9px; stroke: var(--blue-700); fill: none; stroke-width: 3; }
+
+.prog-outcomes { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 28px; }
+.outcome-chip { background: var(--blue-50); border-radius: var(--r-sm); padding: 10px 14px; font-size: 0.8rem; color: var(--blue-800); font-weight: 500; display: flex; align-items: center; gap: 8px; }
+.outcome-chip svg { width: 13px; height: 13px; stroke: var(--gold-light); fill: none; stroke-width: 2.5; flex-shrink: 0; }
+
+.prog-ctas { display: flex; gap: 12px; flex-wrap: wrap; }
+
+/* ─── MID CTA BAND ───────────────────────────────────── */
+.mid-cta {
+  background: var(--gold-pale); border-top: 1px solid rgba(200,134,10,0.15);
+  border-bottom: 1px solid rgba(200,134,10,0.15);
+  padding: 52px 5%; text-align: center;
+}
+.mid-cta h3 { font-family: 'Playfair Display', serif; font-size: 1.6rem; font-weight: 500; color: var(--blue-900); margin-bottom: 10px; }
+.mid-cta p { font-size: 0.92rem; color: var(--text-muted); margin-bottom: 24px; max-width: 500px; margin-left: auto; margin-right: auto; }
+.mid-cta-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+/* ─── CTA BAND ───────────────────────────────────────── */
+.cta-band { background: linear-gradient(135deg, var(--blue-800) 0%, var(--blue-900) 100%); padding: 88px 5%; text-align: center; position: relative; overflow: hidden; }
+.cta-band::before { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(-45deg, transparent, transparent 60px, rgba(200,134,10,0.025) 60px, rgba(200,134,10,0.025) 61px); }
+.cta-band .eyebrow { color: rgba(200,134,10,0.65); position: relative; margin-bottom: 18px; }
+.cta-band .eyebrow::before { background: rgba(200,134,10,0.5); }
+.cta-band h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 3vw, 2.7rem); font-weight: 500; color: var(--white); letter-spacing: -0.02em; margin-bottom: 14px; position: relative; }
+.cta-band p { color: rgba(200,220,240,0.65); font-size: 1rem; margin-bottom: 36px; position: relative; }
+.cta-band-btns { display: flex; align-items: center; justify-content: center; gap: 14px; flex-wrap: wrap; position: relative; }
+
+/* ─── FOOTER ─────────────────────────────────────────── */
+footer { background: var(--blue-900); padding: 72px 5% 32px; }
+.footer-inner { max-width: 1200px; margin: 0 auto; }
+.footer-grid { display: grid; grid-template-columns: 1.8fr 1fr 1fr 1fr; gap: 48px; padding-bottom: 48px; border-bottom: 1px solid rgba(255,255,255,0.07); }
+.footer-brand-name { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 600; color: var(--white); margin-bottom: 12px; }
+.footer-brand-desc { font-size: 0.84rem; line-height: 1.82; color: rgba(180,210,240,0.35); max-width: 260px; margin-bottom: 20px; }
+.footer-social { display: flex; gap: 8px; }
+.footer-social a { width: 34px; height: 34px; border: 1px solid rgba(255,255,255,0.08); border-radius: var(--r-sm); display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+.footer-social a:hover { border-color: var(--gold-light); background: rgba(200,134,10,0.1); }
+.footer-social a svg { width: 14px; height: 14px; fill: rgba(180,210,240,0.35); transition: fill 0.2s; }
+.footer-social a:hover svg { fill: var(--gold-light); }
+footer h4 { font-family: 'Playfair Display', serif; font-size: 0.88rem; font-weight: 500; color: rgba(200,134,10,0.75); margin-bottom: 18px; }
+footer ul { list-style: none; }
+footer ul li { margin-bottom: 9px; }
+footer ul li a { font-size: 0.82rem; color: rgba(180,210,240,0.38); transition: color 0.2s; }
+footer ul li a:hover { color: var(--gold-light); }
+.footer-address { font-size: 0.82rem; line-height: 1.9; color: rgba(180,210,240,0.38); font-style: normal; }
+.footer-address a { color: rgba(180,210,240,0.6); }
+.footer-address a:hover { color: var(--gold-light); }
+.footer-bottom { padding-top: 28px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+.footer-bottom p { font-size: 0.72rem; color: rgba(255,255,255,0.18); letter-spacing: 0.04em; }
+
+/* ─── WHATSAPP FLOAT ─────────────────────────────────── */
+.wa-float { position: fixed; bottom: 28px; right: 28px; z-index: 800; width: 56px; height: 56px; border-radius: 50%; background: #25D366; display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 24px rgba(37,211,102,0.4); transition: transform 0.2s; cursor: pointer; }
+.wa-float:hover { transform: scale(1.08); }
+.wa-float svg { width: 28px; height: 28px; fill: white; }
+.wa-float-tooltip { position: absolute; right: 68px; top: 50%; transform: translateY(-50%); background: var(--blue-900); color: white; font-size: 0.75rem; font-weight: 500; padding: 7px 13px; border-radius: 6px; white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity 0.2s; }
+.wa-float:hover .wa-float-tooltip { opacity: 1; }
+
+/* ─── RESPONSIVE ─────────────────────────────────────── */
+@media (max-width: 960px) {
+  .page-hero-inner { grid-template-columns: 1fr; gap: 40px; }
+  .prog-inner { grid-template-columns: 1fr; gap: 40px; }
+  .prog-block:nth-child(even) .prog-visual,
+  .prog-block:nth-child(even) .prog-text { order: unset; }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 640px) {
+  .prog-block { padding: 60px 5%; }
+  .prog-outcomes { grid-template-columns: 1fr; }
+  .prog-ctas { flex-direction: column; }
+  .prog-ctas .btn { justify-content: center; }
+  .footer-grid { grid-template-columns: 1fr; gap: 28px; }
+  .footer-bottom { flex-direction: column; text-align: center; }
+  .nav-links { display: none; }
+  .nav-right .nav-wa { display: none; }
+  .hamburger { display: flex; }
+  .mid-cta-btns { flex-direction: column; align-items: stretch; }
+  .mid-cta-btns .btn { justify-content: center; }
+  .cta-band-btns { flex-direction: column; align-items: stretch; }
+  .cta-band-btns .btn { justify-content: center; }
+  .page-hero-stats { grid-template-columns: 1fr 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class="announce-bar">
+  New batch starting April 2025 — <strong>Limited seats available.</strong>
+  <a href="contact.html"> Enquire now →</a>
+</div>
+
+<nav id="navbar">
+  <a href="index.html" class="nav-brand">
+    <div class="nav-brand-icon"><img src="rise-and-shine-high-resolution-logo-transparent__1_.png" alt="Rise and Shine"></div>
+    <div class="nav-brand-text">
+      <div class="nav-brand-name">Rise And Shine</div>
+      <div class="nav-brand-sub">Learn · Grow · Succeed</div>
+    </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="programs.html" class="active">Programs</a></li>
+    <li><a href="worksheets.html">Worksheets</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="https://wa.me/919823888638" target="_blank" class="nav-wa">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.917 1.04 5.592 2.757 7.671L.947 23.243l3.682-1.77A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 0 1-5.024-1.378l-.36-.215-3.728.977.995-3.638-.235-.374A9.818 9.818 0 1 1 12 21.818z"/></svg>
+      WhatsApp
+    </a>
+    <a href="contact.html" class="nav-cta-link">Book a Demo</a>
+  </div>
+  <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html">Home</a>
+  <a href="about.html">About</a>
+  <a href="programs.html">Programs</a>
+  <a href="worksheets.html">Worksheets</a>
+  <a href="contact.html">Contact</a>
+  <a href="https://wa.me/919823888638" target="_blank">WhatsApp Us</a>
+  <a href="contact.html" class="mobile-cta">Book a Free Demo</a>
+</div>
+
+<!-- Page Hero -->
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <div>
+      <div class="eyebrow">Our Programs</div>
+      <h1>Every child learns differently.<br>We teach accordingly.</h1>
+      <p>From early phonics to Cambridge IGCSE, every program at Rise and Shine is designed to meet your child exactly where they are — and take them further.</p>
+      <div class="hero-tags">
+        <span class="hero-tag">Phonics & Reading</span>
+        <span class="hero-tag">Language Development</span>
+        <span class="hero-tag">Spoken English</span>
+        <span class="hero-tag">Grammar</span>
+        <span class="hero-tag">Cambridge & IB</span>
+        <span class="hero-tag">All-Subject Tuition</span>
+      </div>
+    </div>
+    <div class="page-hero-stats">
+      <div class="hero-stat-card">
+        <div class="hero-stat-num">20<sup>+</sup></div>
+        <div class="hero-stat-label">Years Teaching</div>
+      </div>
+      <div class="hero-stat-card">
+        <div class="hero-stat-num">500<sup>+</sup></div>
+        <div class="hero-stat-label">Students Taught</div>
+      </div>
+      <div class="hero-stat-card">
+        <div class="hero-stat-num">6</div>
+        <div class="hero-stat-label">Distinct Programs</div>
+      </div>
+      <div class="hero-stat-card">
+        <div class="hero-stat-num">5</div>
+        <div class="hero-stat-label">Boards Covered</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Sticky Program Nav -->
+<div class="prog-nav">
+  <div class="prog-nav-inner">
+    <button class="prog-nav-btn active" onclick="scrollTo('phonics')">Phonics & Reading</button>
+    <button class="prog-nav-btn" onclick="scrollTo('language')">Language Development</button>
+    <button class="prog-nav-btn" onclick="scrollTo('spoken')">Spoken English</button>
+    <button class="prog-nav-btn" onclick="scrollTo('grammar')">Grammar</button>
+    <button class="prog-nav-btn" onclick="scrollTo('cambridge')">Cambridge & IB</button>
+    <button class="prog-nav-btn" onclick="scrollTo('tuition')">All-Subject Tuition</button>
+  </div>
+</div>
+
+<!-- Programs -->
+<div class="programs-wrap">
+
+  <!-- 1. Phonics & Reading -->
+  <div class="prog-block" id="phonics">
+    <div class="prog-inner">
+      <div class="prog-visual">
+        <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=800&q=80&auto=format&fit=crop" alt="Child reading — Phonics Program">
+        <div class="prog-visual-overlay"></div>
+        <div class="prog-visual-badge">
+          <div class="prog-visual-icon">
+            <svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+          </div>
+          <div>
+            <div class="prog-visual-badge-title">Phonics & Reading</div>
+            <div class="prog-visual-badge-sub">Early Learning Program</div>
+          </div>
+        </div>
+      </div>
+      <div class="prog-text">
+        <div class="eyebrow" style="margin-bottom:14px">Early Learning</div>
+        <div class="prog-age-tag">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          Ages 4–8 · Pre-Primary to Grade 3 · CBSE & Cambridge
+        </div>
+        <h2>Phonics & Reading Program</h2>
+        <p class="prog-desc">A strong foundation in reading and pronunciation is the greatest gift you can give an early learner. Our structured, multi-sensory phonics program ensures children build reading skills the right way — from the very beginning.</p>
+        <blockquote class="prog-highlight">"A child who reads confidently reads more, understands more, and learns more across every subject."</blockquote>
+        <ul class="prog-list">
+          <li><div class="prog-list-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>Systematic letter-sound (phoneme) recognition & blending</li>
+          <li><div class="prog-list-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>High-frequency sight words and word families</li>
+          <li><div class="prog-list-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>Pronunciation clarity and speech confidence</li>
+          <li><div class="prog-list-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>Interactive reading activities and storybooks</li>
+          <li><div class="prog-list-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>Take-home materials and regular progress reports</li>
+        </ul>
+        <div class="prog-outcomes">
+          <div class="outcome-chip"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>CBSE & Cambridge aligned</div>
+          <div class="outcome-chip"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Max 6–8 students per batch</div>
+          <div class="outcome-chip"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Play-based methodology</div>
+          <div class="outcome-chip"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Parent progress updates</div>
+        </div>
+        <div class="prog-ctas">
+          <a href="contact.html" class="btn btn-primary">Book a Free Demo <svg class="arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+          <a href="https://wa.me/919823888638?text=Hi%2C%20I%27d%20like%20to%20know%20more%20about%20the%20Phonics%20program." target="_blank" class="btn btn-outline">Ask on WhatsApp</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Language Development -->
+  <div class="prog-block" id="language">
+    <div class="prog-inner">
+      <div class="prog-visual">
+        <img src="https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=800&q=80&auto=format&fit=crop" alt="Student writing — Language Development">
+        <div class="prog-visual-overlay"></div>
+        <div class="prog-visual-badge">
+          <div class="prog-visual-icon">
+            <svg viewBox="0 0 24 24"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
+          </div>
+          <div>
+            <div class="prog-visual-badge-title">Language Development</div>
+            <div class="prog-visual-badge-sub">English Skills Program</div>
+          </div>
+        </div>
+      </div>
+      <div class="prog-text">
+        <div class="eyebrow" style="margin-bottom:14px">English Skills</div>
+        <div class="prog-age-tag">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          Grades 3–10 · All Boards
+        </div>
+        <h2>Language Development</h2>
+        <p class="prog-desc">Strong English language skills are no longer just an advantage — they are essential. This program builds well-rounded proficiency across vocabulary, grammar, comprehension, and writing for lasting academic success.</p>
+        <blockquote class="prog-highlight">"Language ability shapes how well children learn and how confidently they engage in every subject."</blockquote>
+        <ul class="prog-list">
+          <li><div class="prog-list-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>Rich vocabulary building with contextual usage</li>
+          <li><div class="prog-list-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>Grammar — rules, exceptions, and real application</li>
+          <li><div class="prog-list-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>Reading comprehension with advanced strategies</li>
+          <li><div class="prog-list-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>Creative and formal writing — essays, letters, stories</li>
+          <li><div class="prog-list-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>Weekly assignments with individual written feedback</li>
+        </ul>
+        <div class="prog-outcomes">
+          <div class="outcome-chip"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Grades 3–10 · All boards</div>
+          <div class="outcome-chip"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Weekly writing tasks</div>
+          <div class="outcome-chip"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Individual feedback</div>
+          <div class="outcome-chip"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Monthly assessments</div>
+        </div>
+        <div class="prog-ctas">
+          <a href="contact.html" class="btn btn-primary">Book a Free Demo <svg class="arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+          <a href="https://wa.me/919823888638?text=Hi%2C%20I%27d%20like%20to%20know%20more%20about%20Language%20Development." target="_blank" class="btn btn-outline">Ask on WhatsApp</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mid CTA -->
+  <div class="mid-cta">
+    <h3>Not sure which program is right?</h3>
+    <p>Book a free demo class. Aahana Ma'am will personally assess your child and recommend the perfect fit.</p>
+    <div class="mid-cta-btns">
+      <a href="contact.html" class="btn btn-primary">Book Free Demo <svg class="arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+      <a href="https://wa.me/919823888638" target="_blank" class="btn btn-outline">WhatsApp Us</a>
+    </div>
+  </div>
+
+  <!-- 3. Spoken English -->
+  <div class="prog-block" id="spoken">
+    <div class="prog-inner">
+      <div class="prog-visual">
+        <img src="https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?w=800&q=80&auto=format&fit=crop" alt="Student speaking — Spoken English Program">
+        <div class="prog-visual-overlay"></div>
+        <div class="prog-visual-badge">
+          <div class="prog-visual-icon">
+            <svg viewBox="0 0 24 24"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+          </div>
+          <div>
+            <div class="prog-visual-badge-title">Spoken English</div>
+            <div class="prog-visual-badge-sub">Confidence & Communication</div>
+          </div>
+        </div>
+      </div>
+      <div class="prog-text">
+        <div class="eyebrow" style="margin-bottom:14px">Confidence</div>
+        <div class="prog-age-tag">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          Grades 4–12 · All Boards
+        </div>
+        <h2>Spoken English & Communication Skills</h2>
+        <p class="prog-desc">How your child expresses themselves matters as much as what they know. This program transforms hesitant children into confident, articulate speakers who thrive in presentations, interviews, and everyday life.</p>
+        <blockquote class="prog-highlight">"Parents often tell us — their biggest worry isn't marks. It's confidence. Will she speak up? Will he do well in an interview?"</blockquote>
+        <ul class="prog-list">
+          <li><div class="prog-list-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>Fluency-building through guided conversation</li>
+          <li><div class="prog-list-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>Public speaking, debate, and argumentation</li>
+          <li><div class="prog-list-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>Pronunciation, tone, stress, and body language</li>
+          <li><div class="prog-list-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>Role play, storytelling, and extempore speaking</li>
+          <li><div class="prog-list-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>Interview and professional communication prep</li>
+        </ul>
+        <div class="prog-outcomes">
+          <div class="outcome-chip"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Small groups · max participation</div>
+          <div class="outcome-chip"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Safe, supportive environment</div>
+          <div class="outcome-chip"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Stage performance opportunities</div>
+          <div class="outcome-chip"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Visible change within weeks</div>
+        </div>
+        <div class="prog-ctas">
+          <a href="contact.html" class="btn btn-primary">Book a Free Demo <svg class="arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+          <a href="https://wa.me/919823888638?text=Hi%2C%20I%27d%20like%20to%20know%20more%20about%20Spoken%20English." target="_blank" class="btn btn-outline">Ask on WhatsApp</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. Grammar -->
+  <div class="prog-block" id="grammar">
+    <div class="prog-inner">
+      <div class="prog-visual">
+        <img src="https://images.unsplash.com/photo-1488190211105-8b0e65b80b4e?w=800&q=80&auto=format&fit=crop" alt="Grammar workbooks">
+        <div class="prog-visual-overlay"></div>
+        <div class="prog-visual-badge">
+          <div class="prog-visual-icon">
+            <svg viewBox="0 0 24 24"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="14" y2="12"/><line x1="4" y1="18" x2="18" y2="18"/></svg>
+          </div>
+          <div>
+            <div class="prog-visual-badge-title">Grammar Mastery</div>
+            <div class="prog-visual-badge-sub">Precision in English</div>
+          </div>
+        </div>
+      </div>
+      <div class="prog-text">
+        <div class="eyebrow" style="margin-bottom:14px">Grammar</div>
+        <div class="prog-age-tag">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          Grades 3–10 · CBSE, ICSE, State Board
+        </div>
+        <h2>Grammar Mastery</h2>
+        <p class="prog-desc">Good grammar is the backbone of clear communication. This focused program takes students from uncertainty to confident command of English grammar — with a practical, application-first approach that makes rules stick.</p>
+        <blockquote class="prog-highlight">"Grammar is not about memorising rules. It's about internalising a way of thinking clearly."</blockquote>
+        <ul class="prog-list">
+          <li><div class="prog-list-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>Parts of speech, tenses, and sentence structure</li>
+          <li><div class="prog-list-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>Punctuation, prepositions, and determiners</li>
+          <li><div class="prog-list-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>Sentence transformation and error correction</li>
+          <li><div class="prog-list-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>Exam-pattern practice with full answer keys</li>
+          <li><div class="prog-list-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>Application in writing — not just isolated drills</li>
+        </ul>
+        <div class="prog-outcomes">
+          <div class="outcome-chip"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Board exam aligned</div>
+          <div class="outcome-chip"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Worksheet-based practice</div>
+          <div class="outcome-chip"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Concept-to-application focus</div>
+          <div class="outcome-chip"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Regular revision tests</div>
+        </div>
+        <div class="prog-ctas">
+          <a href="contact.html" class="btn btn-primary">Book a Free Demo <svg class="arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+          <a href="https://wa.me/919823888638?text=Hi%2C%20I%27d%20like%20to%20know%20more%20about%20the%20Grammar%20program." target="_blank" class="btn btn-outline">Ask on WhatsApp</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. Cambridge & IB -->
+  <div class="prog-block" id="cambridge">
+    <div class="prog-inner">
+      <div class="prog-visual">
+        <img src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=800&q=80&auto=format&fit=crop" alt="Cambridge student studying">
+        <div class="prog-visual-overlay"></div>
+        <div class="prog-visual-badge">
+          <div class="prog-visual-icon">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          </div>
+          <div>
+            <div class="prog-visual-badge-title">Cambridge & IB English</div>
+            <div class="prog-visual-badge-sub">International Curriculum Support</div>
+          </div>
+        </div>
+      </div>
+      <div class="prog-text">
+        <div class="eyebrow" style="margin-bottom:14px">Cambridge & IB</div>
+        <div class="prog-age-tag">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          Grades 1–12 · Cambridge IGCSE & IB
+        </div>
+        <h2>Cambridge & IB English Support</h2>
+        <p class="prog-desc">International curriculum English demands sophisticated analytical thinking and nuanced writing. Aahana Ma'am's deep familiarity with Cambridge and IB frameworks — built over two decades — makes this one of Nagpur's most sought-after programs.</p>
+        <blockquote class="prog-highlight">"Without the right guidance, even smart students underperform in Cambridge and IB. This program bridges that gap."</blockquote>
+        <ul class="prog-list">
+          <li><div class="prog-list-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>IGCSE English Language & Literature preparation</li>
+          <li><div class="prog-list-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>IB English A & B curriculum support</li>
+          <li><div class="prog-list-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>Directed Writing, Summary, and analytical essays</li>
+          <li><div class="prog-list-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>Poetry, prose, and drama comprehension</li>
+          <li><div class="prog-list-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>Past paper practice with detailed written feedback</li>
+        </ul>
+        <div class="prog-outcomes">
+          <div class="outcome-chip"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Deep curriculum familiarity</div>
+          <div class="outcome-chip"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Past paper-based prep</div>
+          <div class="outcome-chip"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Individual written feedback</div>
+          <div class="outcome-chip"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Exam technique coaching</div>
+        </div>
+        <div class="prog-ctas">
+          <a href="contact.html" class="btn btn-primary">Book a Free Demo <svg class="arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+          <a href="https://wa.me/919823888638?text=Hi%2C%20I%27d%20like%20to%20know%20more%20about%20Cambridge%20and%20IB%20support." target="_blank" class="btn btn-outline">Ask on WhatsApp</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. All-Subject Tuition -->
+  <div class="prog-block" id="tuition">
+    <div class="prog-inner">
+      <div class="prog-visual">
+        <img src="https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=800&q=80&auto=format&fit=crop" alt="Classroom tuition session">
+        <div class="prog-visual-overlay"></div>
+        <div class="prog-visual-badge">
+          <div class="prog-visual-icon">
+            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          </div>
+          <div>
+            <div class="prog-visual-badge-title">All-Subject Tuition</div>
+            <div class="prog-visual-badge-sub">Grades 1–12 · All Boards</div>
+          </div>
+        </div>
+      </div>
+      <div class="prog-text">
+        <div class="eyebrow" style="margin-bottom:14px">All Subjects</div>
+        <div class="prog-age-tag">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          Grades 1–12 · State Board, CBSE, ICSE, IGCSE
+        </div>
+        <h2>All-Subject Tuition Classes</h2>
+        <p class="prog-desc">When your child needs comprehensive academic support, Rise and Shine's all-subject tuition program covers all major subjects across every curriculum — with structured plans, regular assessments, and dedicated parent communication.</p>
+        <blockquote class="prog-highlight">"Every child has subjects they love and subjects they find hard. Comprehensive support ensures no subject becomes a weak point."</blockquote>
+        <ul class="prog-list">
+          <li><div class="prog-list-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>All core subjects: English, Maths, Science, Social Studies</li>
+          <li><div class="prog-list-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>Hindi and Marathi where applicable</li>
+          <li><div class="prog-list-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>State Board, CBSE, ICSE, and IGCSE curricula</li>
+          <li><div class="prog-list-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>Regular mock tests and revision schedules</li>
+          <li><div class="prog-list-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>Dedicated parent-teacher communication</li>
+        </ul>
+        <div class="prog-outcomes">
+          <div class="outcome-chip"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Grades 1–12 · all boards</div>
+          <div class="outcome-chip"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Structured weekly plans</div>
+          <div class="outcome-chip"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Regular mock tests</div>
+          <div class="outcome-chip"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Flexible batch timings</div>
+        </div>
+        <div class="prog-ctas">
+          <a href="contact.html" class="btn btn-primary">Book a Free Demo <svg class="arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+          <a href="https://wa.me/919823888638?text=Hi%2C%20I%27d%20like%20to%20know%20more%20about%20All-Subject%20Tuition." target="_blank" class="btn btn-outline">Ask on WhatsApp</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Final CTA Band -->
+<section class="cta-band">
+  <div class="container" style="position:relative">
+    <div class="eyebrow">Ready to Begin?</div>
+    <h2>Book a free demo class today.<br>No commitment, just a conversation.</h2>
+    <p>Aahana Ma'am will personally assess your child and recommend the best path forward.</p>
+    <div class="cta-band-btns">
+      <a href="contact.html" class="btn btn-primary">
+        Book a Free Demo
+        <svg class="arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+      <a href="https://wa.me/919823888638?text=Hi%2C%20I%27d%20like%20to%20enquire%20about%20programs%20at%20Rise%20and%20Shine." target="_blank" class="btn btn-ghost-white">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.917 1.04 5.592 2.757 7.671L.947 23.243l3.682-1.77A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 0 1-5.024-1.378l-.36-.215-3.728.977.995-3.638-.235-.374A9.818 9.818 0 1 1 12 21.818z"/></svg>
+        WhatsApp Us
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand-name">Rise And Shine</div>
+        <p class="footer-brand-desc">Nagpur's trusted learning centre for over two decades, nurturing confident and capable learners across every stage of education.</p>
+        <div class="footer-social">
+          <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
+          <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
+          <a href="https://wa.me/919823888638" target="_blank" aria-label="WhatsApp"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.917 1.04 5.592 2.757 7.671L.947 23.243l3.682-1.77A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 0 1-5.024-1.378l-.36-.215-3.728.977.995-3.638-.235-.374A9.818 9.818 0 1 1 12 21.818z"/></svg></a>
+        </div>
+      </div>
+      <div>
+        <h4>Programs</h4>
+        <ul>
+          <li><a href="#phonics">Phonics & Reading</a></li>
+          <li><a href="#language">Language Development</a></li>
+          <li><a href="#spoken">Spoken English</a></li>
+          <li><a href="#grammar">Grammar</a></li>
+          <li><a href="#cambridge">Cambridge & IB</a></li>
+          <li><a href="#tuition">All-Subject Tuition</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="about.html">About Aahana Ma'am</a></li>
+          <li><a href="worksheets.html">Worksheets</a></li>
+          <li><a href="contact.html">Book a Demo</a></li>
+          <li><a href="https://wa.me/919823888638" target="_blank">WhatsApp</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <address class="footer-address">
+          NIKHAR HERITAGE, Plot no-4<br>HB Town, Bhandara Road<br>Nagpur, Maharashtra 440035<br><br>
+          <a href="tel:+919823888638">+91 98238 88638</a><br>Mon–Sat, 9 AM – 7 PM
+        </address>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 Rise and Shine Academy, Nagpur. All rights reserved.</p>
+      <p>Crafted with care for Nagpur's families.</p>
+    </div>
+  </div>
+</footer>
+
+<a class="wa-float" href="https://wa.me/919823888638?text=Hi%2C%20I%27d%20like%20to%20enquire%20about%20Rise%20and%20Shine%20Academy." target="_blank" aria-label="Chat on WhatsApp">
+  <div class="wa-float-tooltip">Chat with us</div>
+  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.917 1.04 5.592 2.757 7.671L.947 23.243l3.682-1.77A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 0 1-5.024-1.378l-.36-.215-3.728.977.995-3.638-.235-.374A9.818 9.818 0 1 1 12 21.818z"/></svg>
+</a>
+
+<script>
+window.addEventListener('scroll', () => {
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 20);
+  updateActiveNav();
+});
+
+function toggleMenu() {
+  document.getElementById('mobileMenu').classList.toggle('open');
+}
+document.addEventListener('click', (e) => {
+  const menu = document.getElementById('mobileMenu');
+  const ham = document.getElementById('hamburger');
+  if (!menu.contains(e.target) && !ham.contains(e.target)) menu.classList.remove('open');
+});
+
+function scrollTo(id) {
+  document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+}
+
+function updateActiveNav() {
+  const sections = ['phonics','language','spoken','grammar','cambridge','tuition'];
+  const btns = document.querySelectorAll('.prog-nav-btn');
+  let current = sections[0];
+  sections.forEach(id => {
+    const el = document.getElementById(id);
+    if (el && window.scrollY >= el.offsetTop - 160) current = id;
+  });
+  btns.forEach((btn, i) => btn.classList.toggle('active', sections[i] === current));
+}
+</script>
+</body>
+</html>
