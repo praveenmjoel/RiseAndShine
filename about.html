@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About Aahana Ma'am — Rise and Shine Academy, Nagpur</title>
+<meta name="description" content="Meet Aahana Chugh — founder of Rise and Shine Academy, Nagpur. 20+ years of teaching experience across Phonics, Cambridge, IGCSE, and all-subject tuition.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ─── TOKENS ─────────────────────────────────────────── */
+:root {
+  --blue-900: #061E30; --blue-800: #0B3C5D; --blue-700: #0E4D78;
+  --blue-600: #1565A0; --blue-50: #F0F6FB;
+  --gold: #C8860A; --gold-light: #E8A000; --gold-pale: #FDF3E0;
+  --white: #FFFFFF; --grey-50: #F8F9FA; --grey-200: #E9ECEF;
+  --grey-400: #ADB5BD; --text: #1A2B3C; --text-muted: #5A6A7A;
+  --border: rgba(11,60,93,0.10);
+  --r-sm: 6px; --r-md: 12px; --r-lg: 20px;
+  --shadow-sm: 0 2px 12px rgba(11,60,93,0.08);
+  --shadow-md: 0 8px 32px rgba(11,60,93,0.12);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body { font-family: 'Inter', sans-serif; background: var(--white); color: var(--text); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+img { max-width: 100%; display: block; }
+a { text-decoration: none; color: inherit; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; }
+
+/* ─── TYPOGRAPHY ─────────────────────────────────────── */
+.eyebrow {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-size: 0.68rem; font-weight: 600; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--gold);
+}
+.eyebrow::before { content: ''; display: block; width: 24px; height: 1.5px; background: var(--gold); flex-shrink: 0; }
+
+/* ─── BUTTONS ─────────────────────────────────────────── */
+.btn {
+  display: inline-flex; align-items: center; gap: 9px;
+  font-family: 'Inter', sans-serif; font-size: 0.82rem; font-weight: 600;
+  letter-spacing: 0.04em; border-radius: var(--r-sm);
+  padding: 14px 28px; transition: all 0.22s ease; cursor: pointer;
+  border: none; text-decoration: none; white-space: nowrap;
+}
+.btn-primary { background: var(--gold-light); color: var(--white); box-shadow: 0 4px 16px rgba(200,134,10,0.35); }
+.btn-primary:hover { background: var(--gold); transform: translateY(-1px); }
+.btn-outline { background: transparent; color: var(--blue-800); border: 1.5px solid var(--blue-800); }
+.btn-outline:hover { background: var(--blue-800); color: var(--white); }
+.btn-ghost-white { background: rgba(255,255,255,0.12); color: var(--white); border: 1.5px solid rgba(255,255,255,0.3); }
+.btn-ghost-white:hover { background: rgba(255,255,255,0.22); }
+.btn svg { flex-shrink: 0; transition: transform 0.2s; }
+.btn:hover svg.arrow { transform: translateX(3px); }
+
+/* ─── LAYOUT ──────────────────────────────────────────── */
+.container { max-width: 1200px; margin: 0 auto; padding: 0 5%; }
+
+/* ─── ANNOUNCE BAR ───────────────────────────────────── */
+.announce-bar { background: var(--blue-900); color: rgba(255,255,255,0.75); text-align: center; padding: 10px 20px; font-size: 0.75rem; letter-spacing: 0.06em; }
+.announce-bar strong { color: var(--gold-light); }
+.announce-bar a { color: var(--gold-light); text-decoration: underline; text-underline-offset: 3px; }
+
+/* ─── NAVBAR ─────────────────────────────────────────── */
+nav { position: sticky; top: 0; z-index: 900; background: rgba(255,255,255,0.97); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); padding: 0 5%; display: flex; align-items: center; justify-content: space-between; height: 70px; transition: box-shadow 0.3s; }
+nav.scrolled { box-shadow: var(--shadow-md); }
+.nav-brand { display: flex; align-items: center; gap: 10px; }
+.nav-brand-icon { width: 42px; height: 42px; border-radius: 8px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.nav-brand-icon img { width: 42px; height: 42px; object-fit: contain; }
+.nav-brand-text { line-height: 1.2; }
+.nav-brand-name { font-family: 'Playfair Display', serif; font-size: 1.05rem; font-weight: 600; color: var(--blue-800); }
+.nav-brand-sub { font-size: 0.6rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--grey-400); font-weight: 500; }
+.nav-links { display: flex; align-items: center; gap: 4px; list-style: none; }
+.nav-links a { font-size: 0.82rem; font-weight: 500; color: var(--text-muted); padding: 8px 14px; border-radius: var(--r-sm); transition: color 0.2s, background 0.2s; }
+.nav-links a:hover, .nav-links a.active { color: var(--blue-800); background: var(--blue-50); }
+.nav-right { display: flex; align-items: center; gap: 12px; }
+.nav-wa { display: flex; align-items: center; gap: 7px; font-size: 0.78rem; font-weight: 600; color: #25D366; padding: 8px 14px; border-radius: var(--r-sm); border: 1.5px solid rgba(37,211,102,0.3); transition: all 0.2s; }
+.nav-wa:hover { background: rgba(37,211,102,0.08); }
+.nav-cta-link { background: var(--blue-800); color: var(--white) !important; padding: 10px 22px; border-radius: var(--r-sm); font-size: 0.8rem; font-weight: 600; display: inline-block; transition: background 0.2s; }
+.nav-cta-link:hover { background: var(--blue-700) !important; }
+.hamburger { display: none; flex-direction: column; gap: 5px; padding: 8px; cursor: pointer; }
+.hamburger span { display: block; width: 22px; height: 2px; background: var(--blue-800); border-radius: 2px; }
+.mobile-menu { display: none; position: fixed; top: 70px; left: 0; right: 0; background: var(--white); border-bottom: 1px solid var(--border); padding: 20px 5%; z-index: 899; flex-direction: column; gap: 4px; box-shadow: var(--shadow-md); }
+.mobile-menu.open { display: flex; }
+.mobile-menu a { font-size: 0.95rem; font-weight: 500; color: var(--text); padding: 12px 16px; border-radius: var(--r-sm); }
+.mobile-menu a:hover { background: var(--blue-50); color: var(--blue-800); }
+.mobile-menu .mobile-cta { background: var(--blue-800); color: var(--white); text-align: center; margin-top: 8px; font-weight: 600; }
+
+/* ─── HERO ───────────────────────────────────────────── */
+.about-hero {
+  display: grid; grid-template-columns: 1fr 1fr;
+  min-height: 580px; background: var(--blue-900);
+}
+.about-hero-visual {
+  position: relative; overflow: hidden;
+}
+.about-hero-img {
+  width: 100%; height: 100%; object-fit: cover;
+  opacity: 0.55; mix-blend-mode: luminosity;
+}
+.about-hero-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to right, rgba(6,30,48,0.2) 0%, rgba(6,30,48,0.6) 100%);
+}
+.about-hero-monogram {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 14px;
+}
+.monogram-ring {
+  width: 110px; height: 110px; border-radius: 50%;
+  border: 1.5px solid rgba(232,160,0,0.35);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Playfair Display', serif; font-size: 2.2rem;
+  font-weight: 400; color: var(--gold-light);
+  position: relative; z-index: 1;
+}
+.monogram-name {
+  font-family: 'Playfair Display', serif; font-size: 1.5rem;
+  font-weight: 400; color: var(--white); text-align: center; z-index: 1;
+}
+.monogram-role {
+  font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase;
+  color: rgba(232,160,0,0.6); text-align: center; z-index: 1;
+}
+.monogram-bg {
+  position: absolute; bottom: -10px; right: 20px;
+  font-family: 'Playfair Display', serif; font-size: 9rem;
+  font-weight: 500; color: rgba(232,160,0,0.04);
+  line-height: 1; pointer-events: none; z-index: 0;
+}
+
+.about-hero-content {
+  padding: 80px 7%; display: flex; flex-direction: column; justify-content: center;
+}
+.about-hero-content .eyebrow { color: rgba(200,134,10,0.7); margin-bottom: 18px; }
+.about-hero-content .eyebrow::before { background: rgba(200,134,10,0.5); }
+.about-hero-content h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 3.5vw, 2.8rem); font-weight: 500;
+  color: #E8F1F8; letter-spacing: -0.02em; margin-bottom: 22px; line-height: 1.12;
+}
+.about-hero-quote {
+  border-left: 2px solid rgba(232,160,0,0.45);
+  padding-left: 18px; margin-bottom: 28px;
+  font-family: 'Playfair Display', serif; font-style: italic;
+  font-size: 1.08rem; color: rgba(232,160,0,0.75); line-height: 1.72;
+}
+.about-hero-body {
+  font-size: 0.92rem; line-height: 1.88;
+  color: rgba(180,210,240,0.55); margin-bottom: 36px;
+}
+.about-hero-stats { display: flex; gap: 0; }
+.about-stat { padding-right: 28px; }
+.about-stat:not(:last-child) { padding-right: 28px; margin-right: 28px; border-right: 1px solid rgba(255,255,255,0.08); }
+.about-stat-num {
+  font-family: 'Playfair Display', serif; font-size: 2rem;
+  font-weight: 500; color: var(--white); line-height: 1; letter-spacing: -0.03em;
+}
+.about-stat-num sup { font-size: 0.85rem; color: var(--gold-light); }
+.about-stat-label { font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.3); margin-top: 5px; }
+
+/* ─── PHILOSOPHY ─────────────────────────────────────── */
+.philosophy-section { background: var(--white); padding: 96px 5%; }
+.philosophy-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+.philosophy-text .eyebrow { margin-bottom: 16px; }
+.philosophy-text h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.7rem, 2.8vw, 2.3rem); font-weight: 500; color: var(--blue-900); letter-spacing: -0.02em; margin-bottom: 20px; }
+.philosophy-text p { font-size: 0.95rem; line-height: 1.88; color: var(--text-muted); margin-bottom: 16px; }
+.philosophy-text p:last-of-type { margin-bottom: 0; }
+
+.philosophy-pillars { display: flex; flex-direction: column; gap: 16px; }
+.pillar {
+  padding: 22px 22px 22px 0; border-bottom: 1px solid var(--border);
+  display: flex; gap: 18px; align-items: flex-start;
+  transition: padding-left 0.25s;
+}
+.pillar:last-child { border-bottom: none; }
+.pillar:hover { padding-left: 8px; }
+.pillar-num {
+  font-family: 'Playfair Display', serif; font-size: 1.6rem;
+  font-weight: 400; color: var(--grey-200); line-height: 1; flex-shrink: 0;
+  width: 32px; text-align: right;
+}
+.pillar-body h4 { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 500; color: var(--blue-900); margin-bottom: 5px; }
+.pillar-body p { font-size: 0.84rem; line-height: 1.75; color: var(--text-muted); }
+
+/* ─── STORY ──────────────────────────────────────────── */
+.story-section { background: var(--grey-50); padding: 96px 5%; }
+.story-inner { max-width: 1200px; margin: 0 auto; }
+.story-header { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: end; margin-bottom: 64px; }
+.story-header .eyebrow { margin-bottom: 14px; }
+.story-header h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.7rem, 2.8vw, 2.3rem); font-weight: 500; color: var(--blue-900); letter-spacing: -0.02em; }
+.story-header p { font-size: 0.95rem; line-height: 1.82; color: var(--text-muted); }
+
+.timeline { display: flex; flex-direction: column; gap: 0; position: relative; }
+.timeline::before {
+  content: ''; position: absolute; left: 18px; top: 0; bottom: 0;
+  width: 1px; background: var(--border);
+}
+.timeline-item { display: flex; gap: 32px; padding-bottom: 44px; position: relative; }
+.timeline-item:last-child { padding-bottom: 0; }
+.timeline-dot {
+  width: 37px; height: 37px; border-radius: 50%; flex-shrink: 0;
+  background: var(--white); border: 1.5px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  position: relative; z-index: 1;
+  transition: border-color 0.2s, background 0.2s;
+}
+.timeline-item:hover .timeline-dot { border-color: var(--gold-light); background: var(--gold-pale); }
+.timeline-dot svg { width: 14px; height: 14px; stroke: var(--blue-700); fill: none; stroke-width: 1.8; }
+.timeline-item:hover .timeline-dot svg { stroke: var(--gold); }
+.timeline-content { padding-top: 6px; flex: 1; }
+.timeline-year {
+  font-size: 0.65rem; font-weight: 700; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--gold); margin-bottom: 6px;
+}
+.timeline-content h4 { font-family: 'Playfair Display', serif; font-size: 1.05rem; font-weight: 500; color: var(--blue-900); margin-bottom: 6px; }
+.timeline-content p { font-size: 0.86rem; line-height: 1.78; color: var(--text-muted); }
+
+/* ─── VALUES ─────────────────────────────────────────── */
+.values-section { background: var(--blue-900); padding: 96px 5%; }
+.values-inner { max-width: 1200px; margin: 0 auto; }
+.values-header { text-align: center; margin-bottom: 60px; }
+.values-header .eyebrow { color: rgba(200,134,10,0.7); margin-bottom: 16px; }
+.values-header .eyebrow::before { background: rgba(200,134,10,0.5); }
+.values-header h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.7rem, 2.8vw, 2.3rem); font-weight: 500; color: var(--white); letter-spacing: -0.02em; }
+.values-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: rgba(255,255,255,0.06); border-radius: var(--r-md); overflow: hidden; }
+.value-card { background: rgba(255,255,255,0.03); padding: 36px 30px; transition: background 0.22s; }
+.value-card:hover { background: rgba(255,255,255,0.07); }
+.value-icon { width: 42px; height: 42px; border-radius: var(--r-sm); background: rgba(232,160,0,0.1); display: flex; align-items: center; justify-content: center; margin-bottom: 18px; }
+.value-icon svg { width: 20px; height: 20px; stroke: var(--gold-light); fill: none; stroke-width: 1.6; }
+.value-card h4 { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 500; color: var(--white); margin-bottom: 8px; }
+.value-card p { font-size: 0.84rem; line-height: 1.76; color: rgba(180,210,240,0.45); }
+
+/* ─── TESTIMONIALS ───────────────────────────────────── */
+.testi-section { background: var(--grey-50); padding: 96px 5%; }
+.testi-inner { max-width: 1200px; margin: 0 auto; }
+.testi-header { margin-bottom: 52px; }
+.testi-header .eyebrow { margin-bottom: 14px; }
+.testi-header h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.7rem, 2.8vw, 2.3rem); font-weight: 500; color: var(--blue-900); letter-spacing: -0.02em; }
+.testi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.testi-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--r-md); padding: 32px 28px; display: flex; flex-direction: column; }
+.testi-stars { display: flex; gap: 3px; margin-bottom: 16px; }
+.testi-stars svg { width: 13px; height: 13px; fill: var(--gold-light); }
+.testi-text { font-family: 'Playfair Display', serif; font-style: italic; font-size: 0.97rem; color: var(--text); line-height: 1.78; flex: 1; margin-bottom: 24px; }
+.testi-divider { height: 1px; background: var(--border); margin-bottom: 18px; }
+.testi-author { display: flex; align-items: center; gap: 12px; }
+.testi-avatar { width: 40px; height: 40px; border-radius: 50%; flex-shrink: 0; background: linear-gradient(135deg, var(--blue-700), var(--blue-900)); display: flex; align-items: center; justify-content: center; font-family: 'Playfair Display', serif; font-weight: 500; color: var(--gold-light); font-size: 0.85rem; }
+.testi-name { font-size: 0.88rem; font-weight: 600; color: var(--blue-900); }
+.testi-role { font-size: 0.72rem; color: var(--grey-400); margin-top: 2px; }
+
+/* ─── CTA BAND ───────────────────────────────────────── */
+.cta-band { background: linear-gradient(135deg, var(--blue-800) 0%, var(--blue-900) 100%); padding: 88px 5%; text-align: center; position: relative; overflow: hidden; }
+.cta-band::before { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(-45deg, transparent, transparent 60px, rgba(200,134,10,0.025) 60px, rgba(200,134,10,0.025) 61px); }
+.cta-band .eyebrow { color: rgba(200,134,10,0.65); position: relative; margin-bottom: 18px; }
+.cta-band .eyebrow::before { background: rgba(200,134,10,0.5); }
+.cta-band h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 3vw, 2.7rem); font-weight: 500; color: var(--white); letter-spacing: -0.02em; margin-bottom: 14px; position: relative; }
+.cta-band p { color: rgba(200,220,240,0.65); font-size: 1rem; margin-bottom: 36px; position: relative; }
+.cta-band-btns { display: flex; align-items: center; justify-content: center; gap: 14px; flex-wrap: wrap; position: relative; }
+
+/* ─── FOOTER ─────────────────────────────────────────── */
+footer { background: var(--blue-900); padding: 72px 5% 32px; }
+.footer-inner { max-width: 1200px; margin: 0 auto; }
+.footer-grid { display: grid; grid-template-columns: 1.8fr 1fr 1fr 1fr; gap: 48px; padding-bottom: 48px; border-bottom: 1px solid rgba(255,255,255,0.07); }
+.footer-brand-name { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 600; color: var(--white); margin-bottom: 12px; }
+.footer-brand-desc { font-size: 0.84rem; line-height: 1.82; color: rgba(180,210,240,0.35); max-width: 260px; margin-bottom: 20px; }
+.footer-social { display: flex; gap: 8px; }
+.footer-social a { width: 34px; height: 34px; border: 1px solid rgba(255,255,255,0.08); border-radius: var(--r-sm); display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+.footer-social a:hover { border-color: var(--gold-light); background: rgba(200,134,10,0.1); }
+.footer-social a svg { width: 14px; height: 14px; fill: rgba(180,210,240,0.35); transition: fill 0.2s; }
+.footer-social a:hover svg { fill: var(--gold-light); }
+footer h4 { font-family: 'Playfair Display', serif; font-size: 0.88rem; font-weight: 500; color: rgba(200,134,10,0.75); margin-bottom: 18px; }
+footer ul { list-style: none; }
+footer ul li { margin-bottom: 9px; }
+footer ul li a { font-size: 0.82rem; color: rgba(180,210,240,0.38); transition: color 0.2s; }
+footer ul li a:hover { color: var(--gold-light); }
+.footer-address { font-size: 0.82rem; line-height: 1.9; color: rgba(180,210,240,0.38); font-style: normal; }
+.footer-address a { color: rgba(180,210,240,0.6); }
+.footer-address a:hover { color: var(--gold-light); }
+.footer-bottom { padding-top: 28px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+.footer-bottom p { font-size: 0.72rem; color: rgba(255,255,255,0.18); letter-spacing: 0.04em; }
+
+/* ─── WHATSAPP FLOAT ─────────────────────────────────── */
+.wa-float { position: fixed; bottom: 28px; right: 28px; z-index: 800; width: 56px; height: 56px; border-radius: 50%; background: #25D366; display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 24px rgba(37,211,102,0.4); transition: transform 0.2s; }
+.wa-float:hover { transform: scale(1.08); }
+.wa-float svg { width: 28px; height: 28px; fill: white; }
+.wa-float-tooltip { position: absolute; right: 68px; top: 50%; transform: translateY(-50%); background: var(--blue-900); color: white; font-size: 0.75rem; font-weight: 500; padding: 7px 13px; border-radius: 6px; white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity 0.2s; }
+.wa-float:hover .wa-float-tooltip { opacity: 1; }
+
+/* ─── RESPONSIVE ─────────────────────────────────────── */
+@media (max-width: 960px) {
+  .about-hero { grid-template-columns: 1fr; }
+  .about-hero-visual { min-height: 320px; }
+  .philosophy-inner { grid-template-columns: 1fr; gap: 48px; }
+  .story-header { grid-template-columns: 1fr; gap: 24px; }
+  .values-grid { grid-template-columns: 1fr 1fr; }
+  .testi-grid { grid-template-columns: 1fr 1fr; }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 640px) {
+  .about-hero-content { padding: 52px 5%; }
+  .about-hero-stats { flex-wrap: wrap; gap: 20px; }
+  .about-stat:not(:last-child) { border-right: none; padding-right: 0; margin-right: 0; }
+  .values-grid { grid-template-columns: 1fr; }
+  .testi-grid { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: 1fr; gap: 28px; }
+  .footer-bottom { flex-direction: column; text-align: center; }
+  .nav-links { display: none; }
+  .nav-right .nav-wa { display: none; }
+  .hamburger { display: flex; }
+  .cta-band-btns { flex-direction: column; align-items: stretch; }
+  .cta-band-btns .btn { justify-content: center; }
+}
+</style>
+</head>
+<body>
+
+<div class="announce-bar">
+  New batch starting April 2025 — <strong>Limited seats available.</strong>
+  <a href="contact.html"> Enquire now →</a>
+</div>
+
+<nav id="navbar">
+  <a href="index.html" class="nav-brand">
+    <div class="nav-brand-icon"><img src="rise-and-shine-high-resolution-logo-transparent__1_.png" alt="Rise and Shine"></div>
+    <div class="nav-brand-text">
+      <div class="nav-brand-name">Rise And Shine</div>
+      <div class="nav-brand-sub">Learn · Grow · Succeed</div>
+    </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html" class="active">About</a></li>
+    <li><a href="programs.html">Programs</a></li>
+    <li><a href="worksheets.html">Worksheets</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="https://wa.me/919823888638" target="_blank" class="nav-wa">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.917 1.04 5.592 2.757 7.671L.947 23.243l3.682-1.77A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 0 1-5.024-1.378l-.36-.215-3.728.977.995-3.638-.235-.374A9.818 9.818 0 1 1 12 21.818z"/></svg>
+      WhatsApp
+    </a>
+    <a href="contact.html" class="nav-cta-link">Book a Demo</a>
+  </div>
+  <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html">Home</a>
+  <a href="about.html">About</a>
+  <a href="programs.html">Programs</a>
+  <a href="worksheets.html">Worksheets</a>
+  <a href="contact.html">Contact</a>
+  <a href="https://wa.me/919823888638" target="_blank">WhatsApp Us</a>
+  <a href="contact.html" class="mobile-cta">Book a Free Demo</a>
+</div>
+
+<!-- Hero -->
+<section class="about-hero">
+  <div class="about-hero-visual">
+    <img class="about-hero-img"
+      src="https://images.unsplash.com/photo-1571260899304-425eee4c7efc?w=900&q=85&auto=format&fit=crop"
+      alt="Aahana Ma'am — Founder, Rise and Shine Academy">
+    <div class="about-hero-overlay"></div>
+    <div class="about-hero-monogram">
+      <div class="monogram-ring">AC</div>
+      <div class="monogram-name">Aahana Chugh</div>
+      <div class="monogram-role">Founder & Lead Educator · Rise and Shine</div>
+      <div class="monogram-bg">20+</div>
+    </div>
+  </div>
+  <div class="about-hero-content">
+    <div class="eyebrow">Meet the Founder</div>
+    <h1>A name Nagpur's mothers have trusted for two decades.</h1>
+    <blockquote class="about-hero-quote">
+      "Children learn best when they are curious, confident, and actively involved. My classrooms are built around that belief."
+    </blockquote>
+    <p class="about-hero-body">
+      For over 20 years, Aahana Ma'am has worked with hundreds of students across different age groups and academic boards — from early phonics learners to Cambridge IGCSE candidates. Her approach builds strong academic foundations while nurturing communication skills, critical thinking, and a genuine love for learning that lasts well beyond the classroom.
+    </p>
+    <div class="about-hero-stats">
+      <div class="about-stat">
+        <div class="about-stat-num">20<sup>+</sup></div>
+        <div class="about-stat-label">Years Teaching</div>
+      </div>
+      <div class="about-stat">
+        <div class="about-stat-num">500<sup>+</sup></div>
+        <div class="about-stat-label">Students Taught</div>
+      </div>
+      <div class="about-stat">
+        <div class="about-stat-num">6</div>
+        <div class="about-stat-label">Programs</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Teaching Philosophy -->
+<section class="philosophy-section">
+  <div class="philosophy-inner">
+    <div class="philosophy-text">
+      <div class="eyebrow">Teaching Philosophy</div>
+      <h2>Learning is not about filling a bucket. It's about lighting a fire.</h2>
+      <p>Aahana Ma'am's teaching philosophy is rooted in one conviction: every child is capable, when taught the right way. Her classrooms are warm, structured, and deeply engaging — where children feel safe to ask questions, make mistakes, and grow.</p>
+      <p>Over two decades of teaching have reinforced what she believed from the very beginning — the most lasting transformations happen not just when a child masters a concept, but when they discover that they <em>can</em> master it. That moment of confidence is everything.</p>
+      <p>This philosophy shapes every program at Rise and Shine — from Phonics for four-year-olds to Cambridge English for Grade 12 students.</p>
+    </div>
+    <div class="philosophy-pillars">
+      <div class="pillar">
+        <div class="pillar-num">01</div>
+        <div class="pillar-body">
+          <h4>Curiosity Before Curriculum</h4>
+          <p>Every session starts by sparking interest — not by reciting facts. When children are curious, content follows naturally.</p>
+        </div>
+      </div>
+      <div class="pillar">
+        <div class="pillar-num">02</div>
+        <div class="pillar-body">
+          <h4>Confidence Through Competence</h4>
+          <p>Children become confident when they become capable. Every program is designed to build real skills, not just short-term exam results.</p>
+        </div>
+      </div>
+      <div class="pillar">
+        <div class="pillar-num">03</div>
+        <div class="pillar-body">
+          <h4>Communication as the Core</h4>
+          <p>The ability to express ideas clearly — spoken and written — is woven into every program. It's not a separate skill; it's the foundation.</p>
+        </div>
+      </div>
+      <div class="pillar">
+        <div class="pillar-num">04</div>
+        <div class="pillar-body">
+          <h4>Every Child, Individually</h4>
+          <p>Small batches are not a feature — they're a commitment. Aahana Ma'am knows every student by name, by strength, and by the progress they're making.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Story / Timeline -->
+<section class="story-section">
+  <div class="story-inner">
+    <div class="story-header">
+      <div>
+        <div class="eyebrow">The Journey</div>
+        <h2>Two decades of building confident learners.</h2>
+      </div>
+      <p>What started as a deep love for teaching has grown into one of Nagpur's most trusted learning centres — one student, one family, one transformation at a time.</p>
+    </div>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-dot">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <div class="timeline-content">
+          <div class="timeline-year">Early 2000s · The Beginning</div>
+          <h4>A passion for teaching takes root</h4>
+          <p>Aahana Ma'am began her teaching journey with a small group of students in Nagpur, driven by a belief that every child deserves patient, personalised guidance — not just instruction. The response from families was immediate and warm.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot">
+          <svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+        </div>
+        <div class="timeline-content">
+          <div class="timeline-year">Mid 2000s · Expanding Programs</div>
+          <h4>Rise and Shine Academy is founded</h4>
+          <p>With growing demand and a clear vision, Rise and Shine Academy was formally established. The focus: small batches, structured programs, and genuine relationships with every family. Phonics and language development became signature offerings.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        </div>
+        <div class="timeline-content">
+          <div class="timeline-year">2010s · Cambridge & IB</div>
+          <h4>International curriculum expertise deepens</h4>
+          <p>As Nagpur's international school community grew, so did demand for Cambridge IGCSE and IB English support. Aahana Ma'am immersed herself in these frameworks, developing a curriculum-specific program that quickly became the go-to for IGCSE families.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot">
+          <svg viewBox="0 0 24 24"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/></svg>
+        </div>
+        <div class="timeline-content">
+          <div class="timeline-year">2015–2020 · Communication First</div>
+          <h4>Spoken English becomes a signature program</h4>
+          <p>Recognising that parents worried most about their child's confidence — not just their marks — the Spoken English and Communication program was developed. The results were transformative: shy children became articulate, confident speakers within weeks.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot">
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
+        <div class="timeline-content">
+          <div class="timeline-year">Today · 500+ Students & Counting</div>
+          <h4>Nagpur's most trusted learning centre</h4>
+          <p>With 500+ students taught, six distinct programs, and a reputation built entirely on results and word-of-mouth, Rise and Shine continues to grow. The mission remains exactly what it was at the start: every child, taught with care, leaves more capable and more confident than when they arrived.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Values -->
+<section class="values-section">
+  <div class="values-inner">
+    <div class="values-header">
+      <div class="eyebrow">Our Values</div>
+      <h2>What we stand for</h2>
+    </div>
+    <div class="values-grid">
+      <div class="value-card">
+        <div class="value-icon">
+          <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <h4>Every Child Matters</h4>
+        <p>We believe every child has untapped potential. Our role is to find it, nurture it, and help it flourish — not to compare children, but to honour where each one is.</p>
+      </div>
+      <div class="value-card">
+        <div class="value-icon">
+          <svg viewBox="0 0 24 24"><line x1="9" y1="18" x2="15" y2="18"/><line x1="10" y1="22" x2="14" y2="22"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"/></svg>
+        </div>
+        <h4>Genuine Understanding</h4>
+        <p>We don't teach to tests. We teach until a child truly understands — because understanding is the only foundation that lasts beyond exam season.</p>
+      </div>
+      <div class="value-card">
+        <div class="value-icon">
+          <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        </div>
+        <h4>Warmth and Safety</h4>
+        <p>Children learn best when they feel safe. Our classrooms are warm, patient, and encouraging — where asking a wrong question is always better than not asking at all.</p>
+      </div>
+      <div class="value-card">
+        <div class="value-icon">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
+        </div>
+        <h4>Excellence, Always</h4>
+        <p>High standards are not negotiable — but they are achievable by every child when taught the right way. We hold both teacher and student to the same commitment: do your best, always.</p>
+      </div>
+      <div class="value-card">
+        <div class="value-icon">
+          <svg viewBox="0 0 24 24"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
+        </div>
+        <h4>Honest Communication</h4>
+        <p>Parents trust us with their children. We honour that trust with clear, honest, and regular communication about every child's progress — the wins and the areas to work on.</p>
+      </div>
+      <div class="value-card">
+        <div class="value-icon">
+          <svg viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+        </div>
+        <h4>Continuous Growth</h4>
+        <p>We never stop learning either. Aahana Ma'am continually updates her methods, curriculum knowledge, and teaching approach to stay at the front of educational best practice.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Testimonials -->
+<section class="testi-section">
+  <div class="testi-inner">
+    <div class="testi-header">
+      <div class="eyebrow">What Families Say</div>
+      <h2>Stories from our families</h2>
+    </div>
+    <div class="testi-grid">
+      <div class="testi-card">
+        <div class="testi-stars">
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
+        <p class="testi-text">"My daughter was very shy and hesitant to speak in class. After just three months with Aahana Ma'am, she gave her first school presentation confidently. I couldn't believe the transformation."</p>
+        <div class="testi-divider"></div>
+        <div class="testi-author">
+          <div class="testi-avatar">PR</div>
+          <div><div class="testi-name">Priya Rathi</div><div class="testi-role">Mother of Grade 5 student</div></div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-stars">
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
+        <p class="testi-text">"Aahana Ma'am has a gift. She knows exactly how to explain something so that it clicks. My son went from struggling with reading to genuinely loving books. We are so grateful."</p>
+        <div class="testi-divider"></div>
+        <div class="testi-author">
+          <div class="testi-avatar">SM</div>
+          <div><div class="testi-name">Sneha Mehta</div><div class="testi-role">Mother of Grade 2 student</div></div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-stars">
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
+        <p class="testi-text">"My son is in Cambridge board and was really struggling with comprehension. Aahana Ma'am understood exactly what the curriculum requires. His marks jumped 25 points in one term."</p>
+        <div class="testi-divider"></div>
+        <div class="testi-author">
+          <div class="testi-avatar">AP</div>
+          <div><div class="testi-name">Anjali Parekh</div><div class="testi-role">Mother of Grade 9 IGCSE student</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA Band -->
+<section class="cta-band">
+  <div class="container" style="position:relative">
+    <div class="eyebrow">Begin the Journey</div>
+    <h2>Book a free demo class today.<br>Meet Aahana Ma'am in person.</h2>
+    <p>No commitment required. Just bring your child and let the conversation begin.</p>
+    <div class="cta-band-btns">
+      <a href="contact.html" class="btn btn-primary">
+        Book a Free Demo
+        <svg class="arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+      <a href="https://wa.me/919823888638?text=Hi%2C%20I%27d%20like%20to%20know%20more%20about%20Rise%20and%20Shine%20Academy." target="_blank" class="btn btn-ghost-white">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.917 1.04 5.592 2.757 7.671L.947 23.243l3.682-1.77A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 0 1-5.024-1.378l-.36-.215-3.728.977.995-3.638-.235-.374A9.818 9.818 0 1 1 12 21.818z"/></svg>
+        WhatsApp Us
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand-name">Rise And Shine</div>
+        <p class="footer-brand-desc">Nagpur's trusted learning centre for over two decades, nurturing confident and capable learners across every stage of education.</p>
+        <div class="footer-social">
+          <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
+          <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
+          <a href="https://wa.me/919823888638" target="_blank" aria-label="WhatsApp"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.917 1.04 5.592 2.757 7.671L.947 23.243l3.682-1.77A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 0 1-5.024-1.378l-.36-.215-3.728.977.995-3.638-.235-.374A9.818 9.818 0 1 1 12 21.818z"/></svg></a>
+        </div>
+      </div>
+      <div>
+        <h4>Programs</h4>
+        <ul>
+          <li><a href="programs.html#phonics">Phonics & Reading</a></li>
+          <li><a href="programs.html#language">Language Development</a></li>
+          <li><a href="programs.html#spoken">Spoken English</a></li>
+          <li><a href="programs.html#cambridge">Cambridge & IB</a></li>
+          <li><a href="programs.html#tuition">All-Subject Tuition</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="about.html">About Aahana Ma'am</a></li>
+          <li><a href="worksheets.html">Worksheets</a></li>
+          <li><a href="contact.html">Book a Demo</a></li>
+          <li><a href="https://wa.me/919823888638" target="_blank">WhatsApp</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <address class="footer-address">
+          NIKHAR HERITAGE, Plot no-4<br>HB Town, Bhandara Road<br>Nagpur, Maharashtra 440035<br><br>
+          <a href="tel:+919823888638">+91 98238 88638</a><br>Mon–Sat, 9 AM – 7 PM
+        </address>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 Rise and Shine Academy, Nagpur. All rights reserved.</p>
+      <p>Crafted with care for Nagpur's families.</p>
+    </div>
+  </div>
+</footer>
+
+<a class="wa-float" href="https://wa.me/919823888638?text=Hi%2C%20I%27d%20like%20to%20enquire%20about%20Rise%20and%20Shine%20Academy." target="_blank" aria-label="Chat on WhatsApp">
+  <div class="wa-float-tooltip">Chat with us</div>
+  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.917 1.04 5.592 2.757 7.671L.947 23.243l3.682-1.77A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 0 1-5.024-1.378l-.36-.215-3.728.977.995-3.638-.235-.374A9.818 9.818 0 1 1 12 21.818z"/></svg>
+</a>
+
+<script>
+window.addEventListener('scroll', () => {
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 20);
+});
+function toggleMenu() {
+  document.getElementById('mobileMenu').classList.toggle('open');
+}
+document.addEventListener('click', (e) => {
+  const menu = document.getElementById('mobileMenu');
+  const ham = document.getElementById('hamburger');
+  if (!menu.contains(e.target) && !ham.contains(e.target)) menu.classList.remove('open');
+});
+</script>
+</body>
+</html>
