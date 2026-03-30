@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact & Enquiry — Rise and Shine Academy, Nagpur</title>
+<meta name="description" content="Book a free demo class or send an enquiry to Rise and Shine Academy, Nagpur. Talk to Aahana Ma'am about Phonics, Spoken English, Cambridge & IB, and All-Subject Tuition.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ─── DESIGN TOKENS ─────────────────────────────────── */
+:root {
+  --blue-900: #061E30;
+  --blue-800: #0B3C5D;
+  --blue-700: #0E4D78;
+  --blue-600: #1565A0;
+  --blue-50:  #F0F6FB;
+  --gold:     #C8860A;
+  --gold-light: #E8A000;
+  --gold-pale: #FDF3E0;
+  --white:    #FFFFFF;
+  --grey-50:  #F8F9FA;
+  --grey-100: #F1F3F5;
+  --grey-200: #E9ECEF;
+  --grey-400: #ADB5BD;
+  --text:     #1A2B3C;
+  --text-muted: #5A6A7A;
+  --border:   rgba(11,60,93,0.10);
+  --r-sm: 6px; --r-md: 12px; --r-lg: 20px;
+  --shadow-sm: 0 2px 12px rgba(11,60,93,0.08);
+  --shadow-md: 0 8px 32px rgba(11,60,93,0.12);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body { font-family: 'Inter', sans-serif; background: var(--white); color: var(--text); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+img { max-width: 100%; display: block; }
+a { text-decoration: none; color: inherit; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; }
+
+/* ─── TYPOGRAPHY ─────────────────────────────────────── */
+.eyebrow {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-size: 0.68rem; font-weight: 600; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--gold);
+}
+.eyebrow::before { content: ''; display: block; width: 24px; height: 1.5px; background: var(--gold); flex-shrink: 0; }
+
+/* ─── BUTTONS ─────────────────────────────────────────── */
+.btn {
+  display: inline-flex; align-items: center; gap: 9px;
+  font-family: 'Inter', sans-serif; font-size: 0.82rem; font-weight: 600;
+  letter-spacing: 0.04em; border-radius: var(--r-sm);
+  padding: 14px 28px; transition: all 0.22s ease; cursor: pointer;
+  border: none; text-decoration: none; white-space: nowrap;
+}
+.btn-primary { background: var(--gold-light); color: var(--white); box-shadow: 0 4px 16px rgba(200,134,10,0.35); }
+.btn-primary:hover { background: var(--gold); transform: translateY(-1px); }
+.btn-outline { background: transparent; color: var(--blue-800); border: 1.5px solid var(--blue-800); }
+.btn-outline:hover { background: var(--blue-800); color: var(--white); }
+.btn svg { flex-shrink: 0; transition: transform 0.2s; }
+.btn:hover svg.arrow { transform: translateX(3px); }
+
+/* ─── LAYOUT ──────────────────────────────────────────── */
+.container { max-width: 1200px; margin: 0 auto; padding: 0 5%; }
+.section { padding: 88px 5%; }
+
+/* ─── ANNOUNCE BAR ───────────────────────────────────── */
+.announce-bar {
+  background: var(--blue-900); color: rgba(255,255,255,0.75);
+  text-align: center; padding: 10px 20px;
+  font-size: 0.75rem; letter-spacing: 0.06em;
+}
+.announce-bar strong { color: var(--gold-light); }
+.announce-bar a { color: var(--gold-light); text-decoration: underline; text-underline-offset: 3px; }
+
+/* ─── NAVBAR ─────────────────────────────────────────── */
+nav {
+  position: sticky; top: 0; z-index: 900;
+  background: rgba(255,255,255,0.97); backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 5%; display: flex; align-items: center;
+  justify-content: space-between; height: 70px; transition: box-shadow 0.3s;
+}
+nav.scrolled { box-shadow: var(--shadow-md); }
+.nav-brand { display: flex; align-items: center; gap: 10px; cursor: pointer; }
+.nav-brand-icon { width: 42px; height: 42px; border-radius: 8px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.nav-brand-icon img { width: 42px; height: 42px; object-fit: contain; }
+.nav-brand-text { line-height: 1.2; }
+.nav-brand-name { font-family: 'Playfair Display', serif; font-size: 1.05rem; font-weight: 600; color: var(--blue-800); }
+.nav-brand-sub { font-size: 0.6rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--grey-400); font-weight: 500; }
+.nav-links { display: flex; align-items: center; gap: 4px; list-style: none; }
+.nav-links a { font-size: 0.82rem; font-weight: 500; color: var(--text-muted); padding: 8px 14px; border-radius: var(--r-sm); transition: color 0.2s, background 0.2s; }
+.nav-links a:hover, .nav-links a.active { color: var(--blue-800); background: var(--blue-50); }
+.nav-right { display: flex; align-items: center; gap: 12px; }
+.nav-wa { display: flex; align-items: center; gap: 7px; font-size: 0.78rem; font-weight: 600; color: #25D366; padding: 8px 14px; border-radius: var(--r-sm); border: 1.5px solid rgba(37,211,102,0.3); transition: all 0.2s; }
+.nav-wa:hover { background: rgba(37,211,102,0.08); }
+.nav-cta-link { background: var(--blue-800); color: var(--white) !important; padding: 10px 22px; border-radius: var(--r-sm); font-size: 0.8rem; font-weight: 600; display: inline-block; transition: background 0.2s; }
+.nav-cta-link:hover { background: var(--blue-700) !important; }
+.hamburger { display: none; flex-direction: column; gap: 5px; padding: 8px; cursor: pointer; }
+.hamburger span { display: block; width: 22px; height: 2px; background: var(--blue-800); border-radius: 2px; }
+.mobile-menu { display: none; position: fixed; top: 70px; left: 0; right: 0; background: var(--white); border-bottom: 1px solid var(--border); padding: 20px 5%; z-index: 899; flex-direction: column; gap: 4px; box-shadow: var(--shadow-md); }
+.mobile-menu.open { display: flex; }
+.mobile-menu a { font-size: 0.95rem; font-weight: 500; color: var(--text); padding: 12px 16px; border-radius: var(--r-sm); }
+.mobile-menu a:hover { background: var(--blue-50); color: var(--blue-800); }
+.mobile-menu .mobile-cta { background: var(--blue-800); color: var(--white); text-align: center; margin-top: 8px; font-weight: 600; }
+
+/* ─── PAGE HERO ──────────────────────────────────────── */
+.page-hero {
+  background: linear-gradient(135deg, var(--blue-800) 0%, var(--blue-900) 100%);
+  padding: 72px 5%; position: relative; overflow: hidden;
+}
+.page-hero::before {
+  content: ''; position: absolute; inset: 0;
+  background: repeating-linear-gradient(-45deg, transparent, transparent 60px, rgba(200,134,10,0.025) 60px, rgba(200,134,10,0.025) 61px);
+}
+.page-hero-inner { max-width: 1200px; margin: 0 auto; position: relative; }
+.page-hero .eyebrow { color: rgba(200,134,10,0.7); margin-bottom: 16px; }
+.page-hero .eyebrow::before { background: rgba(200,134,10,0.5); }
+.page-hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 4vw, 3rem); font-weight: 500;
+  color: var(--white); letter-spacing: -0.02em; margin-bottom: 14px;
+}
+.page-hero p { font-size: 1rem; color: rgba(200,220,240,0.65); max-width: 520px; line-height: 1.72; }
+
+/* ─── CONTACT GRID ───────────────────────────────────── */
+.contact-layout {
+  display: grid; grid-template-columns: 1fr 1.6fr; gap: 60px;
+  max-width: 1200px; margin: 0 auto;
+}
+
+/* ─── CONTACT INFO SIDEBAR ───────────────────────────── */
+.contact-info { display: flex; flex-direction: column; gap: 0; }
+.info-card {
+  padding: 28px 0; border-bottom: 1px solid var(--border);
+  display: flex; gap: 16px; align-items: flex-start;
+}
+.info-card:first-child { padding-top: 0; }
+.info-icon {
+  width: 40px; height: 40px; border-radius: var(--r-sm);
+  background: var(--blue-50); display: flex; align-items: center;
+  justify-content: center; flex-shrink: 0;
+}
+.info-icon svg { width: 18px; height: 18px; stroke: var(--blue-700); fill: none; stroke-width: 1.6; }
+.info-card h4 { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); margin-bottom: 6px; }
+.info-card p { font-size: 0.88rem; line-height: 1.8; color: var(--text-muted); }
+.info-card a { color: var(--blue-700); font-weight: 500; }
+.info-card a:hover { color: var(--gold); }
+
+.wa-cta-box {
+  margin-top: 28px; background: var(--blue-50);
+  border-left: 3px solid var(--gold-light);
+  border-radius: 0 var(--r-md) var(--r-md) 0;
+  padding: 22px 20px;
+}
+.wa-cta-box p { font-size: 0.86rem; line-height: 1.72; color: var(--text-muted); margin-bottom: 14px; }
+.wa-btn {
+  display: inline-flex; align-items: center; gap: 9px;
+  background: #25D366; color: white; font-size: 0.82rem;
+  font-weight: 600; padding: 12px 22px; border-radius: var(--r-sm);
+  transition: background 0.2s; text-decoration: none;
+}
+.wa-btn:hover { background: #1fb057; }
+
+.timings-box {
+  margin-top: 24px; background: var(--grey-50);
+  border-radius: var(--r-md); padding: 22px 20px;
+}
+.timings-box h4 { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 14px; }
+.timing-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 0.84rem; }
+.timing-row:last-child { border-bottom: none; }
+.timing-label { color: var(--text-muted); }
+.timing-time { font-weight: 500; color: var(--blue-800); }
+
+/* ─── ENQUIRY FORM ───────────────────────────────────── */
+.form-card {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: var(--r-lg); padding: 44px 40px;
+  box-shadow: var(--shadow-md);
+}
+.form-card-header { margin-bottom: 32px; }
+.form-card-header h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.65rem; font-weight: 500; color: var(--blue-900);
+  margin-bottom: 6px;
+}
+.form-card-header p { font-size: 0.88rem; color: var(--text-muted); line-height: 1.65; }
+.form-divider { height: 1px; background: var(--border); margin: 24px 0; }
+.form-section-label {
+  font-size: 0.68rem; font-weight: 700; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--blue-700);
+  margin-bottom: 16px; display: flex; align-items: center; gap: 10px;
+}
+.form-section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.form-group { margin-bottom: 14px; }
+.form-group label {
+  display: block; font-size: 0.7rem; font-weight: 600;
+  letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted);
+  margin-bottom: 7px;
+}
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%; padding: 12px 14px;
+  border: 1.5px solid var(--border); border-radius: var(--r-sm);
+  background: var(--grey-50); font-family: 'Inter', sans-serif;
+  font-size: 0.9rem; color: var(--text); outline: none;
+  transition: border-color 0.2s, background 0.2s; font-weight: 400;
+}
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus { border-color: var(--blue-600); background: var(--white); }
+.form-group textarea { min-height: 100px; resize: vertical; line-height: 1.65; }
+.form-group input.error, .form-group select.error { border-color: #e53e3e; }
+.form-error-msg { font-size: 0.72rem; color: #e53e3e; margin-top: 4px; display: none; }
+.form-error-msg.show { display: block; }
+
+/* Checkbox grid */
+.checkbox-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.checkbox-item { display: flex; align-items: center; gap: 10px; cursor: pointer; padding: 10px 12px; border: 1.5px solid var(--border); border-radius: var(--r-sm); transition: all 0.18s; }
+.checkbox-item:hover { border-color: var(--blue-600); background: var(--blue-50); }
+.checkbox-item input[type="checkbox"] { display: none; }
+.checkbox-box {
+  width: 18px; height: 18px; border: 1.5px solid var(--grey-400);
+  border-radius: 4px; flex-shrink: 0; display: flex;
+  align-items: center; justify-content: center; transition: all 0.18s;
+}
+.checkbox-item input[type="checkbox"]:checked ~ .checkbox-box {
+  background: var(--blue-800); border-color: var(--blue-800);
+}
+.checkbox-item input[type="checkbox"]:checked ~ .checkbox-box::after {
+  content: ''; display: block; width: 5px; height: 9px;
+  border: 2px solid white; border-top: none; border-left: none;
+  transform: rotate(45deg) translateY(-1px);
+}
+.checkbox-item input[type="checkbox"]:checked ~ .checkbox-label { color: var(--blue-800); font-weight: 500; }
+.checkbox-item:has(input:checked) { border-color: var(--blue-600); background: var(--blue-50); }
+.checkbox-label { font-size: 0.82rem; color: var(--text-muted); line-height: 1.3; }
+
+/* Submit button */
+.form-submit {
+  width: 100%; padding: 15px; border-radius: var(--r-sm);
+  background: var(--blue-800); color: var(--white);
+  font-family: 'Inter', sans-serif; font-size: 0.88rem;
+  font-weight: 600; border: none; cursor: pointer;
+  margin-top: 8px; transition: background 0.2s, transform 0.15s;
+  display: flex; align-items: center; justify-content: center; gap: 9px;
+}
+.form-submit:hover { background: var(--blue-700); transform: translateY(-1px); }
+.form-submit:active { transform: translateY(0); }
+.form-submit svg { width: 16px; height: 16px; stroke: white; fill: none; stroke-width: 2.5; }
+
+/* Success state */
+.form-success {
+  display: none; text-align: center; padding: 40px 20px;
+}
+.form-success.show { display: block; }
+.success-icon {
+  width: 64px; height: 64px; border-radius: 50%;
+  background: rgba(37,211,102,0.1); border: 2px solid #25D366;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 20px;
+}
+.success-icon svg { width: 28px; height: 28px; stroke: #25D366; fill: none; stroke-width: 2.5; }
+.form-success h3 { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--blue-900); margin-bottom: 10px; }
+.form-success p { font-size: 0.9rem; color: var(--text-muted); line-height: 1.7; }
+
+/* ─── MAP SECTION ────────────────────────────────────── */
+.map-section { background: var(--blue-900); padding: 80px 5%; }
+.map-inner { max-width: 1200px; margin: 0 auto; }
+.map-section .eyebrow { color: rgba(200,134,10,0.7); margin-bottom: 14px; }
+.map-section .eyebrow::before { background: rgba(200,134,10,0.5); }
+.map-section h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.6rem, 2.5vw, 2.2rem); font-weight: 500; color: var(--white); margin-bottom: 40px; }
+.map-card {
+  border: 1px solid rgba(255,255,255,0.07); border-radius: var(--r-md);
+  overflow: hidden;
+}
+.map-card iframe { width: 100%; height: 380px; border: none; display: block; filter: grayscale(20%); }
+.map-address-bar {
+  background: rgba(255,255,255,0.05); padding: 20px 28px;
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 16px;
+}
+.map-address-bar address { font-style: normal; font-size: 0.86rem; color: rgba(180,210,240,0.65); line-height: 1.6; }
+.map-directions {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--gold-light); color: white;
+  font-size: 0.78rem; font-weight: 600; padding: 10px 20px;
+  border-radius: var(--r-sm); transition: background 0.2s; white-space: nowrap;
+}
+.map-directions:hover { background: var(--gold); }
+
+/* ─── FOOTER ─────────────────────────────────────────── */
+footer { background: var(--blue-900); padding: 72px 5% 32px; }
+.footer-inner { max-width: 1200px; margin: 0 auto; }
+.footer-grid { display: grid; grid-template-columns: 1.8fr 1fr 1fr 1fr; gap: 48px; padding-bottom: 48px; border-bottom: 1px solid rgba(255,255,255,0.07); }
+.footer-brand-name { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 600; color: var(--white); margin-bottom: 12px; }
+.footer-brand-desc { font-size: 0.84rem; line-height: 1.82; color: rgba(180,210,240,0.35); max-width: 260px; margin-bottom: 20px; }
+.footer-social { display: flex; gap: 8px; }
+.footer-social a { width: 34px; height: 34px; border: 1px solid rgba(255,255,255,0.08); border-radius: var(--r-sm); display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+.footer-social a:hover { border-color: var(--gold-light); background: rgba(200,134,10,0.1); }
+.footer-social a svg { width: 14px; height: 14px; fill: rgba(180,210,240,0.35); transition: fill 0.2s; }
+.footer-social a:hover svg { fill: var(--gold-light); }
+footer h4 { font-family: 'Playfair Display', serif; font-size: 0.88rem; font-weight: 500; color: rgba(200,134,10,0.75); margin-bottom: 18px; }
+footer ul { list-style: none; }
+footer ul li { margin-bottom: 9px; }
+footer ul li a { font-size: 0.82rem; color: rgba(180,210,240,0.38); transition: color 0.2s; }
+footer ul li a:hover { color: var(--gold-light); }
+.footer-address { font-size: 0.82rem; line-height: 1.9; color: rgba(180,210,240,0.38); font-style: normal; }
+.footer-address a { color: rgba(180,210,240,0.6); }
+.footer-address a:hover { color: var(--gold-light); }
+.footer-bottom { padding-top: 28px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+.footer-bottom p { font-size: 0.72rem; color: rgba(255,255,255,0.18); letter-spacing: 0.04em; }
+
+/* ─── WHATSAPP FLOAT ─────────────────────────────────── */
+.wa-float { position: fixed; bottom: 28px; right: 28px; z-index: 800; width: 56px; height: 56px; border-radius: 50%; background: #25D366; display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 24px rgba(37,211,102,0.4); transition: transform 0.2s; cursor: pointer; }
+.wa-float:hover { transform: scale(1.08); }
+.wa-float svg { width: 28px; height: 28px; fill: white; }
+.wa-float-tooltip { position: absolute; right: 68px; top: 50%; transform: translateY(-50%); background: var(--blue-900); color: white; font-size: 0.75rem; font-weight: 500; padding: 7px 13px; border-radius: 6px; white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity 0.2s; }
+.wa-float:hover .wa-float-tooltip { opacity: 1; }
+
+/* ─── RESPONSIVE ─────────────────────────────────────── */
+@media (max-width: 900px) {
+  .contact-layout { grid-template-columns: 1fr; gap: 40px; }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 640px) {
+  .section { padding: 56px 5%; }
+  .form-card { padding: 28px 20px; }
+  .form-row { grid-template-columns: 1fr; }
+  .checkbox-grid { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: 1fr; gap: 28px; }
+  .footer-bottom { flex-direction: column; text-align: center; }
+  .nav-links { display: none; }
+  .nav-right .nav-wa { display: none; }
+  .hamburger { display: flex; }
+  .map-address-bar { flex-direction: column; align-items: flex-start; }
+}
+</style>
+</head>
+<body>
+
+<!-- Announcement Bar -->
+<div class="announce-bar">
+  New batch starting April 2025 — <strong>Limited seats available.</strong>
+  <a href="contact.html"> Enquire now →</a>
+</div>
+
+<!-- Navbar -->
+<nav id="navbar">
+  <a href="index.html" class="nav-brand">
+    <div class="nav-brand-icon"><img src="rise-and-shine-high-resolution-logo-transparent__1_.png" alt="Rise and Shine Logo"></div>
+    <div class="nav-brand-text">
+      <div class="nav-brand-name">Rise And Shine</div>
+      <div class="nav-brand-sub">Learn · Grow · Succeed</div>
+    </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="programs.html">Programs</a></li>
+    <li><a href="worksheets.html">Worksheets</a></li>
+    <li><a href="contact.html" class="active">Contact</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="https://wa.me/919823888638" target="_blank" class="nav-wa">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.917 1.04 5.592 2.757 7.671L.947 23.243l3.682-1.77A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 0 1-5.024-1.378l-.36-.215-3.728.977.995-3.638-.235-.374A9.818 9.818 0 1 1 12 21.818z"/></svg>
+      WhatsApp
+    </a>
+    <a href="contact.html" class="nav-cta-link">Book a Demo</a>
+  </div>
+  <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html">Home</a>
+  <a href="about.html">About</a>
+  <a href="programs.html">Programs</a>
+  <a href="worksheets.html">Worksheets</a>
+  <a href="contact.html">Contact</a>
+  <a href="https://wa.me/919823888638" target="_blank">WhatsApp Us</a>
+  <a href="contact.html" class="mobile-cta">Book a Free Demo</a>
+</div>
+
+<!-- Page Hero -->
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <div class="eyebrow">Get In Touch</div>
+    <h1>Let's start your child's<br>journey together.</h1>
+    <p>Have questions? Want to book a free demo class? Fill in the form and Aahana Ma'am or her team will respond within 24 hours.</p>
+  </div>
+</div>
+
+<!-- Contact Section -->
+<section class="section" style="background: var(--grey-50);">
+  <div class="contact-layout">
+
+    <!-- Left: Contact Info -->
+    <div class="contact-info">
+
+      <div class="info-card">
+        <div class="info-icon">
+          <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        </div>
+        <div>
+          <h4>Our Location</h4>
+          <p>NIKHAR HERITAGE, Plot no-4<br>HB Town, Bhandara Road<br>Old Pardi Naka Square<br>Nagpur, Maharashtra 440035</p>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <div class="info-icon">
+          <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.87 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.77 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l.91-.91a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 17z"/></svg>
+        </div>
+        <div>
+          <h4>Call Us</h4>
+          <p><a href="tel:+919823888638">+91 98238 88638</a></p>
+          <p style="font-size:0.78rem;color:var(--grey-400);margin-top:3px">Mon–Sat · 9 AM – 7 PM</p>
+        </div>
+      </div>
+
+      <div class="info-card" style="border-bottom:none">
+        <div class="info-icon">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <div>
+          <h4>Class Timings</h4>
+          <p>Morning: 8:00 AM – 11:00 AM<br>Afternoon: 1:00 PM – 4:00 PM<br>Evening: 5:00 PM – 8:00 PM</p>
+        </div>
+      </div>
+
+      <div class="wa-cta-box">
+        <p>Prefer to connect over WhatsApp? Send us a message and we'll respond within a few hours.</p>
+        <a href="https://wa.me/919823888638?text=Hi%2C%20I%27d%20like%20to%20enquire%20about%20Rise%20and%20Shine%20Academy." target="_blank" class="wa-btn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.917 1.04 5.592 2.757 7.671L.947 23.243l3.682-1.77A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 0 1-5.024-1.378l-.36-.215-3.728.977.995-3.638-.235-.374A9.818 9.818 0 1 1 12 21.818z"/></svg>
+          Message on WhatsApp
+        </a>
+      </div>
+
+      <div class="timings-box">
+        <h4>Quick Info</h4>
+        <div class="timing-row">
+          <span class="timing-label">New batch</span>
+          <span class="timing-time">April 2025</span>
+        </div>
+        <div class="timing-row">
+          <span class="timing-label">Batch size</span>
+          <span class="timing-time">Max 6–8 students</span>
+        </div>
+        <div class="timing-row">
+          <span class="timing-label">Demo class</span>
+          <span class="timing-time">Free of charge</span>
+        </div>
+        <div class="timing-row">
+          <span class="timing-label">Boards covered</span>
+          <span class="timing-time">CBSE · ICSE · Cambridge · IB</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: Enquiry Form -->
+    <div class="form-card">
+      <div id="formWrap">
+        <div class="form-card-header">
+          <h2>Book a Free Demo Class</h2>
+          <p>Fill in the details below and we'll be in touch within 24 hours to schedule your child's free session.</p>
+        </div>
+
+        <form id="enquiryForm" novalidate onsubmit="submitForm(event)">
+
+          <!-- Student Details -->
+          <div class="form-section-label">Student Details</div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Student Name *</label>
+              <input type="text" id="studentName" placeholder="Child's full name" required>
+              <div class="form-error-msg" id="err-studentName">Please enter the student's name.</div>
+            </div>
+            <div class="form-group">
+              <label>Parent Name *</label>
+              <input type="text" id="parentName" placeholder="Mother / Father name" required>
+              <div class="form-error-msg" id="err-parentName">Please enter the parent's name.</div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Phone Number *</label>
+              <input type="tel" id="phone" placeholder="+91 XXXXX XXXXX" required>
+              <div class="form-error-msg" id="err-phone">Please enter a valid phone number.</div>
+            </div>
+            <div class="form-group">
+              <label>School Name</label>
+              <input type="text" id="school" placeholder="Child's current school">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Grade *</label>
+              <select id="grade" required>
+                <option value="">Select grade</option>
+                <option>Pre-Primary / KG</option>
+                <option>Grade 1</option><option>Grade 2</option><option>Grade 3</option>
+                <option>Grade 4</option><option>Grade 5</option><option>Grade 6</option>
+                <option>Grade 7</option><option>Grade 8</option><option>Grade 9</option>
+                <option>Grade 10</option><option>Grade 11</option><option>Grade 12</option>
+              </select>
+              <div class="form-error-msg" id="err-grade">Please select the grade.</div>
+            </div>
+            <div class="form-group">
+              <label>Board / Curriculum</label>
+              <select id="board">
+                <option value="">Select board</option>
+                <option>CBSE</option>
+                <option>ICSE</option>
+                <option>Maharashtra State Board</option>
+                <option>Cambridge (IGCSE)</option>
+                <option>IB</option>
+                <option>Other</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-divider"></div>
+
+          <!-- Courses -->
+          <div class="form-section-label">Courses of Interest</div>
+          <div class="form-group">
+            <div class="checkbox-grid">
+              <label class="checkbox-item">
+                <input type="checkbox" name="courses" value="Language Development">
+                <div class="checkbox-box"></div>
+                <span class="checkbox-label">Language Development</span>
+              </label>
+              <label class="checkbox-item">
+                <input type="checkbox" name="courses" value="Phonics">
+                <div class="checkbox-box"></div>
+                <span class="checkbox-label">Phonics</span>
+              </label>
+              <label class="checkbox-item">
+                <input type="checkbox" name="courses" value="Reading">
+                <div class="checkbox-box"></div>
+                <span class="checkbox-label">Reading</span>
+              </label>
+              <label class="checkbox-item">
+                <input type="checkbox" name="courses" value="Grammar">
+                <div class="checkbox-box"></div>
+                <span class="checkbox-label">Grammar</span>
+              </label>
+              <label class="checkbox-item">
+                <input type="checkbox" name="courses" value="Spoken English">
+                <div class="checkbox-box"></div>
+                <span class="checkbox-label">Spoken English</span>
+              </label>
+              <label class="checkbox-item">
+                <input type="checkbox" name="courses" value="Creative Writing">
+                <div class="checkbox-box"></div>
+                <span class="checkbox-label">Creative Writing</span>
+              </label>
+              <label class="checkbox-item">
+                <input type="checkbox" name="courses" value="Personality Development">
+                <div class="checkbox-box"></div>
+                <span class="checkbox-label">Personality Development</span>
+              </label>
+              <label class="checkbox-item">
+                <input type="checkbox" name="courses" value="Speaking Skills">
+                <div class="checkbox-box"></div>
+                <span class="checkbox-label">Speaking Skills</span>
+              </label>
+              <label class="checkbox-item">
+                <input type="checkbox" name="courses" value="All Subject Tuition">
+                <div class="checkbox-box"></div>
+                <span class="checkbox-label">All Subject Tuition (Grade 1–10)</span>
+              </label>
+              <label class="checkbox-item">
+                <input type="checkbox" name="courses" value="Cambridge Classes">
+                <div class="checkbox-box"></div>
+                <span class="checkbox-label">Cambridge Classes (Grade 10 & 12)</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="form-divider"></div>
+
+          <!-- Open Questions -->
+          <div class="form-section-label">Tell Us More</div>
+          <div class="form-group">
+            <label>What are you looking for in your child's learning?</label>
+            <textarea id="learningGoal" placeholder="E.g. My child struggles with reading fluency and I'd like them to build confidence in English..."></textarea>
+          </div>
+          <div class="form-group">
+            <label>Anything else you'd like to mention?</label>
+            <textarea id="otherNotes" placeholder="Any other details, preferences, or questions you have..."></textarea>
+          </div>
+
+          <button type="submit" class="form-submit">
+            Submit Enquiry
+            <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </button>
+        </form>
+      </div>
+
+      <!-- Success Message -->
+      <div class="form-success" id="formSuccess">
+        <div class="success-icon">
+          <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <h3>Thank you! We'll be in touch soon.</h3>
+        <p>Your enquiry has been received. Aahana Ma'am or her team will contact you within <strong>24 hours</strong> to schedule your free demo class.</p>
+        <p style="margin-top:16px">
+          In the meantime, feel free to
+          <a href="https://wa.me/919823888638" target="_blank" style="color:var(--blue-700);font-weight:600">WhatsApp us</a>
+          if you have any urgent questions.
+        </p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- Map Section -->
+<div class="map-section">
+  <div class="map-inner">
+    <div class="eyebrow">Find Us</div>
+    <h2>Come visit us in Nagpur</h2>
+    <div class="map-card">
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3721.9!2d79.0882!3d21.1458!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjHCsDA4JzQ0LjkiTiA3OcKwMDUnMTcuNSJF!5e0!3m2!1sen!2sin!4v1617000000000"
+        allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+        title="Rise and Shine Academy Location">
+      </iframe>
+      <div class="map-address-bar">
+        <address>
+          NIKHAR HERITAGE, Plot no-4, HB Town, Bhandara Road,<br>
+          Old Pardi Naka Square, Nagpur, Maharashtra 440035
+        </address>
+        <a href="https://maps.google.com/?q=NIKHAR+HERITAGE+HB+Town+Bhandara+Road+Nagpur" target="_blank" class="map-directions">
+          Get Directions →
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand-name">Rise And Shine</div>
+        <p class="footer-brand-desc">Nagpur's trusted learning centre for over two decades, nurturing confident and capable learners across every stage of education.</p>
+        <div class="footer-social">
+          <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
+          <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
+          <a href="https://wa.me/919823888638" target="_blank" aria-label="WhatsApp"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.917 1.04 5.592 2.757 7.671L.947 23.243l3.682-1.77A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 0 1-5.024-1.378l-.36-.215-3.728.977.995-3.638-.235-.374A9.818 9.818 0 1 1 12 21.818z"/></svg></a>
+        </div>
+      </div>
+      <div>
+        <h4>Programs</h4>
+        <ul>
+          <li><a href="programs.html#phonics">Phonics & Reading</a></li>
+          <li><a href="programs.html#language">Language Development</a></li>
+          <li><a href="programs.html#spoken">Spoken English</a></li>
+          <li><a href="programs.html#cambridge">Cambridge & IB</a></li>
+          <li><a href="programs.html#tuition">All-Subject Tuition</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="about.html">About Aahana Ma'am</a></li>
+          <li><a href="worksheets.html">Worksheets</a></li>
+          <li><a href="contact.html">Book a Demo</a></li>
+          <li><a href="https://wa.me/919823888638" target="_blank">WhatsApp</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <address class="footer-address">
+          NIKHAR HERITAGE, Plot no-4<br>
+          HB Town, Bhandara Road<br>
+          Nagpur, Maharashtra 440035<br><br>
+          <a href="tel:+919823888638">+91 98238 88638</a><br>
+          Mon–Sat, 9 AM – 7 PM
+        </address>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 Rise and Shine Academy, Nagpur. All rights reserved.</p>
+      <p>Crafted with care for Nagpur's families.</p>
+    </div>
+  </div>
+</footer>
+
+<!-- WhatsApp Float -->
+<a class="wa-float" href="https://wa.me/919823888638?text=Hi%2C%20I%27d%20like%20to%20enquire%20about%20Rise%20and%20Shine%20Academy." target="_blank" aria-label="Chat on WhatsApp">
+  <div class="wa-float-tooltip">Chat with us</div>
+  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.917 1.04 5.592 2.757 7.671L.947 23.243l3.682-1.77A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 0 1-5.024-1.378l-.36-.215-3.728.977.995-3.638-.235-.374A9.818 9.818 0 1 1 12 21.818z"/></svg>
+</a>
+
+<script>
+// ── Navbar scroll
+window.addEventListener('scroll', () => {
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 20);
+});
+
+// ── Mobile menu
+function toggleMenu() {
+  document.getElementById('mobileMenu').classList.toggle('open');
+}
+document.addEventListener('click', (e) => {
+  const menu = document.getElementById('mobileMenu');
+  const ham = document.getElementById('hamburger');
+  if (!menu.contains(e.target) && !ham.contains(e.target)) menu.classList.remove('open');
+});
+
+// ── Form validation & submit
+function submitForm(e) {
+  e.preventDefault();
+  let valid = true;
+
+  const fields = [
+    { id: 'studentName', errId: 'err-studentName', check: v => v.trim().length > 0 },
+    { id: 'parentName',  errId: 'err-parentName',  check: v => v.trim().length > 0 },
+    { id: 'phone',       errId: 'err-phone',       check: v => /^[+\d\s\-()]{7,}$/.test(v.trim()) },
+    { id: 'grade',       errId: 'err-grade',       check: v => v !== '' },
+  ];
+
+  fields.forEach(({ id, errId, check }) => {
+    const el = document.getElementById(id);
+    const err = document.getElementById(errId);
+    const ok = check(el.value);
+    el.classList.toggle('error', !ok);
+    err.classList.toggle('show', !ok);
+    if (!ok) valid = false;
+  });
+
+  if (!valid) return;
+
+  // Collect checked courses
+  const courses = [...document.querySelectorAll('input[name="courses"]:checked')].map(c => c.value);
+
+  // Build payload — ready to wire up to Firebase/Supabase/Google Sheets
+  const payload = {
+    studentName:  document.getElementById('studentName').value.trim(),
+    parentName:   document.getElementById('parentName').value.trim(),
+    phone:        document.getElementById('phone').value.trim(),
+    school:       document.getElementById('school').value.trim(),
+    grade:        document.getElementById('grade').value,
+    board:        document.getElementById('board').value,
+    courses,
+    learningGoal: document.getElementById('learningGoal').value.trim(),
+    otherNotes:   document.getElementById('otherNotes').value.trim(),
+    submittedAt:  new Date().toISOString(),
+  };
+
+  console.log('Enquiry payload:', payload);
+  // TODO: POST to /api/enquiry or Firebase / Supabase
+
+  // Show success
+  document.getElementById('formWrap').style.display = 'none';
+  document.getElementById('formSuccess').classList.add('show');
+  window.scrollTo({ top: document.querySelector('.form-card').offsetTop - 100, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>
