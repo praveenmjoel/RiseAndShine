@@ -759,7 +759,15 @@ function submitForm(e) {
   };
 
   console.log('Enquiry payload:', payload);
-  // TODO: POST to /api/enquiry or Firebase / Supabase
+  // Save to localStorage for admin panel
+  try {
+    const leads = JSON.parse(localStorage.getItem('ras_leads') || '[]');
+    payload.id = Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+    payload.status = 'new';
+    leads.unshift(payload);
+    localStorage.setItem('ras_leads', JSON.stringify(leads));
+  } catch(e) { console.warn('Could not save lead locally', e); }
+  // TODO: also POST to Firebase / Supabase
 
   // Show success
   document.getElementById('formWrap').style.display = 'none';
