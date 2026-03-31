@@ -11,12 +11,12 @@
 //  8. Deploy Firestore rules: copy firestore.rules into the Firestore rules tab
 
 const firebaseConfig = {
-  apiKey:            "REPLACE_WITH_YOUR_API_KEY",
-  authDomain:        "REPLACE_WITH_YOUR_AUTH_DOMAIN",
-  projectId:         "REPLACE_WITH_YOUR_PROJECT_ID",
-  storageBucket:     "REPLACE_WITH_YOUR_STORAGE_BUCKET",
-  messagingSenderId: "REPLACE_WITH_YOUR_MESSAGING_SENDER_ID",
-  appId:             "REPLACE_WITH_YOUR_APP_ID"
+  apiKey:            "AIzaSyCUPFmgfKHceno0s9GWsygjmKt-AgdpPS4",
+  authDomain:        "rise-and-shine-academy-17325.firebaseapp.com",
+  projectId:         "rise-and-shine-academy-17325",
+  storageBucket:     "rise-and-shine-academy-17325.firebasestorage.app",
+  messagingSenderId: "180386743518",
+  appId:             "1:180386743518:web:f9f66c5a64927616d06e4f"
 };
 
 // NOTE: Firebase web API keys are safe to expose — security comes from Firestore rules.
