@@ -26,8 +26,11 @@ window.FIREBASE_READY = false;
 if (!firebaseConfig.apiKey.includes('REPLACE_WITH')) {
   try {
     firebase.initializeApp(firebaseConfig);
-    window.db   = firebase.firestore();
-    window.auth = firebase.auth();
+    window.db = firebase.firestore();
+    // Auth SDK is only loaded on admin.html — guard against missing SDK on other pages
+    if (typeof firebase.auth === 'function') {
+      window.auth = firebase.auth();
+    }
     window.FIREBASE_READY = true;
     console.log('%c✅ Firebase connected: ' + firebaseConfig.projectId, 'color:green;font-weight:bold');
   } catch (e) {
