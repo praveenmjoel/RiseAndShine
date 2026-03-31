@@ -414,7 +414,7 @@ footer ul li a:hover { color: var(--gold-light); }
       <button class="filter-tab" onclick="filterWS('grammar', this)">English Grammar</button>
       <button class="filter-tab" onclick="filterWS('cambridge', this)">Cambridge</button>
     </div>
-    <div class="filter-count">Showing <strong id="wsCount">9</strong> resources</div>
+    <div class="filter-count">Showing <strong id="wsCount">0</strong> resources</div>
   </div>
 </div>
 
@@ -422,355 +422,18 @@ footer ul li a:hover { color: var(--gold-light); }
 <section class="marketplace-section">
   <div class="marketplace-inner">
 
-    <!-- Bundle Banner -->
-    <div class="bundle-banner">
-      <div class="bundle-left">
-        <div class="bundle-icon">
-          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-        </div>
-        <div class="bundle-text">
-          <h3>Complete Worksheet Bundle — All Categories</h3>
-          <p>Get all 9 worksheet packs at one discounted price. Phonics, Grammar, and Cambridge — everything in one download.</p>
-        </div>
-      </div>
-      <div style="display:flex;align-items:center;gap:20px;flex-shrink:0;flex-wrap:wrap;">
-        <div class="bundle-price">
-          <div class="bundle-original">₹1,647 separately</div>
-          <div class="bundle-final">₹999</div>
-          <div class="bundle-save">Save ₹648 · 39% off</div>
-        </div>
-        <button class="btn btn-primary" onclick="openModal('Complete Worksheet Bundle', 999, 'All Categories')">
-          Buy Bundle
-          <svg class="arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-        </button>
+    <!-- Bundle Banner (rendered dynamically) -->
+    <div id="bundleBanner"></div>
+
+    <!-- Worksheet Grid (rendered dynamically) -->
+    <div class="ws-grid" id="wsGrid">
+      <div class="ws-loading" id="wsLoading" style="grid-column:1/-1;text-align:center;padding:60px 20px;color:var(--text-muted)">
+        <div style="font-size:1.5rem;margin-bottom:10px">⏳</div>
+        <p style="font-size:0.9rem">Loading worksheets…</p>
       </div>
     </div>
 
-    <!-- Worksheet Grid -->
-    <div class="ws-grid" id="wsGrid">
 
-      <!-- Phonics 1 -->
-      <div class="ws-card" data-cat="phonics">
-        <div class="ws-card-visual phonics">
-          <div class="ws-visual-pattern"></div>
-          <div class="ws-visual-icon">
-            <svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
-          </div>
-          <span class="ws-visual-label">Phonics & Reading</span>
-          <span class="ws-badge-popular">Popular</span>
-        </div>
-        <div class="ws-card-body">
-          <div class="ws-cat phonics">Phonics & Reading</div>
-          <h3>Blending & Segmenting Workbook — Level 1</h3>
-          <p>30 structured worksheets covering CVC words, initial blends, and sight word recognition for early readers (Pre-KG to Grade 1).</p>
-          <div class="ws-meta">
-            <div class="ws-meta-item"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> 30 worksheets</div>
-            <div class="ws-meta-item"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg> Ages 4–6</div>
-            <div class="ws-meta-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Answer key</div>
-          </div>
-        </div>
-        <div class="ws-card-foot">
-          <div class="ws-price-wrap">
-            <div class="ws-price">₹149</div>
-            <div class="ws-price-label">PDF download</div>
-          </div>
-          <button class="ws-buy-btn" onclick="openModal('Blending & Segmenting Workbook — Level 1', 149, 'Phonics & Reading')">
-            Buy Now
-            <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-          </button>
-        </div>
-        <a href="https://wa.me/919823888638?text=Hi%2C%20I%27m%20interested%20in%20the%20Blending%20%26%20Segmenting%20worksheet." target="_blank" class="ws-wa-link">
-          <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.917 1.04 5.592 2.757 7.671L.947 23.243l3.682-1.77A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 0 1-5.024-1.378l-.36-.215-3.728.977.995-3.638-.235-.374A9.818 9.818 0 1 1 12 21.818z"/></svg>
-          Ask on WhatsApp before buying
-        </a>
-      </div>
-
-      <!-- Phonics 2 -->
-      <div class="ws-card" data-cat="phonics">
-        <div class="ws-card-visual phonics">
-          <div class="ws-visual-pattern"></div>
-          <div class="ws-visual-icon">
-            <svg viewBox="0 0 24 24"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/></svg>
-          </div>
-          <span class="ws-visual-label">Phonics & Reading</span>
-          <span class="ws-badge-new">New</span>
-        </div>
-        <div class="ws-card-body">
-          <div class="ws-cat phonics">Phonics & Reading</div>
-          <h3>Sight Words & Fluency Pack — Level 2</h3>
-          <p>25 worksheets focused on high-frequency sight words, short vowel patterns, and sentence reading fluency for Grade 1–2 students.</p>
-          <div class="ws-meta">
-            <div class="ws-meta-item"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> 25 worksheets</div>
-            <div class="ws-meta-item"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg> Grade 1–2</div>
-            <div class="ws-meta-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Answer key</div>
-          </div>
-        </div>
-        <div class="ws-card-foot">
-          <div class="ws-price-wrap">
-            <div class="ws-price">₹149</div>
-            <div class="ws-price-label">PDF download</div>
-          </div>
-          <button class="ws-buy-btn" onclick="openModal('Sight Words & Fluency Pack — Level 2', 149, 'Phonics & Reading')">
-            Buy Now
-            <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-          </button>
-        </div>
-        <a href="https://wa.me/919823888638?text=Hi%2C%20I%27m%20interested%20in%20the%20Sight%20Words%20worksheet." target="_blank" class="ws-wa-link">
-          <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.917 1.04 5.592 2.757 7.671L.947 23.243l3.682-1.77A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 0 1-5.024-1.378l-.36-.215-3.728.977.995-3.638-.235-.374A9.818 9.818 0 1 1 12 21.818z"/></svg>
-          Ask on WhatsApp before buying
-        </a>
-      </div>
-
-      <!-- Phonics 3 -->
-      <div class="ws-card" data-cat="phonics">
-        <div class="ws-card-visual phonics">
-          <div class="ws-visual-pattern"></div>
-          <div class="ws-visual-icon">
-            <svg viewBox="0 0 24 24"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
-          </div>
-          <span class="ws-visual-label">Phonics & Reading</span>
-        </div>
-        <div class="ws-card-body">
-          <div class="ws-cat phonics">Phonics & Reading</div>
-          <h3>Blends & Digraphs Mastery — Level 3</h3>
-          <p>Advanced phonics pack covering consonant blends (bl, cr, st), digraphs (sh, ch, th), and reading comprehension passages.</p>
-          <div class="ws-meta">
-            <div class="ws-meta-item"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> 28 worksheets</div>
-            <div class="ws-meta-item"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg> Grade 2–3</div>
-            <div class="ws-meta-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Answer key</div>
-          </div>
-        </div>
-        <div class="ws-card-foot">
-          <div class="ws-price-wrap">
-            <div class="ws-price">₹149</div>
-            <div class="ws-price-label">PDF download</div>
-          </div>
-          <button class="ws-buy-btn" onclick="openModal('Blends & Digraphs Mastery — Level 3', 149, 'Phonics & Reading')">
-            Buy Now
-            <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-          </button>
-        </div>
-        <a href="https://wa.me/919823888638?text=Hi%2C%20I%27m%20interested%20in%20the%20Blends%20%26%20Digraphs%20worksheet." target="_blank" class="ws-wa-link">
-          <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.917 1.04 5.592 2.757 7.671L.947 23.243l3.682-1.77A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 0 1-5.024-1.378l-.36-.215-3.728.977.995-3.638-.235-.374A9.818 9.818 0 1 1 12 21.818z"/></svg>
-          Ask on WhatsApp before buying
-        </a>
-      </div>
-
-      <!-- Grammar 1 -->
-      <div class="ws-card" data-cat="grammar">
-        <div class="ws-card-visual grammar">
-          <div class="ws-visual-pattern"></div>
-          <div class="ws-visual-icon">
-            <svg viewBox="0 0 24 24"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="14" y2="12"/><line x1="4" y1="18" x2="18" y2="18"/></svg>
-          </div>
-          <span class="ws-visual-label">English Grammar</span>
-          <span class="ws-badge-popular">Popular</span>
-        </div>
-        <div class="ws-card-body">
-          <div class="ws-cat grammar">English Grammar</div>
-          <h3>Grammar Essentials — Grades 4 to 6</h3>
-          <p>Comprehensive practice on tenses, prepositions, determiners, and sentence transformation — aligned to CBSE, ICSE, and State Board.</p>
-          <div class="ws-meta">
-            <div class="ws-meta-item"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> 40 worksheets</div>
-            <div class="ws-meta-item"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg> Grade 4–6</div>
-            <div class="ws-meta-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Answer key</div>
-          </div>
-        </div>
-        <div class="ws-card-foot">
-          <div class="ws-price-wrap">
-            <div class="ws-price">₹199</div>
-            <div class="ws-price-label">PDF download</div>
-          </div>
-          <button class="ws-buy-btn" onclick="openModal('Grammar Essentials — Grades 4 to 6', 199, 'English Grammar')">
-            Buy Now
-            <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-          </button>
-        </div>
-        <a href="https://wa.me/919823888638?text=Hi%2C%20I%27m%20interested%20in%20the%20Grammar%20Essentials%20worksheet." target="_blank" class="ws-wa-link">
-          <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.917 1.04 5.592 2.757 7.671L.947 23.243l3.682-1.77A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 0 1-5.024-1.378l-.36-.215-3.728.977.995-3.638-.235-.374A9.818 9.818 0 1 1 12 21.818z"/></svg>
-          Ask on WhatsApp before buying
-        </a>
-      </div>
-
-      <!-- Grammar 2 -->
-      <div class="ws-card" data-cat="grammar">
-        <div class="ws-card-visual grammar">
-          <div class="ws-visual-pattern"></div>
-          <div class="ws-visual-icon">
-            <svg viewBox="0 0 24 24"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
-          </div>
-          <span class="ws-visual-label">English Grammar</span>
-        </div>
-        <div class="ws-card-body">
-          <div class="ws-cat grammar">English Grammar</div>
-          <h3>Advanced Grammar & Composition — Grades 7 to 9</h3>
-          <p>Error correction, sentence rewriting, active/passive voice, reported speech, and advanced punctuation for upper primary students.</p>
-          <div class="ws-meta">
-            <div class="ws-meta-item"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> 35 worksheets</div>
-            <div class="ws-meta-item"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg> Grade 7–9</div>
-            <div class="ws-meta-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Answer key</div>
-          </div>
-        </div>
-        <div class="ws-card-foot">
-          <div class="ws-price-wrap">
-            <div class="ws-price">₹199</div>
-            <div class="ws-price-label">PDF download</div>
-          </div>
-          <button class="ws-buy-btn" onclick="openModal('Advanced Grammar & Composition — Grades 7 to 9', 199, 'English Grammar')">
-            Buy Now
-            <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-          </button>
-        </div>
-        <a href="https://wa.me/919823888638?text=Hi%2C%20I%27m%20interested%20in%20the%20Advanced%20Grammar%20worksheet." target="_blank" class="ws-wa-link">
-          <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.917 1.04 5.592 2.757 7.671L.947 23.243l3.682-1.77A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 0 1-5.024-1.378l-.36-.215-3.728.977.995-3.638-.235-.374A9.818 9.818 0 1 1 12 21.818z"/></svg>
-          Ask on WhatsApp before buying
-        </a>
-      </div>
-
-      <!-- Grammar 3 -->
-      <div class="ws-card" data-cat="grammar">
-        <div class="ws-card-visual grammar">
-          <div class="ws-visual-pattern"></div>
-          <div class="ws-visual-icon">
-            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-          </div>
-          <span class="ws-visual-label">English Grammar</span>
-          <span class="ws-badge-new">New</span>
-        </div>
-        <div class="ws-card-body">
-          <div class="ws-cat grammar">English Grammar</div>
-          <h3>Grade 10 Board Exam Grammar Revision Pack</h3>
-          <p>Targeted revision for CBSE and State Board Grade 10 — gap filling, editing passages, formal letter structures, and unseen passages.</p>
-          <div class="ws-meta">
-            <div class="ws-meta-item"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> 20 worksheets</div>
-            <div class="ws-meta-item"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg> Grade 10</div>
-            <div class="ws-meta-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Answer key</div>
-          </div>
-        </div>
-        <div class="ws-card-foot">
-          <div class="ws-price-wrap">
-            <div class="ws-price">₹199</div>
-            <div class="ws-price-label">PDF download</div>
-          </div>
-          <button class="ws-buy-btn" onclick="openModal('Grade 10 Board Exam Grammar Revision Pack', 199, 'English Grammar')">
-            Buy Now
-            <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-          </button>
-        </div>
-        <a href="https://wa.me/919823888638?text=Hi%2C%20I%27m%20interested%20in%20the%20Grade%2010%20Grammar%20Revision%20Pack." target="_blank" class="ws-wa-link">
-          <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.917 1.04 5.592 2.757 7.671L.947 23.243l3.682-1.77A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 0 1-5.024-1.378l-.36-.215-3.728.977.995-3.638-.235-.374A9.818 9.818 0 1 1 12 21.818z"/></svg>
-          Ask on WhatsApp before buying
-        </a>
-      </div>
-
-      <!-- Cambridge 1 -->
-      <div class="ws-card" data-cat="cambridge">
-        <div class="ws-card-visual cambridge">
-          <div class="ws-visual-pattern"></div>
-          <div class="ws-visual-icon">
-            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-          </div>
-          <span class="ws-visual-label">Cambridge</span>
-          <span class="ws-badge-popular">Popular</span>
-        </div>
-        <div class="ws-card-body">
-          <div class="ws-cat cambridge">Cambridge</div>
-          <h3>IGCSE Directed Writing — Practice Pack</h3>
-          <p>10 full directed writing exercises with model answers and examiner-style feedback notes for Cambridge IGCSE Paper 2.</p>
-          <div class="ws-meta">
-            <div class="ws-meta-item"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> 10 exercises</div>
-            <div class="ws-meta-item"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg> IGCSE</div>
-            <div class="ws-meta-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Model answers</div>
-          </div>
-        </div>
-        <div class="ws-card-foot">
-          <div class="ws-price-wrap">
-            <div class="ws-price">₹299</div>
-            <div class="ws-price-label">PDF download</div>
-          </div>
-          <button class="ws-buy-btn" onclick="openModal('IGCSE Directed Writing — Practice Pack', 299, 'Cambridge')">
-            Buy Now
-            <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-          </button>
-        </div>
-        <a href="https://wa.me/919823888638?text=Hi%2C%20I%27m%20interested%20in%20the%20IGCSE%20Directed%20Writing%20Pack." target="_blank" class="ws-wa-link">
-          <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.917 1.04 5.592 2.757 7.671L.947 23.243l3.682-1.77A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 0 1-5.024-1.378l-.36-.215-3.728.977.995-3.638-.235-.374A9.818 9.818 0 1 1 12 21.818z"/></svg>
-          Ask on WhatsApp before buying
-        </a>
-      </div>
-
-      <!-- Cambridge 2 -->
-      <div class="ws-card" data-cat="cambridge">
-        <div class="ws-card-visual cambridge">
-          <div class="ws-visual-pattern"></div>
-          <div class="ws-visual-icon">
-            <svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
-          </div>
-          <span class="ws-visual-label">Cambridge</span>
-          <span class="ws-badge-new">New</span>
-        </div>
-        <div class="ws-card-body">
-          <div class="ws-cat cambridge">Cambridge</div>
-          <h3>IGCSE Summary Writing — Skills Builder</h3>
-          <p>12 graded summary writing tasks with annotated source passages, step-by-step technique guides, and full model summaries.</p>
-          <div class="ws-meta">
-            <div class="ws-meta-item"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> 12 tasks</div>
-            <div class="ws-meta-item"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg> IGCSE</div>
-            <div class="ws-meta-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Model answers</div>
-          </div>
-        </div>
-        <div class="ws-card-foot">
-          <div class="ws-price-wrap">
-            <div class="ws-price">₹299</div>
-            <div class="ws-price-label">PDF download</div>
-          </div>
-          <button class="ws-buy-btn" onclick="openModal('IGCSE Summary Writing — Skills Builder', 299, 'Cambridge')">
-            Buy Now
-            <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-          </button>
-        </div>
-        <a href="https://wa.me/919823888638?text=Hi%2C%20I%27m%20interested%20in%20the%20IGCSE%20Summary%20Writing%20pack." target="_blank" class="ws-wa-link">
-          <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.917 1.04 5.592 2.757 7.671L.947 23.243l3.682-1.77A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 0 1-5.024-1.378l-.36-.215-3.728.977.995-3.638-.235-.374A9.818 9.818 0 1 1 12 21.818z"/></svg>
-          Ask on WhatsApp before buying
-        </a>
-      </div>
-
-      <!-- Cambridge 3 -->
-      <div class="ws-card" data-cat="cambridge">
-        <div class="ws-card-visual cambridge">
-          <div class="ws-visual-pattern"></div>
-          <div class="ws-visual-icon">
-            <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-          </div>
-          <span class="ws-visual-label">Cambridge</span>
-        </div>
-        <div class="ws-card-body">
-          <div class="ws-cat cambridge">Cambridge</div>
-          <h3>Cambridge Grade 10 & 12 — Complete Revision Kit</h3>
-          <p>Full exam preparation kit covering all paper components — reading comprehension, writing, grammar in context, and literature.</p>
-          <div class="ws-meta">
-            <div class="ws-meta-item"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> 50 pages</div>
-            <div class="ws-meta-item"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg> Grade 10 & 12</div>
-            <div class="ws-meta-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Full solutions</div>
-          </div>
-        </div>
-        <div class="ws-card-foot">
-          <div class="ws-price-wrap">
-            <div class="ws-price">₹399</div>
-            <div class="ws-price-label">PDF download</div>
-          </div>
-          <button class="ws-buy-btn" onclick="openModal('Cambridge Grade 10 & 12 — Complete Revision Kit', 399, 'Cambridge')">
-            Buy Now
-            <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-          </button>
-        </div>
-        <a href="https://wa.me/919823888638?text=Hi%2C%20I%27m%20interested%20in%20the%20Cambridge%20Complete%20Revision%20Kit." target="_blank" class="ws-wa-link">
-          <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.917 1.04 5.592 2.757 7.671L.947 23.243l3.682-1.77A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 0 1-5.024-1.378l-.36-.215-3.728.977.995-3.638-.235-.374A9.818 9.818 0 1 1 12 21.818z"/></svg>
-          Ask on WhatsApp before buying
-        </a>
-      </div>
-
-    </div><!-- /ws-grid -->
   </div>
 </section>
 
@@ -873,73 +536,195 @@ footer ul li a:hover { color: var(--gold-light); }
 </div>
 
 <script>
-// ── Navbar
-window.addEventListener('scroll', () => {
-  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 20);
-});
+// ─── MOBILE NAV ──────────────────────────────────────────
 function toggleMenu() {
-  document.getElementById('mobileMenu').classList.toggle('open');
+  const m = document.getElementById('mobileMenu');
+  m.style.display = m.style.display === 'flex' ? 'none' : 'flex';
 }
-document.addEventListener('click', (e) => {
-  const menu = document.getElementById('mobileMenu');
-  const ham = document.getElementById('hamburger');
-  if (!menu.contains(e.target) && !ham.contains(e.target)) menu.classList.remove('open');
+document.getElementById('hamburger').addEventListener('click', toggleMenu);
+
+// ─── STICKY NAV ──────────────────────────────────────────
+window.addEventListener('scroll', () => {
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 40);
 });
 
-// ── Filter
-function filterWS(cat, btn) {
-  const cards = document.querySelectorAll('.ws-card');
-  const tabs = document.querySelectorAll('.filter-tab');
-  tabs.forEach(t => t.classList.remove('active'));
-  if (btn) btn.classList.add('active');
+// ─── CATEGORY HELPERS ────────────────────────────────────
+const CAT_LABEL = { phonics:'Phonics & Reading', grammar:'English Grammar', cambridge:'Cambridge', bundle:'Bundle' };
+const CAT_ICONS = {
+  phonics: `<svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>`,
+  grammar: `<svg viewBox="0 0 24 24"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="14" y2="12"/><line x1="4" y1="18" x2="18" y2="18"/></svg>`,
+  cambridge: `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>`,
+  bundle:  `<svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`,
+};
 
-  let count = 0;
-  cards.forEach(card => {
-    const show = cat === 'all' || card.dataset.cat === cat;
-    card.style.display = show ? '' : 'none';
-    if (show) count++;
+// ─── DEFAULT PRODUCTS (shown when Firestore not configured or empty) ──
+const DEFAULT_PRODUCTS = [
+  { id:'dp1', title:'Blending & Segmenting Workbook — Level 1', category:'phonics', description:'30 structured worksheets covering CVC words, initial blends, and sight word recognition for early readers (Pre-KG to Grade 1).', price:149, count:'30 worksheets', grade:'Ages 4–6', answerKey:true, badge:'POPULAR', active:true, sortOrder:1 },
+  { id:'dp2', title:'Sight Words & Fluency Pack — Level 2', category:'phonics', description:'25 worksheets focused on high-frequency sight words, short vowel patterns, and sentence reading fluency for Grade 1–2 students.', price:149, count:'25 worksheets', grade:'Grade 1–2', answerKey:true, badge:'NEW', active:true, sortOrder:2 },
+  { id:'dp3', title:'Blends & Digraphs Mastery — Level 3', category:'phonics', description:'Advanced phonics pack covering consonant blends (bl, cr, st), digraphs (sh, ch, th), and reading comprehension passages.', price:149, count:'28 worksheets', grade:'Grade 2–3', answerKey:true, badge:'', active:true, sortOrder:3 },
+  { id:'dp4', title:'Grammar Essentials — Grades 4 to 6', category:'grammar', description:'Comprehensive practice on tenses, prepositions, determiners, and sentence transformation — aligned to CBSE, ICSE, and State Board.', price:199, count:'40 worksheets', grade:'Grade 4–6', answerKey:true, badge:'POPULAR', active:true, sortOrder:4 },
+  { id:'dp5', title:'Advanced Grammar & Composition — Grades 7 to 9', category:'grammar', description:'Error correction, sentence rewriting, active/passive voice, reported speech, and advanced punctuation for upper primary students.', price:199, count:'35 worksheets', grade:'Grade 7–9', answerKey:true, badge:'', active:true, sortOrder:5 },
+  { id:'dp6', title:'Grade 10 Board Exam Grammar Revision Pack', category:'grammar', description:'Targeted revision for CBSE and State Board Grade 10 — gap filling, editing passages, formal letter structures, and unseen passages.', price:199, count:'20 worksheets', grade:'Grade 10', answerKey:true, badge:'NEW', active:true, sortOrder:6 },
+  { id:'dp7', title:'IGCSE Directed Writing — Practice Pack', category:'cambridge', description:'10 full directed writing exercises with model answers and examiner-style feedback notes for Cambridge IGCSE Paper 2.', price:299, count:'10 exercises', grade:'IGCSE', answerKey:true, badge:'POPULAR', active:true, sortOrder:7 },
+  { id:'dp8', title:'IGCSE Summary Writing — Skills Builder', category:'cambridge', description:'12 graded summary writing tasks with annotated source passages, step-by-step technique guides, and full model summaries.', price:299, count:'12 tasks', grade:'IGCSE', answerKey:true, badge:'NEW', active:true, sortOrder:8 },
+  { id:'dp9', title:'Cambridge English Level A1–A2 Foundation Pack', category:'cambridge', description:'Foundation-level reading, writing, and vocabulary exercises aligned to Cambridge Young Learners and Key English Test (KET).', price:399, count:'20 exercises', grade:'Ages 8–12', answerKey:true, badge:'', active:true, sortOrder:9 },
+  { id:'dp10', title:'Complete Worksheet Bundle — All Categories', category:'bundle', description:'Get all 9 worksheet packs at one discounted price. Phonics, Grammar, and Cambridge — everything in one download.', price:999, count:'All 9 packs', grade:'All levels', answerKey:true, badge:'', active:true, sortOrder:99 },
+];
+
+// ─── FILTER ───────────────────────────────────────────────
+let allProducts = [];
+let activeFilter = 'all';
+
+function filterWS(cat, btn) {
+  activeFilter = cat;
+  document.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  const cards = document.querySelectorAll('.ws-card[data-cat]');
+  let shown = 0;
+  cards.forEach(c => {
+    const show = cat === 'all' || c.dataset.cat === cat;
+    c.style.display = show ? '' : 'none';
+    if (show) shown++;
   });
-  document.getElementById('wsCount').textContent = count;
+  document.getElementById('wsCount').textContent = shown;
 }
 
-// ── Modal
+// ─── CARD RENDERER ────────────────────────────────────────
+function buildCard(p) {
+  const waNum = '919823888638';
+  const waMsg = encodeURIComponent(`Hi, I'm interested in "${p.title}" (₹${p.price}). Please share more details.`);
+  const badgeHtml = p.badge
+    ? `<span class="ws-badge-${p.badge.toLowerCase()}">${p.badge.charAt(0)+p.badge.slice(1).toLowerCase()}</span>`
+    : '';
+  const icon = CAT_ICONS[p.category] || CAT_ICONS.phonics;
+  const label = CAT_LABEL[p.category] || p.category;
+  const titleEsc = p.title.replace(/'/g, "\'");
+  const catEsc = label.replace(/'/g, "\'");
+  return `
+    <div class="ws-card" data-cat="${p.category}">
+      <div class="ws-card-visual ${p.category}">
+        <div class="ws-visual-pattern"></div>
+        <div class="ws-visual-icon">${icon}</div>
+        <span class="ws-visual-label">${label}</span>
+        ${badgeHtml}
+      </div>
+      <div class="ws-card-body">
+        <div class="ws-cat ${p.category}">${label}</div>
+        <h3>${p.title}</h3>
+        <p>${p.description}</p>
+        <div class="ws-meta">
+          ${p.count ? `<div class="ws-meta-item"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> ${p.count}</div>` : ''}
+          ${p.grade ? `<div class="ws-meta-item"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg> ${p.grade}</div>` : ''}
+          ${p.answerKey ? `<div class="ws-meta-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Answer key</div>` : ''}
+        </div>
+      </div>
+      <div class="ws-card-foot">
+        <div class="ws-price-wrap">
+          <div class="ws-price">₹${p.price}</div>
+          <div class="ws-price-label">PDF download</div>
+        </div>
+        <button class="ws-buy-btn" onclick="openModal('${titleEsc}', ${p.price}, '${catEsc}')">
+          Buy Now
+          <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </button>
+      </div>
+      <a href="https://wa.me/${waNum}?text=${waMsg}" target="_blank" class="ws-wa-link">
+        <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.917 1.04 5.592 2.757 7.671L.947 23.243l3.682-1.77A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 0 1-5.024-1.378l-.36-.215-3.728.977.995-3.638-.235-.374A9.818 9.818 0 1 1 12 21.818z"/></svg>
+        Ask on WhatsApp before buying
+      </a>
+    </div>`;
+}
+
+function buildBundleBanner(bundle, individualTotal) {
+  const savings = individualTotal - bundle.price;
+  const pct = Math.round(savings / individualTotal * 100);
+  const titleEsc = bundle.title.replace(/'/g, "\'");
+  return `
+    <div class="bundle-banner">
+      <div class="bundle-left">
+        <div class="bundle-icon"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+        <div class="bundle-text">
+          <h3>${bundle.title}</h3>
+          <p>${bundle.description}</p>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:20px;flex-shrink:0;flex-wrap:wrap;">
+        <div class="bundle-price">
+          <div class="bundle-original">₹${individualTotal} separately</div>
+          <div class="bundle-final">₹${bundle.price}</div>
+          <div class="bundle-save">Save ₹${savings} · ${pct}% off</div>
+        </div>
+        <button class="btn btn-primary" onclick="openModal('${titleEsc}', ${bundle.price}, 'Bundle')">
+          Buy Bundle
+          <svg class="arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </button>
+      </div>
+    </div>`;
+}
+
+// ─── LOAD & RENDER ────────────────────────────────────────
+async function loadProducts() {
+  let products = [];
+  if (window.FIREBASE_READY && window.db) {
+    try {
+      const snap = await db.collection('products').orderBy('sortOrder', 'asc').get();
+      if (snap.size > 0) {
+        products = snap.docs.map(d => ({ id: d.id, ...d.data() })).filter(p => p.active !== false);
+      }
+    } catch(e) { console.warn('Could not load products from Firestore:', e.message); }
+  }
+  if (products.length === 0) products = DEFAULT_PRODUCTS.filter(p => p.active !== false);
+  allProducts = products;
+
+  const bundles = products.filter(p => p.category === 'bundle');
+  const nonBundles = products.filter(p => p.category !== 'bundle');
+  const indivTotal = nonBundles.reduce((a, p) => a + p.price, 0);
+
+  // Render bundle banner
+  const bb = document.getElementById('bundleBanner');
+  bb.innerHTML = bundles.length > 0 ? buildBundleBanner(bundles[0], indivTotal) : '';
+
+  // Render cards
+  document.getElementById('wsLoading').style.display = 'none';
+  document.getElementById('wsGrid').insertAdjacentHTML('beforeend', nonBundles.map(buildCard).join(''));
+
+  // Apply current filter
+  filterWS(activeFilter, null);
+}
+
+// ─── PURCHASE MODAL ───────────────────────────────────────
 let currentProduct = {};
+
 function openModal(title, price, cat) {
   currentProduct = { title, price, cat };
   document.getElementById('modalTitle').textContent = title;
   document.getElementById('modalPrice').textContent = '₹' + price;
-  document.getElementById('modalCat').textContent = cat;
-  document.getElementById('buyerName').value = '';
-  document.getElementById('buyerEmail').value = '';
-  document.getElementById('buyerPhone').value = '';
-  document.getElementById('payModal').classList.add('active');
+  document.getElementById('payModal').style.display = 'flex';
   document.body.style.overflow = 'hidden';
 }
 function closeModal() {
-  document.getElementById('payModal').classList.remove('active');
+  document.getElementById('payModal').style.display = 'none';
   document.body.style.overflow = '';
 }
-document.getElementById('payModal').addEventListener('click', (e) => {
-  if (e.target === document.getElementById('payModal')) closeModal();
-});
 
-// ── Razorpay
 function initiatePayment() {
   const name  = document.getElementById('buyerName').value.trim();
   const email = document.getElementById('buyerEmail').value.trim();
   const phone = document.getElementById('buyerPhone').value.trim();
+  let valid = true;
+  ['buyerName','buyerEmail','buyerPhone'].forEach(id => {
+    const el = document.getElementById(id);
+    const err = document.getElementById(id + 'Err');
+    if (!el.value.trim()) { if (err) err.style.display = 'block'; valid = false; }
+    else { if (err) err.style.display = 'none'; }
+  });
+  if (!valid) return;
 
-  if (!name || !email || !phone) {
-    alert('Please fill in all fields to proceed.');
-    return;
-  }
-
-  // TODO: Replace with your live Razorpay Key ID
-  const RAZORPAY_KEY = 'rzp_test_REPLACE_WITH_YOUR_KEY';
+  const RAZORPAY_KEY = localStorage.getItem('ras_rzp_key') || 'rzp_test_REPLACE_WITH_YOUR_KEY';
 
   const options = {
     key: RAZORPAY_KEY,
-    amount: currentProduct.price * 100, // paise
+    amount: currentProduct.price * 100,
     currency: 'INR',
     name: 'Rise and Shine Academy',
     description: currentProduct.title,
@@ -948,40 +733,39 @@ function initiatePayment() {
     theme: { color: '#0B3C5D' },
     handler: function(response) {
       closeModal();
-      // Save order to Firestore
       if (window.FIREBASE_READY && window.db) {
         const order = {
           id: response.razorpay_payment_id,
           product: currentProduct.title,
           cat: currentProduct.cat,
           amount: currentProduct.price,
-          phone: phone,
-          email: email,
+          phone, email,
           date: new Date().toISOString(),
           status: 'paid',
           razorpayPaymentId: response.razorpay_payment_id,
         };
-        window.db.collection('orders').doc(order.id).set(order)
-          .catch(e => console.warn('Order save failed:', e));
+        window.db.collection('orders').doc(order.id).set(order).catch(e => console.warn('Order save failed:', e));
       }
       alert(`Payment successful! 🎉\n\nPayment ID: ${response.razorpay_payment_id}\n\nYour worksheet PDF will be sent to ${email} within a few minutes. Check your spam folder too.`);
-      console.log('Razorpay response:', response);
     },
-    modal: {
-      ondismiss: function() { console.log('Payment dismissed'); }
-    }
+    modal: { ondismiss: function() { console.log('Payment dismissed'); } }
   };
 
   try {
     const rzp = new Razorpay(options);
     rzp.open();
   } catch(e) {
-    // Razorpay not loaded or key invalid — fallback to WhatsApp
     closeModal();
     const msg = encodeURIComponent(`Hi, I'd like to purchase "${currentProduct.title}" (₹${currentProduct.price}). My name is ${name}, email: ${email}, phone: ${phone}`);
     window.open(`https://wa.me/919823888638?text=${msg}`, '_blank');
   }
 }
+
+// ─── INIT ─────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  // Wait for Firebase config to load (it's at bottom of body), then load products
+  setTimeout(loadProducts, 100);
+});
 </script>
 <!-- Firebase SDK -->
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>

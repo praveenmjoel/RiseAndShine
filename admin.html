@@ -469,6 +469,11 @@ tr:hover td { background: var(--blue-50); }
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 1 0 0 7h5a3.5 3.5 0 1 1 0 7H6"/></svg>
         Worksheet Sales
       </div>
+      <div class="nav-label" style="margin-top:12px">Catalogue</div>
+      <div class="nav-item" onclick="showSection('products', this)">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+        Products
+      </div>
       <div class="nav-label" style="margin-top:12px">System</div>
       <div class="nav-item" onclick="showSection('settings', this)">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
@@ -625,6 +630,39 @@ tr:hover td { background: var(--blue-50); }
         </div>
       </div>
 
+      <!-- ─── PRODUCTS ─── -->
+      <div class="section" id="sec-products">
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Worksheet Products</span>
+            <div style="display:flex;gap:8px">
+              <button class="btn-sm btn-ghost" onclick="seedDefaultProducts()">↓ Seed Defaults</button>
+              <button class="btn-sm btn-primary" onclick="openProductModal()">+ New Product</button>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Title</th>
+                  <th>Category</th>
+                  <th>Price</th>
+                  <th>Active</th>
+                  <th>Sort</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="productsBody"></tbody>
+            </table>
+          </div>
+          <div id="productsEmpty" class="empty-state" style="display:none">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+            <p>No products yet</p>
+            <small>Click "Seed Defaults" to load the 9 original worksheets, or create a new one.</small>
+          </div>
+        </div>
+      </div>
+
       <!-- ─── SETTINGS ─── -->
       <div class="section" id="sec-settings">
         <div class="settings-grid">
@@ -692,6 +730,86 @@ tr:hover td { background: var(--blue-50); }
     </div><!-- /content -->
   </div><!-- /main -->
 </div><!-- /app -->
+
+<!-- ─── PRODUCT MODAL ──────────────────────────────────── -->
+<div class="drawer-overlay" id="productOverlay" onclick="closeProductModal(event)">
+  <div class="drawer" id="productDrawer" style="width:min(560px,100vw)">
+    <div class="drawer-header">
+      <span class="drawer-title" id="productModalTitle">New Product</span>
+      <div class="drawer-close" onclick="closeProductModalDirect()">✕</div>
+    </div>
+    <div id="productFormWrap">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px">
+        <div class="dl-full" style="grid-column:1/-1">
+          <div class="setting-row">
+            <label>Product Title *</label>
+            <input type="text" id="pTitle" placeholder="e.g. Blending & Segmenting Workbook — Level 1">
+          </div>
+        </div>
+        <div class="setting-row">
+          <label>Category *</label>
+          <select id="pCategory" style="width:100%;padding:9px 12px;border:1.5px solid var(--grey-200);border-radius:var(--r-md);font-size:0.88rem;outline:none">
+            <option value="phonics">Phonics & Reading</option>
+            <option value="grammar">English Grammar</option>
+            <option value="cambridge">Cambridge</option>
+            <option value="bundle">Bundle</option>
+          </select>
+        </div>
+        <div class="setting-row">
+          <label>Price (₹) *</label>
+          <input type="number" id="pPrice" placeholder="149" min="0">
+        </div>
+        <div class="setting-row">
+          <label>Count Label</label>
+          <input type="text" id="pCount" placeholder="e.g. 30 worksheets">
+        </div>
+        <div class="setting-row">
+          <label>Grade / Age Range</label>
+          <input type="text" id="pGrade" placeholder="e.g. Ages 4–6 or Grade 7–9">
+        </div>
+        <div class="setting-row">
+          <label>Badge</label>
+          <select id="pBadge" style="width:100%;padding:9px 12px;border:1.5px solid var(--grey-200);border-radius:var(--r-md);font-size:0.88rem;outline:none">
+            <option value="">None</option>
+            <option value="NEW">New</option>
+            <option value="POPULAR">Popular</option>
+            <option value="BESTSELLER">Bestseller</option>
+          </select>
+        </div>
+        <div class="setting-row">
+          <label>Sort Order</label>
+          <input type="number" id="pSort" placeholder="1" min="0" value="99">
+        </div>
+        <div class="dl-full" style="grid-column:1/-1">
+          <div class="setting-row">
+            <label>Description *</label>
+            <textarea id="pDesc" style="width:100%;padding:9px 12px;border:1.5px solid var(--grey-200);border-radius:var(--r-md);font-size:0.85rem;outline:none;resize:vertical;min-height:80px" placeholder="Brief description shown on the product card…"></textarea>
+          </div>
+        </div>
+        <div class="dl-full" style="grid-column:1/-1">
+          <div class="setting-row">
+            <label>PDF Delivery URL</label>
+            <input type="url" id="pPdfUrl" placeholder="https://drive.google.com/... (sent to buyer after payment)">
+            <small style="color:var(--text-muted);font-size:0.72rem;display:block;margin-top:4px">Paste a Google Drive / Dropbox shareable link. Will be used for automatic delivery once wired up.</small>
+          </div>
+        </div>
+        <div class="dl-full" style="grid-column:1/-1;display:flex;gap:20px;align-items:center;margin-top:4px">
+          <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:0.85rem;font-weight:500">
+            <input type="checkbox" id="pAnswerKey" checked> Answer key included
+          </label>
+          <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:0.85rem;font-weight:500">
+            <input type="checkbox" id="pActive" checked> Active (visible on site)
+          </label>
+        </div>
+      </div>
+      <div class="drawer-actions" style="margin-top:10px">
+        <button class="btn-full btn-sm btn-primary" onclick="saveProduct()">Save Product</button>
+        <button class="btn-full btn-sm btn-ghost" onclick="closeProductModalDirect()">Cancel</button>
+      </div>
+      <div id="productSaveError" style="color:var(--red);font-size:0.78rem;margin-top:8px;display:none">Please fill in all required fields.</div>
+    </div>
+  </div>
+</div>
 
 <!-- ─── DRAWER ──────────────────────────────────────────── -->
 <div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer(event)">
@@ -1201,7 +1319,7 @@ function downloadCSV(rows, filename) {
 // clearLeads and clearSales are defined above near the data layer
 
 // ─── NAV ─────────────────────────────────────────────────
-const sectionTitles = { dashboard:'Dashboard', leads:'Enquiries', sales:'Worksheet Sales', settings:'Settings' };
+const sectionTitles = { dashboard:'Dashboard', leads:'Enquiries', sales:'Worksheet Sales', products:'Products', settings:'Settings' };
 function showSection(name, el) {
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
   document.getElementById('sec-'+name).classList.add('active');
@@ -1210,6 +1328,7 @@ function showSection(name, el) {
   document.getElementById('topbarTitle').textContent = sectionTitles[name]||name;
   if (name==='leads') renderLeads(true);
   if (name==='sales') renderSales(true);
+  if (name==='products') renderProducts(true);
   if (name==='settings') loadSettings();
   if (name==='dashboard') renderDashboard(true);
   // close mobile sidebar
@@ -1255,6 +1374,179 @@ async function initApp() {
   await renderDashboard(true);
   await renderSales(true);
 }
+
+// ─── PRODUCTS ────────────────────────────────────────────
+let productsCache = null;
+let editingProductId = null;
+
+const DEFAULT_PRODUCTS = [
+  { id:'dp1', title:'Blending & Segmenting Workbook — Level 1', category:'phonics', description:'30 structured worksheets covering CVC words, initial blends, and sight word recognition for early readers (Pre-KG to Grade 1).', price:149, count:'30 worksheets', grade:'Ages 4–6', answerKey:true, badge:'POPULAR', active:true, sortOrder:1, pdfUrl:'' },
+  { id:'dp2', title:'Sight Words & Fluency Pack — Level 2', category:'phonics', description:'25 worksheets focused on high-frequency sight words, short vowel patterns, and sentence reading fluency for Grade 1–2 students.', price:149, count:'25 worksheets', grade:'Grade 1–2', answerKey:true, badge:'NEW', active:true, sortOrder:2, pdfUrl:'' },
+  { id:'dp3', title:'Blends & Digraphs Mastery — Level 3', category:'phonics', description:'Advanced phonics pack covering consonant blends (bl, cr, st), digraphs (sh, ch, th), and reading comprehension passages.', price:149, count:'28 worksheets', grade:'Grade 2–3', answerKey:true, badge:'', active:true, sortOrder:3, pdfUrl:'' },
+  { id:'dp4', title:'Grammar Essentials — Grades 4 to 6', category:'grammar', description:'Comprehensive practice on tenses, prepositions, determiners, and sentence transformation — aligned to CBSE, ICSE, and State Board.', price:199, count:'40 worksheets', grade:'Grade 4–6', answerKey:true, badge:'POPULAR', active:true, sortOrder:4, pdfUrl:'' },
+  { id:'dp5', title:'Advanced Grammar & Composition — Grades 7 to 9', category:'grammar', description:'Error correction, sentence rewriting, active/passive voice, reported speech, and advanced punctuation for upper primary students.', price:199, count:'35 worksheets', grade:'Grade 7–9', answerKey:true, badge:'', active:true, sortOrder:5, pdfUrl:'' },
+  { id:'dp6', title:'Grade 10 Board Exam Grammar Revision Pack', category:'grammar', description:'Targeted revision for CBSE and State Board Grade 10 — gap filling, editing passages, formal letter structures, and unseen passages.', price:199, count:'20 worksheets', grade:'Grade 10', answerKey:true, badge:'NEW', active:true, sortOrder:6, pdfUrl:'' },
+  { id:'dp7', title:'IGCSE Directed Writing — Practice Pack', category:'cambridge', description:'10 full directed writing exercises with model answers and examiner-style feedback notes for Cambridge IGCSE Paper 2.', price:299, count:'10 exercises', grade:'IGCSE', answerKey:true, badge:'POPULAR', active:true, sortOrder:7, pdfUrl:'' },
+  { id:'dp8', title:'IGCSE Summary Writing — Skills Builder', category:'cambridge', description:'12 graded summary writing tasks with annotated source passages, step-by-step technique guides, and full model summaries.', price:299, count:'12 tasks', grade:'IGCSE', answerKey:true, badge:'NEW', active:true, sortOrder:8, pdfUrl:'' },
+  { id:'dp9', title:'Cambridge English Level A1–A2 Foundation Pack', category:'cambridge', description:'Foundation-level reading, writing, and vocabulary exercises aligned to Cambridge Young Learners and Key English Test (KET).', price:399, count:'20 exercises', grade:'Ages 8–12', answerKey:true, badge:'', active:true, sortOrder:9, pdfUrl:'' },
+  { id:'dp10', title:'Complete Worksheet Bundle — All Categories', category:'bundle', description:'Get all 9 worksheet packs at one discounted price. Phonics, Grammar, and Cambridge — everything in one download.', price:999, count:'All 9 packs', grade:'All levels', answerKey:true, badge:'', active:true, sortOrder:99, pdfUrl:'' },
+];
+
+async function fetchProducts(force = false) {
+  if (productsCache && !force) return productsCache;
+  if (window.FIREBASE_READY) {
+    try {
+      const snap = await db.collection('products').orderBy('sortOrder', 'asc').get();
+      productsCache = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    } catch(e) { console.error('fetchProducts:', e); productsCache = []; }
+  } else {
+    productsCache = JSON.parse(localStorage.getItem('ras_products') || '[]');
+  }
+  return productsCache;
+}
+
+async function renderProducts(force = false) {
+  if (!productsCache || force) await fetchProducts(true);
+  const products = productsCache || [];
+  document.getElementById('productsEmpty').style.display = products.length === 0 ? 'block' : 'none';
+  const catLabel = { phonics:'Phonics & Reading', grammar:'English Grammar', cambridge:'Cambridge', bundle:'Bundle' };
+  document.getElementById('productsBody').innerHTML = products.map(p => `
+    <tr>
+      <td style="font-weight:600;max-width:220px">${p.title}</td>
+      <td>${catBadge(p.category)}</td>
+      <td style="font-weight:600;color:var(--blue-800)">₹${p.price}</td>
+      <td>
+        <label style="display:inline-flex;align-items:center;gap:6px;cursor:pointer">
+          <input type="checkbox" ${p.active?'checked':''} onchange="toggleProductActive('${p.id}', this.checked)"
+            style="width:16px;height:16px;cursor:pointer;accent-color:var(--blue-800)">
+          <span style="font-size:0.78rem;color:var(--text-muted)">${p.active?'Live':'Hidden'}</span>
+        </label>
+      </td>
+      <td style="color:var(--text-muted);font-size:0.82rem">${p.sortOrder??''}</td>
+      <td>
+        <div class="action-row">
+          <div class="icon-btn" onclick="openProductModal('${p.id}')" title="Edit">✏️</div>
+          <div class="icon-btn danger" onclick="deleteProduct('${p.id}')" title="Delete">🗑</div>
+        </div>
+      </td>
+    </tr>
+  `).join('');
+}
+
+function openProductModal(id) {
+  editingProductId = id || null;
+  document.getElementById('productModalTitle').textContent = id ? 'Edit Product' : 'New Product';
+  document.getElementById('productSaveError').style.display = 'none';
+  if (id) {
+    const p = (productsCache||[]).find(x => x.id === id);
+    if (!p) return;
+    document.getElementById('pTitle').value = p.title || '';
+    document.getElementById('pCategory').value = p.category || 'phonics';
+    document.getElementById('pPrice').value = p.price || '';
+    document.getElementById('pCount').value = p.count || '';
+    document.getElementById('pGrade').value = p.grade || '';
+    document.getElementById('pBadge').value = p.badge || '';
+    document.getElementById('pSort').value = p.sortOrder ?? 99;
+    document.getElementById('pDesc').value = p.description || '';
+    document.getElementById('pPdfUrl').value = p.pdfUrl || '';
+    document.getElementById('pAnswerKey').checked = !!p.answerKey;
+    document.getElementById('pActive').checked = p.active !== false;
+  } else {
+    document.getElementById('pTitle').value = '';
+    document.getElementById('pCategory').value = 'phonics';
+    document.getElementById('pPrice').value = '';
+    document.getElementById('pCount').value = '';
+    document.getElementById('pGrade').value = '';
+    document.getElementById('pBadge').value = '';
+    document.getElementById('pSort').value = '99';
+    document.getElementById('pDesc').value = '';
+    document.getElementById('pPdfUrl').value = '';
+    document.getElementById('pAnswerKey').checked = true;
+    document.getElementById('pActive').checked = true;
+  }
+  document.getElementById('productOverlay').classList.add('open');
+}
+
+async function saveProduct() {
+  const title = document.getElementById('pTitle').value.trim();
+  const desc  = document.getElementById('pDesc').value.trim();
+  const price = parseFloat(document.getElementById('pPrice').value);
+  if (!title || !desc || isNaN(price)) {
+    document.getElementById('productSaveError').style.display = 'block'; return;
+  }
+  document.getElementById('productSaveError').style.display = 'none';
+  const id = editingProductId || (Date.now().toString(36) + Math.random().toString(36).slice(2,5));
+  const product = {
+    id,
+    title,
+    category: document.getElementById('pCategory').value,
+    description: desc,
+    price,
+    count: document.getElementById('pCount').value.trim(),
+    grade: document.getElementById('pGrade').value.trim(),
+    badge: document.getElementById('pBadge').value,
+    sortOrder: parseInt(document.getElementById('pSort').value) || 99,
+    pdfUrl: document.getElementById('pPdfUrl').value.trim(),
+    answerKey: document.getElementById('pAnswerKey').checked,
+    active: document.getElementById('pActive').checked,
+    updatedAt: new Date().toISOString(),
+    ...(editingProductId ? {} : { createdAt: new Date().toISOString() }),
+  };
+  if (window.FIREBASE_READY) {
+    await db.collection('products').doc(id).set(product, { merge: true });
+  } else {
+    const prods = JSON.parse(localStorage.getItem('ras_products') || '[]');
+    const idx = prods.findIndex(p => p.id === id);
+    if (idx >= 0) prods[idx] = product; else prods.push(product);
+    localStorage.setItem('ras_products', JSON.stringify(prods));
+  }
+  productsCache = null;
+  closeProductModalDirect();
+  await renderProducts(true);
+}
+
+async function toggleProductActive(id, active) {
+  if (window.FIREBASE_READY) {
+    await db.collection('products').doc(id).update({ active, updatedAt: new Date().toISOString() });
+  } else {
+    const prods = JSON.parse(localStorage.getItem('ras_products') || '[]');
+    const p = prods.find(x => x.id === id);
+    if (p) { p.active = active; localStorage.setItem('ras_products', JSON.stringify(prods)); }
+  }
+  if (productsCache) {
+    const p = productsCache.find(x => x.id === id);
+    if (p) p.active = active;
+  }
+}
+
+async function deleteProduct(id) {
+  if (!confirm('Delete this product? It will no longer appear on the worksheets page.')) return;
+  if (window.FIREBASE_READY) {
+    await db.collection('products').doc(id).delete();
+  } else {
+    localStorage.setItem('ras_products', JSON.stringify(
+      JSON.parse(localStorage.getItem('ras_products') || '[]').filter(p => p.id !== id)
+    ));
+  }
+  productsCache = null;
+  await renderProducts(true);
+}
+
+async function seedDefaultProducts() {
+  if (!confirm(`Seed ${DEFAULT_PRODUCTS.length} default products? Existing products with the same IDs will be overwritten.`)) return;
+  if (window.FIREBASE_READY) {
+    const batch = db.batch();
+    DEFAULT_PRODUCTS.forEach(p => batch.set(db.collection('products').doc(p.id), { ...p, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() }));
+    await batch.commit();
+  } else {
+    localStorage.setItem('ras_products', JSON.stringify(DEFAULT_PRODUCTS.map(p => ({ ...p, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() }))));
+  }
+  productsCache = null;
+  await renderProducts(true);
+}
+
+function closeProductModal(e) { if (e.target === document.getElementById('productOverlay')) closeProductModalDirect(); }
+function closeProductModalDirect() { document.getElementById('productOverlay').classList.remove('open'); }
 
 // ─── BOOT ─────────────────────────────────────────────────
 if (window.FIREBASE_READY) {
