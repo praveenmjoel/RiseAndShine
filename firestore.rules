@@ -1,0 +1,17 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Enquiry leads: anyone can create (form submissions), only admin can read/edit/delete
+    match /leads/{leadId} {
+      allow create: if true;
+      allow read, update, delete: if request.auth != null;
+    }
+
+    // Worksheet orders: anyone can create (after payment), only admin can read/edit/delete
+    match /orders/{orderId} {
+      allow create: if true;
+      allow read, update, delete: if request.auth != null;
+    }
+  }
+}

@@ -408,6 +408,11 @@ tr:hover td { background: var(--blue-50); }
   cursor: pointer; margin-right: 12px;
 }
 </style>
+<!-- Firebase SDK (compat) -->
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script src="firebase-config.js"></script>
 </head>
 <body>
 
@@ -425,8 +430,8 @@ tr:hover td { background: var(--blue-50); }
     <p>Sign in to manage leads, worksheets, and settings.</p>
     <form onsubmit="handleLogin(event)">
       <div class="form-group">
-        <label>Username</label>
-        <input type="text" id="loginUser" placeholder="admin" autocomplete="username">
+        <label>Email</label>
+        <input type="email" id="loginUser" placeholder="admin@riseandshineacademy.in" autocomplete="email">
       </div>
       <div class="form-group">
         <label>Password</label>
@@ -700,7 +705,7 @@ tr:hover td { background: var(--blue-50); }
 </div>
 
 <script>
-// ─── CREDENTIALS ────────────────────────────────────────
+// ─── LEGACY FALLBACK CREDENTIALS (localStorage mode only) ──
 const CREDS_KEY = 'ras_admin_creds';
 const defaultCreds = { user: 'admin', pass: 'riseandshine2025' };
 
@@ -710,73 +715,169 @@ function getCreds() {
 }
 
 // ─── AUTH ────────────────────────────────────────────────
-function handleLogin(e) {
+function showApp() {
+  document.getElementById('loginScreen').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+  initApp();
+}
+
+async function handleLogin(e) {
   e.preventDefault();
-  const u = document.getElementById('loginUser').value.trim();
-  const p = document.getElementById('loginPass').value;
-  const creds = getCreds();
-  if (u === creds.user && p === creds.pass) {
-    sessionStorage.setItem('ras_admin_auth', '1');
-    document.getElementById('loginScreen').style.display = 'none';
-    document.getElementById('app').style.display = 'block';
-    initApp();
+  const email = document.getElementById('loginUser').value.trim();
+  const pass  = document.getElementById('loginPass').value;
+  document.getElementById('loginError').style.display = 'none';
+
+  if (window.FIREBASE_READY) {
+    try {
+      await auth.signInWithEmailAndPassword(email, pass);
+      // onAuthStateChanged handles showApp()
+    } catch(err) {
+      const msg = (err.code === 'auth/wrong-password' || err.code === 'auth/user-not-found' || err.code === 'auth/invalid-credential')
+        ? 'Incorrect email or password.' : err.message;
+      document.getElementById('loginError').textContent = msg;
+      document.getElementById('loginError').style.display = 'block';
+    }
   } else {
-    document.getElementById('loginError').style.display = 'block';
+    const creds = getCreds();
+    if (email === creds.user && pass === creds.pass) {
+      sessionStorage.setItem('ras_admin_auth', '1');
+      showApp();
+    } else {
+      document.getElementById('loginError').style.display = 'block';
+    }
   }
 }
 
-function logout() {
-  sessionStorage.removeItem('ras_admin_auth');
+async function logout() {
+  if (window.FIREBASE_READY) await auth.signOut();
+  else sessionStorage.removeItem('ras_admin_auth');
   location.reload();
 }
 
-function changePassword() {
+async function changePassword() {
   const cur = document.getElementById('curPass').value;
   const np  = document.getElementById('newPass').value;
   const cp  = document.getElementById('cfmPass').value;
-  const creds = getCreds();
   const err = document.getElementById('passError');
   const ok  = document.getElementById('passNotice');
   err.style.display = 'none'; ok.style.display = 'none';
-  if (cur !== creds.pass || np !== cp || np.length < 6) {
-    err.style.display = 'block'; return;
+  if (np !== cp || np.length < 6) { err.style.display = 'block'; return; }
+
+  if (window.FIREBASE_READY) {
+    try {
+      const user = auth.currentUser;
+      const cred = firebase.auth.EmailAuthProvider.credential(user.email, cur);
+      await user.reauthenticateWithCredential(cred);
+      await user.updatePassword(np);
+      ok.style.display = 'block';
+      ['curPass','newPass','cfmPass'].forEach(id => document.getElementById(id).value = '');
+    } catch(e) { err.style.display = 'block'; }
+  } else {
+    const creds = getCreds();
+    if (cur !== creds.pass) { err.style.display = 'block'; return; }
+    localStorage.setItem(CREDS_KEY, JSON.stringify({ user: creds.user, pass: np }));
+    ok.style.display = 'block';
+    ['curPass','newPass','cfmPass'].forEach(id => document.getElementById(id).value = '');
   }
-  localStorage.setItem(CREDS_KEY, JSON.stringify({ user: creds.user, pass: np }));
-  ok.style.display = 'block';
-  ['curPass','newPass','cfmPass'].forEach(id => document.getElementById(id).value = '');
 }
 
-// ─── LEADS DATA ──────────────────────────────────────────
-function getLeads() {
-  try { return JSON.parse(localStorage.getItem('ras_leads') || '[]'); }
-  catch(e) { return []; }
+// ─── DATA CACHE ──────────────────────────────────────────
+let leadsCache = null;
+let salesCache = null;
+
+async function fetchLeads(force = false) {
+  if (leadsCache && !force) return leadsCache;
+  if (window.FIREBASE_READY) {
+    try {
+      const snap = await db.collection('leads').orderBy('submittedAt', 'desc').get();
+      leadsCache = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    } catch(e) { console.error('fetchLeads:', e); leadsCache = []; }
+  } else {
+    leadsCache = JSON.parse(localStorage.getItem('ras_leads') || '[]');
+  }
+  return leadsCache;
 }
-function saveLeads(leads) { localStorage.setItem('ras_leads', JSON.stringify(leads)); }
 
-// ─── SALES DATA ──────────────────────────────────────────
-function getSales() {
-  try { return JSON.parse(localStorage.getItem('ras_sales') || '[]'); }
-  catch(e) { return []; }
+async function fetchSales(force = false) {
+  if (salesCache && !force) return salesCache;
+  if (window.FIREBASE_READY) {
+    try {
+      const snap = await db.collection('orders').orderBy('date', 'desc').get();
+      salesCache = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    } catch(e) { console.error('fetchSales:', e); salesCache = []; }
+  } else {
+    salesCache = JSON.parse(localStorage.getItem('ras_sales') || '[]');
+  }
+  return salesCache;
 }
-function saveSales(sales) { localStorage.setItem('ras_sales', JSON.stringify(sales)); }
 
-// ─── SAMPLE DATA ─────────────────────────────────────────
-const SAMPLE_LEADS = [
-  { id: 'abc1', studentName: 'Aryan Sharma', parentName: 'Ravi Sharma', phone: '9876543210', school: 'DPS Nagpur', grade: 'Grade 3–4', board: 'CBSE', courses: ['Phonics','Grammar'], learningGoal: 'Improve reading and writing', otherNotes: '', submittedAt: new Date(Date.now()-86400000*2).toISOString(), status: 'new' },
-  { id: 'abc2', studentName: 'Priya Patel',  parentName: 'Neha Patel',  phone: '9123456789', school: 'City International', grade: 'Grade 7–8', board: 'Cambridge', courses: ['Cambridge & IB'], learningGoal: 'Cambridge exam prep', otherNotes: 'Can do weekend batches only', submittedAt: new Date(Date.now()-86400000*5).toISOString(), status: 'contacted' },
-  { id: 'abc3', studentName: 'Rohan Gupta',  parentName: 'Suresh Gupta', phone: '9988776655', school: 'Vidya Niketan', grade: 'Grade 1–2', board: 'CBSE', courses: ['Phonics'], learningGoal: 'Start phonics from scratch', otherNotes: '', submittedAt: new Date(Date.now()-86400000*8).toISOString(), status: 'demo' },
-  { id: 'abc4', studentName: 'Sneha Verma',  parentName: 'Asha Verma',  phone: '9090909090', school: 'Holy Cross School', grade: 'Grade 5–6', board: 'ICSE', courses: ['Spoken English','Grammar'], learningGoal: 'Confidence in English speaking', otherNotes: '', submittedAt: new Date(Date.now()-86400000*12).toISOString(), status: 'enrolled' },
-];
-const SAMPLE_SALES = [
-  { id: 'ord1', product: 'Blending & Segmenting Workbook — Level 1', cat: 'phonics', amount: 149, phone: '9876543210', date: new Date(Date.now()-86400000*1).toISOString(), status: 'paid' },
-  { id: 'ord2', product: 'Cambridge English Level A1 Pack', cat: 'cambridge', amount: 299, phone: '9123456789', date: new Date(Date.now()-86400000*3).toISOString(), status: 'paid' },
-  { id: 'ord3', product: 'Complete Worksheet Bundle', cat: 'bundle', amount: 999, phone: '9988776655', date: new Date(Date.now()-86400000*6).toISOString(), status: 'paid' },
-  { id: 'ord4', product: 'Grade 10 Board Exam Grammar Revision Pack', cat: 'grammar', amount: 199, phone: '9090909090', date: new Date(Date.now()-86400000*9).toISOString(), status: 'paid' },
-];
+async function writeLead(id, data) {
+  if (window.FIREBASE_READY) {
+    await db.collection('leads').doc(id).set(data);
+  } else {
+    const leads = JSON.parse(localStorage.getItem('ras_leads') || '[]');
+    const idx = leads.findIndex(l => l.id === id);
+    if (idx >= 0) leads[idx] = { ...leads[idx], ...data }; else leads.unshift(data);
+    localStorage.setItem('ras_leads', JSON.stringify(leads));
+  }
+}
 
-function seedIfEmpty() {
-  if (getLeads().length === 0) saveLeads(SAMPLE_LEADS);
-  if (getSales().length === 0) saveSales(SAMPLE_SALES);
+async function updateLead(id, data) {
+  if (window.FIREBASE_READY) {
+    await db.collection('leads').doc(id).update(data);
+  }
+  if (leadsCache) {
+    const l = leadsCache.find(x => x.id === id);
+    if (l) Object.assign(l, data);
+  } else {
+    const leads = JSON.parse(localStorage.getItem('ras_leads') || '[]');
+    const l = leads.find(x => x.id === id);
+    if (l) { Object.assign(l, data); localStorage.setItem('ras_leads', JSON.stringify(leads)); }
+  }
+}
+
+// ─── DELETE / CLEAR ──────────────────────────────────────
+async function deleteLead(id) {
+  if (!confirm('Delete this lead?')) return;
+  if (window.FIREBASE_READY) {
+    await db.collection('leads').doc(id).delete();
+  } else {
+    localStorage.setItem('ras_leads', JSON.stringify(
+      JSON.parse(localStorage.getItem('ras_leads') || '[]').filter(l => l.id !== id)
+    ));
+  }
+  leadsCache = null;
+  await renderLeads(true);
+  await renderDashboard(true);
+}
+
+async function clearLeads() {
+  if (!confirm('Delete ALL leads? This cannot be undone.')) return;
+  if (window.FIREBASE_READY) {
+    const snap = await db.collection('leads').get();
+    const batch = db.batch();
+    snap.docs.forEach(d => batch.delete(d.ref));
+    await batch.commit();
+  } else {
+    localStorage.removeItem('ras_leads');
+  }
+  leadsCache = null;
+  await renderLeads(true);
+  await renderDashboard(true);
+}
+
+async function clearSales() {
+  if (!confirm('Delete ALL sales? This cannot be undone.')) return;
+  if (window.FIREBASE_READY) {
+    const snap = await db.collection('orders').get();
+    const batch = db.batch();
+    snap.docs.forEach(d => batch.delete(d.ref));
+    await batch.commit();
+  } else {
+    localStorage.removeItem('ras_sales');
+  }
+  salesCache = null;
+  await renderSales(true);
 }
 
 // ─── HELPERS ─────────────────────────────────────────────
@@ -814,9 +915,9 @@ const PER_PAGE = 15;
 let leadsPage = 1, salesPage = 1;
 
 // ─── DASHBOARD ───────────────────────────────────────────
-function renderDashboard() {
-  const leads = getLeads();
-  const sales = getSales();
+async function renderDashboard(force = false) {
+  const leads = await fetchLeads(force);
+  const sales = await fetchSales(force);
   const now   = Date.now();
   const thisMonth = leads.filter(l => (now - new Date(l.submittedAt)) < 30*86400000).length;
   const revenue = sales.reduce((a, s) => a + (s.amount||0), 0);
@@ -876,15 +977,15 @@ function renderDashboard() {
     </li>
   `).join('') || '<li class="activity-item"><div class="activity-body" style="padding:12px"><p>No activity yet.</p></div></li>';
 
-  // Badge on nav
   const nb = document.getElementById('new-badge');
   if (newLeads > 0) { nb.textContent = newLeads; nb.style.display = ''; }
   else nb.style.display = 'none';
 }
 
 // ─── LEADS TABLE ─────────────────────────────────────────
-function renderLeads() {
-  let leads = getLeads();
+async function renderLeads(force = false) {
+  if (!leadsCache || force) await fetchLeads(true);
+  let leads = [...(leadsCache || [])];
   const q = (document.getElementById('leadSearch').value||'').toLowerCase();
   const sf = document.getElementById('leadStatusFilter').value;
   const gf = document.getElementById('leadGradeFilter').value;
@@ -906,6 +1007,7 @@ function renderLeads() {
   document.getElementById('leadsEmpty').style.display = total === 0 ? 'block' : 'none';
   document.getElementById('leadsPaginationInfo').textContent = `Showing ${slice.length} of ${total} leads`;
 
+  const waNum = localStorage.getItem('ras_wa_number') || '919876543210';
   document.getElementById('leadsBody').innerHTML = slice.map(l => `
     <tr>
       <td class="td-name">${l.studentName}</td>
@@ -914,13 +1016,13 @@ function renderLeads() {
         <div class="td-phone"><a href="tel:${l.phone}">${l.phone}</a></div>
       </td>
       <td>${l.grade||'—'}</td>
-      <td style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${(l.courses||[]).join(', ')}">${(l.courses||[]).slice(0,2).join(', ')||(l.courses||[]).length>2?'…':'—'}</td>
+      <td style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${(l.courses||[]).join(', ')}">${(l.courses||[]).slice(0,2).join(', ')||'—'}</td>
       <td>${statusBadge(l.status)}</td>
       <td>${fmtDate(l.submittedAt)}</td>
       <td>
         <div class="action-row">
           <div class="icon-btn" onclick="openLeadDrawer('${l.id}')" title="View">👁</div>
-          <a href="https://wa.me/${(document.getElementById('waNumber')||{}).value||'919876543210'}?text=${encodeURIComponent('Hi '+l.parentName+', this is Rise and Shine Academy regarding '+l.studentName+'\'s enquiry.')}" target="_blank" class="icon-btn" title="WhatsApp">💬</a>
+          <a href="https://wa.me/${waNum}?text=${encodeURIComponent('Hi '+l.parentName+', this is Rise and Shine Academy regarding '+l.studentName+'\'s enquiry.')}" target="_blank" class="icon-btn" title="WhatsApp">💬</a>
           <div class="icon-btn danger" onclick="deleteLead('${l.id}')" title="Delete">🗑</div>
         </div>
       </td>
@@ -938,13 +1040,7 @@ function renderPagination(type, pages, cur) {
   ).join('');
 }
 
-function deleteLead(id) {
-  if (!confirm('Delete this lead?')) return;
-  saveLeads(getLeads().filter(l => l.id !== id));
-  renderLeads(); renderDashboard();
-}
-
-function addSampleLead() {
+async function addSampleLead() {
   const names = ['Aarav','Diya','Kabir','Mira','Vivaan','Ananya','Rehan','Ishita'];
   const grades = ['Grade 1–2','Grade 3–4','Grade 5–6','Grade 7–8','Grade 9–10'];
   const courses = ['Phonics','Spoken English','Grammar','Cambridge & IB','All-Subject Tuition'];
@@ -963,15 +1059,17 @@ function addSampleLead() {
     submittedAt: new Date().toISOString(),
     status: 'new',
   };
-  const leads = getLeads(); leads.unshift(lead); saveLeads(leads);
-  renderLeads(); renderDashboard();
+  await writeLead(id, lead);
+  leadsCache = null;
+  await renderLeads(true);
+  await renderDashboard(true);
 }
 
 // ─── LEAD DRAWER ─────────────────────────────────────────
 let drawerLeadId = null;
 function openLeadDrawer(id) {
   drawerLeadId = id;
-  const lead = getLeads().find(l => l.id === id);
+  const lead = (leadsCache || []).find(l => l.id === id);
   if (!lead) return;
   document.getElementById('drawerTitle').textContent = lead.studentName;
   const savedNote = lead.adminNote || '';
@@ -1012,30 +1110,22 @@ function openLeadDrawer(id) {
   document.getElementById('drawerOverlay').classList.add('open');
 }
 
-function updateLeadStatus(id, status) {
-  const leads = getLeads();
-  const l = leads.find(x => x.id === id);
-  if (l) { l.status = status; saveLeads(leads); renderLeads(); renderDashboard(); }
-}
-
-function saveDrawer(id) {
-  const leads = getLeads();
-  const l = leads.find(x => x.id === id);
-  if (l) {
-    l.status = document.getElementById('drawerStatus').value;
-    l.adminNote = document.getElementById('drawerNote').value;
-    saveLeads(leads);
-    renderLeads(); renderDashboard();
-    closeDrawerDirect();
-  }
+async function saveDrawer(id) {
+  const status    = document.getElementById('drawerStatus').value;
+  const adminNote = document.getElementById('drawerNote').value;
+  await updateLead(id, { status, adminNote });
+  await renderLeads();
+  await renderDashboard();
+  closeDrawerDirect();
 }
 
 function closeDrawer(e) { if (e.target === document.getElementById('drawerOverlay')) closeDrawerDirect(); }
 function closeDrawerDirect() { document.getElementById('drawerOverlay').classList.remove('open'); }
 
 // ─── SALES TABLE ─────────────────────────────────────────
-function renderSales() {
-  let sales = getSales();
+async function renderSales(force = false) {
+  if (!salesCache || force) await fetchSales(true);
+  let sales = [...(salesCache || [])];
   const q = (document.getElementById('saleSearch').value||'').toLowerCase();
   const cf = document.getElementById('saleCatFilter').value;
   if (q) sales = sales.filter(s => s.product.toLowerCase().includes(q) || (s.phone||'').includes(q));
@@ -1084,8 +1174,8 @@ function showNotice(id) {
 }
 
 // ─── CSV EXPORT ───────────────────────────────────────────
-function exportCSV() {
-  const leads = getLeads();
+async function exportCSV() {
+  const leads = await fetchLeads();
   if (!leads.length) { alert('No leads to export.'); return; }
   const headers = ['ID','Student Name','Parent Name','Phone','School','Grade','Board','Courses','Learning Goal','Notes','Status','Submitted At'];
   const rows = leads.map(l => [
@@ -1094,8 +1184,8 @@ function exportCSV() {
   ].map(v => `"${(v||'').toString().replace(/"/g,'""')}"`));
   downloadCSV([headers, ...rows], 'ras-leads.csv');
 }
-function exportSalesCSV() {
-  const sales = getSales();
+async function exportSalesCSV() {
+  const sales = await fetchSales();
   if (!sales.length) { alert('No sales to export.'); return; }
   const headers = ['Order ID','Product','Category','Amount','Phone','Date','Status'];
   const rows = sales.map(s => [s.id, s.product, s.cat, s.amount, s.phone, s.date, s.status]
@@ -1108,15 +1198,7 @@ function downloadCSV(rows, filename) {
   a.href = URL.createObjectURL(blob); a.download = filename; a.click();
 }
 
-// ─── CLEAR DATA ───────────────────────────────────────────
-function clearLeads() {
-  if (!confirm('Delete ALL leads? This cannot be undone.')) return;
-  localStorage.removeItem('ras_leads'); renderLeads(); renderDashboard();
-}
-function clearSales() {
-  if (!confirm('Delete ALL sales records? This cannot be undone.')) return;
-  localStorage.removeItem('ras_sales'); renderSales();
-}
+// clearLeads and clearSales are defined above near the data layer
 
 // ─── NAV ─────────────────────────────────────────────────
 const sectionTitles = { dashboard:'Dashboard', leads:'Enquiries', sales:'Worksheet Sales', settings:'Settings' };
@@ -1126,29 +1208,61 @@ function showSection(name, el) {
   document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
   if (el) el.classList.add('active');
   document.getElementById('topbarTitle').textContent = sectionTitles[name]||name;
-  if (name==='leads') renderLeads();
-  if (name==='sales') renderSales();
+  if (name==='leads') renderLeads(true);
+  if (name==='sales') renderSales(true);
   if (name==='settings') loadSettings();
-  if (name==='dashboard') renderDashboard();
+  if (name==='dashboard') renderDashboard(true);
   // close mobile sidebar
   document.getElementById('sidebar').classList.remove('open');
 }
 function toggleSidebar() { document.getElementById('sidebar').classList.toggle('open'); }
 
-// ─── INIT ─────────────────────────────────────────────────
-function initApp() {
-  document.getElementById('topbarDate').textContent =
-    new Date().toLocaleDateString('en-IN', { weekday:'short', day:'numeric', month:'long', year:'numeric' });
-  seedIfEmpty();
-  renderDashboard();
-  renderSales(); // pre-load sales summary for quick switch
+// ─── SETUP BANNER (shown when Firebase not configured) ────
+function showSetupBanner() {
+  if (document.getElementById('setupBanner')) return;
+  const b = document.createElement('div');
+  b.id = 'setupBanner';
+  b.style.cssText = 'background:#FFF3E0;border-bottom:2px solid #E65100;padding:10px 28px;font-size:0.82rem;color:#BF360C;display:flex;align-items:center;gap:16px;flex-wrap:wrap';
+  b.innerHTML = `<span>⚠ <strong>Firebase not configured.</strong> Data is saved in this browser only — not a real database. Edit <code style="background:#FFE0B2;padding:1px 5px;border-radius:3px">firebase-config.js</code> to connect.</span>`;
+  const topbar = document.querySelector('.topbar');
+  topbar.parentNode.insertBefore(b, topbar.nextSibling);
 }
 
-// Auto-login if already authenticated in this session
-if (sessionStorage.getItem('ras_admin_auth') === '1') {
-  document.getElementById('loginScreen').style.display = 'none';
-  document.getElementById('app').style.display = 'block';
-  initApp();
+// ─── INIT ─────────────────────────────────────────────────
+async function initApp() {
+  document.getElementById('topbarDate').textContent =
+    new Date().toLocaleDateString('en-IN', { weekday:'short', day:'numeric', month:'long', year:'numeric' });
+
+  if (!window.FIREBASE_READY) {
+    showSetupBanner();
+    // Seed minimal sample data into localStorage if empty
+    if (!localStorage.getItem('ras_leads')) {
+      localStorage.setItem('ras_leads', JSON.stringify([
+        { id: 'abc1', studentName: 'Aryan Sharma', parentName: 'Ravi Sharma', phone: '9876543210', school: 'DPS Nagpur', grade: 'Grade 3–4', board: 'CBSE', courses: ['Phonics','Grammar'], learningGoal: 'Improve reading and writing', otherNotes: '', submittedAt: new Date(Date.now()-86400000*2).toISOString(), status: 'new' },
+        { id: 'abc2', studentName: 'Priya Patel', parentName: 'Neha Patel', phone: '9123456789', school: 'City International', grade: 'Grade 7–8', board: 'Cambridge', courses: ['Cambridge & IB'], learningGoal: 'Cambridge exam prep', otherNotes: '', submittedAt: new Date(Date.now()-86400000*5).toISOString(), status: 'contacted' },
+        { id: 'abc3', studentName: 'Rohan Gupta', parentName: 'Suresh Gupta', phone: '9988776655', school: 'Vidya Niketan', grade: 'Grade 1–2', board: 'CBSE', courses: ['Phonics'], learningGoal: 'Start phonics from scratch', otherNotes: '', submittedAt: new Date(Date.now()-86400000*8).toISOString(), status: 'demo' },
+        { id: 'abc4', studentName: 'Sneha Verma', parentName: 'Asha Verma', phone: '9090909090', school: 'Holy Cross School', grade: 'Grade 5–6', board: 'ICSE', courses: ['Spoken English','Grammar'], learningGoal: 'Confidence in English speaking', otherNotes: '', submittedAt: new Date(Date.now()-86400000*12).toISOString(), status: 'enrolled' },
+      ]));
+    }
+    if (!localStorage.getItem('ras_sales')) {
+      localStorage.setItem('ras_sales', JSON.stringify([
+        { id: 'ord1', product: 'Blending & Segmenting Workbook — Level 1', cat: 'phonics', amount: 149, phone: '9876543210', date: new Date(Date.now()-86400000*1).toISOString(), status: 'paid' },
+        { id: 'ord2', product: 'Complete Worksheet Bundle', cat: 'bundle', amount: 999, phone: '9123456789', date: new Date(Date.now()-86400000*4).toISOString(), status: 'paid' },
+      ]));
+    }
+  }
+
+  await renderDashboard(true);
+  await renderSales(true);
+}
+
+// ─── BOOT ─────────────────────────────────────────────────
+if (window.FIREBASE_READY) {
+  auth.onAuthStateChanged(user => {
+    if (user) showApp();
+  });
+} else if (sessionStorage.getItem('ras_admin_auth') === '1') {
+  showApp();
 }
 </script>
 </body>

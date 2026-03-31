@@ -758,16 +758,22 @@ function submitForm(e) {
     submittedAt:  new Date().toISOString(),
   };
 
-  console.log('Enquiry payload:', payload);
-  // Save to localStorage for admin panel
+  payload.id = Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+  payload.status = 'new';
+
+  // Save to localStorage (offline fallback + admin panel local mode)
   try {
     const leads = JSON.parse(localStorage.getItem('ras_leads') || '[]');
-    payload.id = Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
-    payload.status = 'new';
     leads.unshift(payload);
     localStorage.setItem('ras_leads', JSON.stringify(leads));
-  } catch(e) { console.warn('Could not save lead locally', e); }
-  // TODO: also POST to Firebase / Supabase
+  } catch(e) { console.warn('localStorage save failed', e); }
+
+  // Save to Firestore (when Firebase is configured)
+  if (window.FIREBASE_READY && window.db) {
+    window.db.collection('leads').doc(payload.id).set(payload)
+      .then(() => console.log('Lead saved to Firestore:', payload.id))
+      .catch(e => console.warn('Firestore write failed:', e));
+  }
 
   // Show success
   document.getElementById('formWrap').style.display = 'none';
@@ -775,5 +781,9 @@ function submitForm(e) {
   window.scrollTo({ top: document.querySelector('.form-card').offsetTop - 100, behavior: 'smooth' });
 }
 </script>
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script src="firebase-config.js"></script>
 </body>
 </html>

@@ -948,7 +948,22 @@ function initiatePayment() {
     theme: { color: '#0B3C5D' },
     handler: function(response) {
       closeModal();
-      // TODO: Verify payment on backend & trigger PDF delivery
+      // Save order to Firestore
+      if (window.FIREBASE_READY && window.db) {
+        const order = {
+          id: response.razorpay_payment_id,
+          product: currentProduct.title,
+          cat: currentProduct.cat,
+          amount: currentProduct.price,
+          phone: phone,
+          email: email,
+          date: new Date().toISOString(),
+          status: 'paid',
+          razorpayPaymentId: response.razorpay_payment_id,
+        };
+        window.db.collection('orders').doc(order.id).set(order)
+          .catch(e => console.warn('Order save failed:', e));
+      }
       alert(`Payment successful! 🎉\n\nPayment ID: ${response.razorpay_payment_id}\n\nYour worksheet PDF will be sent to ${email} within a few minutes. Check your spam folder too.`);
       console.log('Razorpay response:', response);
     },
@@ -968,5 +983,9 @@ function initiatePayment() {
   }
 }
 </script>
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script src="firebase-config.js"></script>
 </body>
 </html>
