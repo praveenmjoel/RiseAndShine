@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Worksheet Marketplace — Rise and Shine Academy, Nagpur</title>
+<meta name="description" content="Expert-designed worksheets by Aahana Ma'am. Phonics, Grammar, and Cambridge English practice packs — instant PDF download.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<style>
+/* ─── TOKENS ─────────────────────────────────────────── */
+:root {
+  --blue-900: #061E30; --blue-800: #0B3C5D; --blue-700: #0E4D78;
+  --blue-600: #1565A0; --blue-50: #F0F6FB;
+  --gold: #C8860A; --gold-light: #E8A000; --gold-pale: #FDF3E0;
+  --white: #FFFFFF; --grey-50: #F8F9FA; --grey-100: #F1F3F5;
+  --grey-200: #E9ECEF; --grey-400: #ADB5BD;
+  --text: #1A2B3C; --text-muted: #5A6A7A; --border: rgba(11,60,93,0.10);
+  --r-sm: 6px; --r-md: 12px; --r-lg: 20px;
+  --shadow-sm: 0 2px 12px rgba(11,60,93,0.08);
+  --shadow-md: 0 8px 32px rgba(11,60,93,0.12);
+  --shadow-lg: 0 20px 60px rgba(11,60,93,0.18);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body { font-family: 'Inter', sans-serif; background: var(--white); color: var(--text); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+img { max-width: 100%; display: block; }
+a { text-decoration: none; color: inherit; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; }
+
+/* ─── TYPOGRAPHY ─────────────────────────────────────── */
+.eyebrow {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-size: 0.68rem; font-weight: 600; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--gold);
+}
+.eyebrow::before { content: ''; display: block; width: 24px; height: 1.5px; background: var(--gold); flex-shrink: 0; }
+
+/* ─── BUTTONS ─────────────────────────────────────────── */
+.btn {
+  display: inline-flex; align-items: center; gap: 9px;
+  font-family: 'Inter', sans-serif; font-size: 0.82rem; font-weight: 600;
+  letter-spacing: 0.04em; border-radius: var(--r-sm);
+  padding: 14px 28px; transition: all 0.22s ease; cursor: pointer;
+  border: none; text-decoration: none; white-space: nowrap;
+}
+.btn-primary { background: var(--gold-light); color: var(--white); box-shadow: 0 4px 16px rgba(200,134,10,0.35); }
+.btn-primary:hover { background: var(--gold); transform: translateY(-1px); }
+.btn-outline { background: transparent; color: var(--blue-800); border: 1.5px solid var(--blue-800); }
+.btn-outline:hover { background: var(--blue-800); color: var(--white); }
+.btn-ghost-white { background: rgba(255,255,255,0.12); color: var(--white); border: 1.5px solid rgba(255,255,255,0.3); }
+.btn-ghost-white:hover { background: rgba(255,255,255,0.22); }
+.btn svg { flex-shrink: 0; transition: transform 0.2s; }
+.btn:hover svg.arrow { transform: translateX(3px); }
+
+/* ─── LAYOUT ──────────────────────────────────────────── */
+.container { max-width: 1200px; margin: 0 auto; padding: 0 5%; }
+
+/* ─── ANNOUNCE BAR ───────────────────────────────────── */
+.announce-bar { background: var(--blue-900); color: rgba(255,255,255,0.75); text-align: center; padding: 10px 20px; font-size: 0.75rem; letter-spacing: 0.06em; }
+.announce-bar strong { color: var(--gold-light); }
+.announce-bar a { color: var(--gold-light); text-decoration: underline; text-underline-offset: 3px; }
+
+/* ─── NAVBAR ─────────────────────────────────────────── */
+nav { position: sticky; top: 0; z-index: 900; background: rgba(255,255,255,0.97); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); padding: 0 5%; display: flex; align-items: center; justify-content: space-between; height: 70px; transition: box-shadow 0.3s; }
+nav.scrolled { box-shadow: var(--shadow-md); }
+.nav-brand { display: flex; align-items: center; gap: 10px; }
+.nav-brand-icon { width: 42px; height: 42px; border-radius: 8px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.nav-brand-icon img { width: 42px; height: 42px; object-fit: contain; }
+.nav-brand-text { line-height: 1.2; }
+.nav-brand-name { font-family: 'Playfair Display', serif; font-size: 1.05rem; font-weight: 600; color: var(--blue-800); }
+.nav-brand-sub { font-size: 0.6rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--grey-400); font-weight: 500; }
+.nav-links { display: flex; align-items: center; gap: 4px; list-style: none; }
+.nav-links a { font-size: 0.82rem; font-weight: 500; color: var(--text-muted); padding: 8px 14px; border-radius: var(--r-sm); transition: color 0.2s, background 0.2s; }
+.nav-links a:hover, .nav-links a.active { color: var(--blue-800); background: var(--blue-50); }
+.nav-right { display: flex; align-items: center; gap: 12px; }
+.nav-wa { display: flex; align-items: center; gap: 7px; font-size: 0.78rem; font-weight: 600; color: #25D366; padding: 8px 14px; border-radius: var(--r-sm); border: 1.5px solid rgba(37,211,102,0.3); transition: all 0.2s; }
+.nav-wa:hover { background: rgba(37,211,102,0.08); }
+.nav-cta-link { background: var(--blue-800); color: var(--white) !important; padding: 10px 22px; border-radius: var(--r-sm); font-size: 0.8rem; font-weight: 600; display: inline-block; transition: background 0.2s; }
+.nav-cta-link:hover { background: var(--blue-700) !important; }
+.hamburger { display: none; flex-direction: column; gap: 5px; padding: 8px; cursor: pointer; }
+.hamburger span { display: block; width: 22px; height: 2px; background: var(--blue-800); border-radius: 2px; }
+.mobile-menu { display: none; position: fixed; top: 70px; left: 0; right: 0; background: var(--white); border-bottom: 1px solid var(--border); padding: 20px 5%; z-index: 899; flex-direction: column; gap: 4px; box-shadow: var(--shadow-md); }
+.mobile-menu.open { display: flex; }
+.mobile-menu a { font-size: 0.95rem; font-weight: 500; color: var(--text); padding: 12px 16px; border-radius: var(--r-sm); }
+.mobile-menu a:hover { background: var(--blue-50); color: var(--blue-800); }
+.mobile-menu .mobile-cta { background: var(--blue-800); color: var(--white); text-align: center; margin-top: 8px; font-weight: 600; }
+
+/* ─── PAGE HERO ──────────────────────────────────────── */
+.page-hero { background: linear-gradient(135deg, var(--blue-800) 0%, var(--blue-900) 100%); padding: 72px 5%; position: relative; overflow: hidden; }
+.page-hero::before { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(-45deg, transparent, transparent 60px, rgba(200,134,10,0.025) 60px, rgba(200,134,10,0.025) 61px); }
+.page-hero-inner { max-width: 1200px; margin: 0 auto; position: relative; display: grid; grid-template-columns: 1fr auto; gap: 40px; align-items: center; }
+.page-hero .eyebrow { color: rgba(200,134,10,0.7); margin-bottom: 16px; }
+.page-hero .eyebrow::before { background: rgba(200,134,10,0.5); }
+.page-hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 3.5vw, 2.9rem); font-weight: 500; color: var(--white); letter-spacing: -0.02em; margin-bottom: 14px; }
+.page-hero p { font-size: 1rem; color: rgba(200,220,240,0.65); max-width: 520px; line-height: 1.75; margin-bottom: 28px; }
+.hero-trust-badges { display: flex; gap: 20px; flex-wrap: wrap; }
+.hero-badge-pill {
+  display: flex; align-items: center; gap: 8px;
+  background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 100px; padding: 7px 14px;
+  font-size: 0.72rem; font-weight: 500; color: rgba(255,255,255,0.7);
+}
+.hero-badge-pill svg { width: 13px; height: 13px; stroke: var(--gold-light); fill: none; stroke-width: 2; flex-shrink: 0; }
+.hero-usp {
+  background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+  border-radius: var(--r-lg); padding: 28px 24px; min-width: 220px; text-align: center;
+}
+.hero-usp-icon { font-size: 2.2rem; margin-bottom: 10px; }
+.hero-usp-title { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 500; color: var(--white); margin-bottom: 5px; }
+.hero-usp-sub { font-size: 0.72rem; color: rgba(200,220,240,0.5); line-height: 1.5; }
+
+/* ─── FILTER BAR ─────────────────────────────────────── */
+.filter-bar { background: var(--white); border-bottom: 1px solid var(--border); padding: 20px 5%; position: sticky; top: 70px; z-index: 800; }
+.filter-bar-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
+.filter-tabs { display: flex; gap: 8px; flex-wrap: wrap; }
+.filter-tab {
+  font-size: 0.78rem; font-weight: 500; padding: 8px 18px;
+  border-radius: 100px; border: 1.5px solid var(--border);
+  color: var(--text-muted); background: var(--white);
+  cursor: pointer; transition: all 0.18s;
+}
+.filter-tab:hover { border-color: var(--blue-600); color: var(--blue-700); background: var(--blue-50); }
+.filter-tab.active { background: var(--blue-800); color: var(--white); border-color: var(--blue-800); font-weight: 600; }
+.filter-count { font-size: 0.78rem; color: var(--text-muted); white-space: nowrap; }
+.filter-count strong { color: var(--blue-800); }
+
+/* ─── MARKETPLACE GRID ───────────────────────────────── */
+.marketplace-section { padding: 56px 5% 96px; background: var(--grey-50); }
+.marketplace-inner { max-width: 1200px; margin: 0 auto; }
+.ws-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+
+/* Worksheet card */
+.ws-card {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: var(--r-lg); overflow: hidden;
+  display: flex; flex-direction: column;
+  transition: all 0.25s ease; position: relative;
+}
+.ws-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-4px); border-color: rgba(11,60,93,0.18); }
+
+.ws-card-visual {
+  height: 140px; position: relative; overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+}
+.ws-card-visual.phonics { background: linear-gradient(135deg, #1565A0, #0B3C5D); }
+.ws-card-visual.grammar { background: linear-gradient(135deg, #2E7D32, #1B5E20); }
+.ws-card-visual.cambridge { background: linear-gradient(135deg, #6A1B9A, #4A148C); }
+.ws-visual-pattern {
+  position: absolute; inset: 0;
+  background: repeating-linear-gradient(-45deg, transparent, transparent 20px, rgba(255,255,255,0.03) 20px, rgba(255,255,255,0.03) 21px);
+}
+.ws-visual-icon { position: relative; z-index: 1; text-align: center; }
+.ws-visual-icon svg { width: 40px; height: 40px; stroke: rgba(255,255,255,0.5); fill: none; stroke-width: 1.2; }
+.ws-visual-label {
+  position: absolute; bottom: 12px; left: 14px;
+  font-size: 0.6rem; font-weight: 700; letter-spacing: 0.18em;
+  text-transform: uppercase; color: rgba(255,255,255,0.5);
+}
+.ws-badge-new {
+  position: absolute; top: 12px; right: 12px;
+  background: var(--gold-light); color: white;
+  font-size: 0.6rem; font-weight: 700; letter-spacing: 0.1em;
+  text-transform: uppercase; padding: 3px 9px; border-radius: 100px;
+}
+.ws-badge-popular {
+  position: absolute; top: 12px; right: 12px;
+  background: #e53935; color: white;
+  font-size: 0.6rem; font-weight: 700; letter-spacing: 0.1em;
+  text-transform: uppercase; padding: 3px 9px; border-radius: 100px;
+}
+
+.ws-card-body { padding: 22px 22px 0; flex: 1; }
+.ws-cat { display: inline-flex; align-items: center; gap: 5px; font-size: 0.62rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; margin-bottom: 10px; }
+.ws-cat.phonics { color: #1565A0; }
+.ws-cat.grammar { color: #2E7D32; }
+.ws-cat.cambridge { color: #6A1B9A; }
+.ws-card-body h3 { font-family: 'Playfair Display', serif; font-size: 1.05rem; font-weight: 500; color: var(--blue-900); margin-bottom: 8px; line-height: 1.3; }
+.ws-card-body p { font-size: 0.84rem; line-height: 1.72; color: var(--text-muted); margin-bottom: 16px; }
+.ws-meta { display: flex; gap: 14px; margin-bottom: 18px; }
+.ws-meta-item { display: flex; align-items: center; gap: 5px; font-size: 0.72rem; color: var(--grey-400); }
+.ws-meta-item svg { width: 11px; height: 11px; stroke: var(--grey-400); fill: none; stroke-width: 2; }
+
+.ws-card-foot {
+  padding: 16px 22px 22px; border-top: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+}
+.ws-price-wrap { display: flex; flex-direction: column; }
+.ws-price { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 500; color: var(--blue-800); line-height: 1; }
+.ws-price-label { font-size: 0.65rem; color: var(--grey-400); margin-top: 3px; letter-spacing: 0.04em; }
+.ws-buy-btn {
+  background: var(--blue-800); color: var(--white);
+  font-size: 0.8rem; font-weight: 600; padding: 11px 20px;
+  border-radius: var(--r-sm); border: none; cursor: pointer;
+  transition: all 0.2s; display: flex; align-items: center; gap: 7px;
+  white-space: nowrap;
+}
+.ws-buy-btn:hover { background: var(--blue-700); transform: translateY(-1px); }
+.ws-buy-btn svg { width: 13px; height: 13px; stroke: white; fill: none; stroke-width: 2.5; }
+.ws-wa-link {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 0.72rem; color: #25D366; font-weight: 600;
+  margin-top: 10px; padding: 0 22px 16px;
+}
+.ws-wa-link svg { width: 13px; height: 13px; fill: #25D366; }
+
+/* Empty state */
+.ws-empty { grid-column: 1 / -1; text-align: center; padding: 60px 20px; color: var(--text-muted); }
+.ws-empty svg { width: 48px; height: 48px; stroke: var(--grey-200); fill: none; stroke-width: 1.2; margin: 0 auto 16px; }
+.ws-empty p { font-size: 0.9rem; }
+
+/* ─── BUNDLE BANNER ──────────────────────────────────── */
+.bundle-banner {
+  background: linear-gradient(135deg, var(--gold-pale), #fff8e8);
+  border: 1.5px solid rgba(200,134,10,0.2); border-radius: var(--r-lg);
+  padding: 36px 36px; margin-bottom: 40px;
+  display: flex; align-items: center; justify-content: space-between; gap: 24px;
+}
+.bundle-left { display: flex; align-items: center; gap: 20px; }
+.bundle-icon { width: 52px; height: 52px; background: var(--gold-light); border-radius: var(--r-md); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.bundle-icon svg { width: 24px; height: 24px; stroke: white; fill: none; stroke-width: 1.8; }
+.bundle-text h3 { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 500; color: var(--blue-900); margin-bottom: 4px; }
+.bundle-text p { font-size: 0.84rem; color: var(--text-muted); line-height: 1.6; }
+.bundle-price { text-align: right; flex-shrink: 0; }
+.bundle-original { font-size: 0.8rem; color: var(--grey-400); text-decoration: line-through; margin-bottom: 2px; }
+.bundle-final { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 500; color: var(--blue-800); line-height: 1; }
+.bundle-save { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin-top: 3px; }
+
+/* ─── PAYMENT MODAL ──────────────────────────────────── */
+.modal-overlay {
+  position: fixed; inset: 0; z-index: 1000;
+  background: rgba(6,30,48,0.65); backdrop-filter: blur(4px);
+  display: flex; align-items: center; justify-content: center;
+  padding: 20px; opacity: 0; pointer-events: none; transition: opacity 0.3s;
+}
+.modal-overlay.active { opacity: 1; pointer-events: all; }
+.modal {
+  background: var(--white); border-radius: var(--r-lg);
+  max-width: 460px; width: 100%;
+  box-shadow: var(--shadow-lg); overflow: hidden;
+  transform: translateY(20px); transition: transform 0.3s;
+}
+.modal-overlay.active .modal { transform: translateY(0); }
+.modal-header {
+  background: linear-gradient(135deg, var(--blue-800), var(--blue-900));
+  padding: 28px 28px 24px; position: relative;
+}
+.modal-close { position: absolute; top: 14px; right: 14px; width: 28px; height: 28px; border-radius: 50%; background: rgba(255,255,255,0.12); display: flex; align-items: center; justify-content: center; cursor: pointer; color: rgba(255,255,255,0.7); font-size: 1rem; transition: background 0.2s; border: none; }
+.modal-close:hover { background: rgba(255,255,255,0.22); }
+.modal-product-tag { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(200,134,10,0.7); margin-bottom: 8px; }
+.modal-title { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 500; color: var(--white); margin-bottom: 6px; line-height: 1.3; }
+.modal-price { font-family: 'Playfair Display', serif; font-size: 1.6rem; font-weight: 500; color: var(--gold-light); }
+.modal-body { padding: 24px 28px 28px; }
+.modal-body label { display: block; font-size: 0.68rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 6px; }
+.modal-body input {
+  width: 100%; padding: 11px 14px; border: 1.5px solid var(--border);
+  border-radius: var(--r-sm); background: var(--grey-50);
+  font-family: 'Inter', sans-serif; font-size: 0.9rem; color: var(--text);
+  outline: none; transition: border-color 0.2s; margin-bottom: 14px;
+}
+.modal-body input:focus { border-color: var(--blue-600); background: var(--white); }
+.modal-pay-btn {
+  width: 100%; padding: 14px; border-radius: var(--r-sm);
+  background: var(--gold-light); color: var(--white);
+  font-family: 'Inter', sans-serif; font-size: 0.88rem;
+  font-weight: 600; border: none; cursor: pointer;
+  transition: background 0.2s; display: flex; align-items: center; justify-content: center; gap: 9px;
+}
+.modal-pay-btn:hover { background: var(--gold); }
+.modal-pay-btn svg { width: 16px; height: 16px; stroke: white; fill: none; stroke-width: 2.5; }
+.modal-note { text-align: center; font-size: 0.72rem; color: var(--grey-400); margin-top: 12px; display: flex; align-items: center; justify-content: center; gap: 6px; }
+.modal-note svg { width: 12px; height: 12px; stroke: var(--grey-400); fill: none; stroke-width: 2; }
+
+/* ─── CTA BAND ───────────────────────────────────────── */
+.cta-band { background: linear-gradient(135deg, var(--blue-800) 0%, var(--blue-900) 100%); padding: 88px 5%; text-align: center; position: relative; overflow: hidden; }
+.cta-band::before { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(-45deg, transparent, transparent 60px, rgba(200,134,10,0.025) 60px, rgba(200,134,10,0.025) 61px); }
+.cta-band .eyebrow { color: rgba(200,134,10,0.65); position: relative; margin-bottom: 18px; }
+.cta-band .eyebrow::before { background: rgba(200,134,10,0.5); }
+.cta-band h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 3vw, 2.7rem); font-weight: 500; color: var(--white); letter-spacing: -0.02em; margin-bottom: 14px; position: relative; }
+.cta-band p { color: rgba(200,220,240,0.65); font-size: 1rem; margin-bottom: 36px; position: relative; }
+.cta-band-btns { display: flex; align-items: center; justify-content: center; gap: 14px; flex-wrap: wrap; position: relative; }
+
+/* ─── FOOTER ─────────────────────────────────────────── */
+footer { background: var(--blue-900); padding: 72px 5% 32px; }
+.footer-inner { max-width: 1200px; margin: 0 auto; }
+.footer-grid { display: grid; grid-template-columns: 1.8fr 1fr 1fr 1fr; gap: 48px; padding-bottom: 48px; border-bottom: 1px solid rgba(255,255,255,0.07); }
+.footer-brand-name { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 600; color: var(--white); margin-bottom: 12px; }
+.footer-brand-desc { font-size: 0.84rem; line-height: 1.82; color: rgba(180,210,240,0.35); max-width: 260px; margin-bottom: 20px; }
+.footer-social { display: flex; gap: 8px; }
+.footer-social a { width: 34px; height: 34px; border: 1px solid rgba(255,255,255,0.08); border-radius: var(--r-sm); display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+.footer-social a:hover { border-color: var(--gold-light); background: rgba(200,134,10,0.1); }
+.footer-social a svg { width: 14px; height: 14px; fill: rgba(180,210,240,0.35); transition: fill 0.2s; }
+.footer-social a:hover svg { fill: var(--gold-light); }
+footer h4 { font-family: 'Playfair Display', serif; font-size: 0.88rem; font-weight: 500; color: rgba(200,134,10,0.75); margin-bottom: 18px; }
+footer ul { list-style: none; }
+footer ul li { margin-bottom: 9px; }
+footer ul li a { font-size: 0.82rem; color: rgba(180,210,240,0.38); transition: color 0.2s; }
+footer ul li a:hover { color: var(--gold-light); }
+.footer-address { font-size: 0.82rem; line-height: 1.9; color: rgba(180,210,240,0.38); font-style: normal; }
+.footer-address a { color: rgba(180,210,240,0.6); }
+.footer-address a:hover { color: var(--gold-light); }
+.footer-bottom { padding-top: 28px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+.footer-bottom p { font-size: 0.72rem; color: rgba(255,255,255,0.18); letter-spacing: 0.04em; }
+
+/* ─── WHATSAPP FLOAT ─────────────────────────────────── */
+.wa-float { position: fixed; bottom: 28px; right: 28px; z-index: 800; width: 56px; height: 56px; border-radius: 50%; background: #25D366; display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 24px rgba(37,211,102,0.4); transition: transform 0.2s; }
+.wa-float:hover { transform: scale(1.08); }
+.wa-float svg { width: 28px; height: 28px; fill: white; }
+.wa-float-tooltip { position: absolute; right: 68px; top: 50%; transform: translateY(-50%); background: var(--blue-900); color: white; font-size: 0.75rem; font-weight: 500; padding: 7px 13px; border-radius: 6px; white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity 0.2s; }
+.wa-float:hover .wa-float-tooltip { opacity: 1; }
+
+/* ─── RESPONSIVE ─────────────────────────────────────── */
+@media (max-width: 1024px) { .ws-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 900px) {
+  .page-hero-inner { grid-template-columns: 1fr; }
+  .hero-usp { display: none; }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+  .bundle-banner { flex-direction: column; align-items: flex-start; }
+  .bundle-price { text-align: left; }
+}
+@media (max-width: 640px) {
+  .ws-grid { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: 1fr; gap: 28px; }
+  .footer-bottom { flex-direction: column; text-align: center; }
+  .nav-links { display: none; }
+  .nav-right .nav-wa { display: none; }
+  .hamburger { display: flex; }
+  .filter-bar-inner { flex-direction: column; align-items: flex-start; gap: 12px; }
+  .cta-band-btns { flex-direction: column; align-items: stretch; }
+  .cta-band-btns .btn { justify-content: center; }
+}
+</style>
+</head>
+<body>
+
+<div class="announce-bar">
+  New batch starting April 2025 — <strong>Limited seats available.</strong>
+  <a href="contact.html"> Enquire now →</a>
+</div>
+
+<nav id="navbar">
+  <a href="index.html" class="nav-brand">
+    <div class="nav-brand-icon"><img src="rise-and-shine-high-resolution-logo-transparent__1_.png" alt="Rise and Shine"></div>
+    <div class="nav-brand-text">
+      <div class="nav-brand-name">Rise And Shine</div>
+      <div class="nav-brand-sub">Learn · Grow · Succeed</div>
+    </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="programs.html">Programs</a></li>
+    <li><a href="worksheets.html" class="active">Worksheets</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="https://wa.me/919823888638" target="_blank" class="nav-wa">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.917 1.04 5.592 2.757 7.671L.947 23.243l3.682-1.77A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 0 1-5.024-1.378l-.36-.215-3.728.977.995-3.638-.235-.374A9.818 9.818 0 1 1 12 21.818z"/></svg>
+      WhatsApp
+    </a>
+    <a href="contact.html" class="nav-cta-link">Book a Demo</a>
+  </div>
+  <div class="hamburger" id="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html">Home</a>
+  <a href="about.html">About</a>
+  <a href="programs.html">Programs</a>
+  <a href="worksheets.html">Worksheets</a>
+  <a href="contact.html">Contact</a>
+  <a href="https://wa.me/919823888638" target="_blank">WhatsApp Us</a>
+  <a href="contact.html" class="mobile-cta">Book a Free Demo</a>
+</div>
+
+<!-- Hero -->
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <div>
+      <div class="eyebrow">Worksheet Marketplace</div>
+      <h1>Expert worksheets crafted<br>by Aahana Ma'am.</h1>
+      <p>Curated practice packs for Phonics, Grammar, and Cambridge English — designed from 20+ years of classroom experience. Instant PDF download after purchase.</p>
+      <div class="hero-trust-badges">
+        <div class="hero-badge-pill">
+          <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+          Instant PDF download
+        </div>
+        <div class="hero-badge-pill">
+          <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+          Answer keys included
+        </div>
+        <div class="hero-badge-pill">
+          <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+          Secure Razorpay checkout
+        </div>
+      </div>
+    </div>
+    <div class="hero-usp">
+      <div class="hero-usp-icon">📚</div>
+      <div class="hero-usp-title">By Aahana Ma'am</div>
+      <div class="hero-usp-sub">20+ years of classroom<br>experience distilled into<br>every worksheet</div>
+    </div>
+  </div>
+</div>
+
+<!-- Filter Bar -->
+<div class="filter-bar">
+  <div class="filter-bar-inner">
+    <div class="filter-tabs">
+      <button class="filter-tab active" onclick="filterWS('all', this)">All Resources</button>
+      <button class="filter-tab" onclick="filterWS('phonics', this)">Phonics & Reading</button>
+      <button class="filter-tab" onclick="filterWS('grammar', this)">English Grammar</button>
+      <button class="filter-tab" onclick="filterWS('cambridge', this)">Cambridge</button>
+    </div>
+    <div class="filter-count">Showing <strong id="wsCount">9</strong> resources</div>
+  </div>
+</div>
+
+<!-- Marketplace -->
+<section class="marketplace-section">
+  <div class="marketplace-inner">
+
+    <!-- Bundle Banner -->
+    <div class="bundle-banner">
+      <div class="bundle-left">
+        <div class="bundle-icon">
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
+        <div class="bundle-text">
+          <h3>Complete Worksheet Bundle — All Categories</h3>
+          <p>Get all 9 worksheet packs at one discounted price. Phonics, Grammar, and Cambridge — everything in one download.</p>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:20px;flex-shrink:0;flex-wrap:wrap;">
+        <div class="bundle-price">
+          <div class="bundle-original">₹1,647 separately</div>
+          <div class="bundle-final">₹999</div>
+          <div class="bundle-save">Save ₹648 · 39% off</div>
+        </div>
+        <button class="btn btn-primary" onclick="openModal('Complete Worksheet Bundle', 999, 'All Categories')">
+          Buy Bundle
+          <svg class="arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Worksheet Grid -->
+    <div class="ws-grid" id="wsGrid">
+
+      <!-- Phonics 1 -->
+      <div class="ws-card" data-cat="phonics">
+        <div class="ws-card-visual phonics">
+          <div class="ws-visual-pattern"></div>
+          <div class="ws-visual-icon">
+            <svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+          </div>
+          <span class="ws-visual-label">Phonics & Reading</span>
+          <span class="ws-badge-popular">Popular</span>
+        </div>
+        <div class="ws-card-body">
+          <div class="ws-cat phonics">Phonics & Reading</div>
+          <h3>Blending & Segmenting Workbook — Level 1</h3>
+          <p>30 structured worksheets covering CVC words, initial blends, and sight word recognition for early readers (Pre-KG to Grade 1).</p>
+          <div class="ws-meta">
+            <div class="ws-meta-item"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> 30 worksheets</div>
+            <div class="ws-meta-item"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg> Ages 4–6</div>
+            <div class="ws-meta-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Answer key</div>
+          </div>
+        </div>
+        <div class="ws-card-foot">
+          <div class="ws-price-wrap">
+            <div class="ws-price">₹149</div>
+            <div class="ws-price-label">PDF download</div>
+          </div>
+          <button class="ws-buy-btn" onclick="openModal('Blending & Segmenting Workbook — Level 1', 149, 'Phonics & Reading')">
+            Buy Now
+            <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </button>
+        </div>
+        <a href="https://wa.me/919823888638?text=Hi%2C%20I%27m%20interested%20in%20the%20Blending%20%26%20Segmenting%20worksheet." target="_blank" class="ws-wa-link">
+          <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.917 1.04 5.592 2.757 7.671L.947 23.243l3.682-1.77A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 0 1-5.024-1.378l-.36-.215-3.728.977.995-3.638-.235-.374A9.818 9.818 0 1 1 12 21.818z"/></svg>
+          Ask on WhatsApp before buying
+        </a>
+      </div>
+
+      <!-- Phonics 2 -->
+      <div class="ws-card" data-cat="phonics">
+        <div class="ws-card-visual phonics">
+          <div class="ws-visual-pattern"></div>
+          <div class="ws-visual-icon">
+            <svg viewBox="0 0 24 24"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/></svg>
+          </div>
+          <span class="ws-visual-label">Phonics & Reading</span>
+          <span class="ws-badge-new">New</span>
+        </div>
+        <div class="ws-card-body">
+          <div class="ws-cat phonics">Phonics & Reading</div>
+          <h3>Sight Words & Fluency Pack — Level 2</h3>
+          <p>25 worksheets focused on high-frequency sight words, short vowel patterns, and sentence reading fluency for Grade 1–2 students.</p>
+          <div class="ws-meta">
+            <div class="ws-meta-item"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> 25 worksheets</div>
+            <div class="ws-meta-item"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg> Grade 1–2</div>
+            <div class="ws-meta-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Answer key</div>
+          </div>
+        </div>
+        <div class="ws-card-foot">
+          <div class="ws-price-wrap">
+            <div class="ws-price">₹149</div>
+            <div class="ws-price-label">PDF download</div>
+          </div>
+          <button class="ws-buy-btn" onclick="openModal('Sight Words & Fluency Pack — Level 2', 149, 'Phonics & Reading')">
+            Buy Now
+            <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </button>
+        </div>
+        <a href="https://wa.me/919823888638?text=Hi%2C%20I%27m%20interested%20in%20the%20Sight%20Words%20worksheet." target="_blank" class="ws-wa-link">
+          <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.917 1.04 5.592 2.757 7.671L.947 23.243l3.682-1.77A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 0 1-5.024-1.378l-.36-.215-3.728.977.995-3.638-.235-.374A9.818 9.818 0 1 1 12 21.818z"/></svg>
+          Ask on WhatsApp before buying
+        </a>
+      </div>
+
+      <!-- Phonics 3 -->
+      <div class="ws-card" data-cat="phonics">
+        <div class="ws-card-visual phonics">
+          <div class="ws-visual-pattern"></div>
+          <div class="ws-visual-icon">
+            <svg viewBox="0 0 24 24"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+          </div>
+          <span class="ws-visual-label">Phonics & Reading</span>
+        </div>
+        <div class="ws-card-body">
+          <div class="ws-cat phonics">Phonics & Reading</div>
+          <h3>Blends & Digraphs Mastery — Level 3</h3>
+          <p>Advanced phonics pack covering consonant blends (bl, cr, st), digraphs (sh, ch, th), and reading comprehension passages.</p>
+          <div class="ws-meta">
+            <div class="ws-meta-item"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> 28 worksheets</div>
+            <div class="ws-meta-item"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg> Grade 2–3</div>
+            <div class="ws-meta-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Answer key</div>
+          </div>
+        </div>
+        <div class="ws-card-foot">
+          <div class="ws-price-wrap">
+            <div class="ws-price">₹149</div>
+            <div class="ws-price-label">PDF download</div>
+          </div>
+          <button class="ws-buy-btn" onclick="openModal('Blends & Digraphs Mastery — Level 3', 149, 'Phonics & Reading')">
+            Buy Now
+            <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </button>
+        </div>
+        <a href="https://wa.me/919823888638?text=Hi%2C%20I%27m%20interested%20in%20the%20Blends%20%26%20Digraphs%20worksheet." target="_blank" class="ws-wa-link">
+          <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.917 1.04 5.592 2.757 7.671L.947 23.243l3.682-1.77A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 0 1-5.024-1.378l-.36-.215-3.728.977.995-3.638-.235-.374A9.818 9.818 0 1 1 12 21.818z"/></svg>
+          Ask on WhatsApp before buying
+        </a>
+      </div>
+
+      <!-- Grammar 1 -->
+      <div class="ws-card" data-cat="grammar">
+        <div class="ws-card-visual grammar">
+          <div class="ws-visual-pattern"></div>
+          <div class="ws-visual-icon">
+            <svg viewBox="0 0 24 24"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="14" y2="12"/><line x1="4" y1="18" x2="18" y2="18"/></svg>
+          </div>
+          <span class="ws-visual-label">English Grammar</span>
+          <span class="ws-badge-popular">Popular</span>
+        </div>
+        <div class="ws-card-body">
+          <div class="ws-cat grammar">English Grammar</div>
+          <h3>Grammar Essentials — Grades 4 to 6</h3>
+          <p>Comprehensive practice on tenses, prepositions, determiners, and sentence transformation — aligned to CBSE, ICSE, and State Board.</p>
+          <div class="ws-meta">
+            <div class="ws-meta-item"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> 40 worksheets</div>
+            <div class="ws-meta-item"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg> Grade 4–6</div>
+            <div class="ws-meta-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Answer key</div>
+          </div>
+        </div>
+        <div class="ws-card-foot">
+          <div class="ws-price-wrap">
+            <div class="ws-price">₹199</div>
+            <div class="ws-price-label">PDF download</div>
+          </div>
+          <button class="ws-buy-btn" onclick="openModal('Grammar Essentials — Grades 4 to 6', 199, 'English Grammar')">
+            Buy Now
+            <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </button>
+        </div>
+        <a href="https://wa.me/919823888638?text=Hi%2C%20I%27m%20interested%20in%20the%20Grammar%20Essentials%20worksheet." target="_blank" class="ws-wa-link">
+          <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.917 1.04 5.592 2.757 7.671L.947 23.243l3.682-1.77A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 0 1-5.024-1.378l-.36-.215-3.728.977.995-3.638-.235-.374A9.818 9.818 0 1 1 12 21.818z"/></svg>
+          Ask on WhatsApp before buying
+        </a>
+      </div>
+
+      <!-- Grammar 2 -->
+      <div class="ws-card" data-cat="grammar">
+        <div class="ws-card-visual grammar">
+          <div class="ws-visual-pattern"></div>
+          <div class="ws-visual-icon">
+            <svg viewBox="0 0 24 24"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
+          </div>
+          <span class="ws-visual-label">English Grammar</span>
+        </div>
+        <div class="ws-card-body">
+          <div class="ws-cat grammar">English Grammar</div>
+          <h3>Advanced Grammar & Composition — Grades 7 to 9</h3>
+          <p>Error correction, sentence rewriting, active/passive voice, reported speech, and advanced punctuation for upper primary students.</p>
+          <div class="ws-meta">
+            <div class="ws-meta-item"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> 35 worksheets</div>
+            <div class="ws-meta-item"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg> Grade 7–9</div>
+            <div class="ws-meta-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Answer key</div>
+          </div>
+        </div>
+        <div class="ws-card-foot">
+          <div class="ws-price-wrap">
+            <div class="ws-price">₹199</div>
+            <div class="ws-price-label">PDF download</div>
+          </div>
+          <button class="ws-buy-btn" onclick="openModal('Advanced Grammar & Composition — Grades 7 to 9', 199, 'English Grammar')">
+            Buy Now
+            <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </button>
+        </div>
+        <a href="https://wa.me/919823888638?text=Hi%2C%20I%27m%20interested%20in%20the%20Advanced%20Grammar%20worksheet." target="_blank" class="ws-wa-link">
+          <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.917 1.04 5.592 2.757 7.671L.947 23.243l3.682-1.77A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 0 1-5.024-1.378l-.36-.215-3.728.977.995-3.638-.235-.374A9.818 9.818 0 1 1 12 21.818z"/></svg>
+          Ask on WhatsApp before buying
+        </a>
+      </div>
+
+      <!-- Grammar 3 -->
+      <div class="ws-card" data-cat="grammar">
+        <div class="ws-card-visual grammar">
+          <div class="ws-visual-pattern"></div>
+          <div class="ws-visual-icon">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <span class="ws-visual-label">English Grammar</span>
+          <span class="ws-badge-new">New</span>
+        </div>
+        <div class="ws-card-body">
+          <div class="ws-cat grammar">English Grammar</div>
+          <h3>Grade 10 Board Exam Grammar Revision Pack</h3>
+          <p>Targeted revision for CBSE and State Board Grade 10 — gap filling, editing passages, formal letter structures, and unseen passages.</p>
+          <div class="ws-meta">
+            <div class="ws-meta-item"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> 20 worksheets</div>
+            <div class="ws-meta-item"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg> Grade 10</div>
+            <div class="ws-meta-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Answer key</div>
+          </div>
+        </div>
+        <div class="ws-card-foot">
+          <div class="ws-price-wrap">
+            <div class="ws-price">₹199</div>
+            <div class="ws-price-label">PDF download</div>
+          </div>
+          <button class="ws-buy-btn" onclick="openModal('Grade 10 Board Exam Grammar Revision Pack', 199, 'English Grammar')">
+            Buy Now
+            <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </button>
+        </div>
+        <a href="https://wa.me/919823888638?text=Hi%2C%20I%27m%20interested%20in%20the%20Grade%2010%20Grammar%20Revision%20Pack." target="_blank" class="ws-wa-link">
+          <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.917 1.04 5.592 2.757 7.671L.947 23.243l3.682-1.77A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 0 1-5.024-1.378l-.36-.215-3.728.977.995-3.638-.235-.374A9.818 9.818 0 1 1 12 21.818z"/></svg>
+          Ask on WhatsApp before buying
+        </a>
+      </div>
+
+      <!-- Cambridge 1 -->
+      <div class="ws-card" data-cat="cambridge">
+        <div class="ws-card-visual cambridge">
+          <div class="ws-visual-pattern"></div>
+          <div class="ws-visual-icon">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          </div>
+          <span class="ws-visual-label">Cambridge</span>
+          <span class="ws-badge-popular">Popular</span>
+        </div>
+        <div class="ws-card-body">
+          <div class="ws-cat cambridge">Cambridge</div>
+          <h3>IGCSE Directed Writing — Practice Pack</h3>
+          <p>10 full directed writing exercises with model answers and examiner-style feedback notes for Cambridge IGCSE Paper 2.</p>
+          <div class="ws-meta">
+            <div class="ws-meta-item"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> 10 exercises</div>
+            <div class="ws-meta-item"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg> IGCSE</div>
+            <div class="ws-meta-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Model answers</div>
+          </div>
+        </div>
+        <div class="ws-card-foot">
+          <div class="ws-price-wrap">
+            <div class="ws-price">₹299</div>
+            <div class="ws-price-label">PDF download</div>
+          </div>
+          <button class="ws-buy-btn" onclick="openModal('IGCSE Directed Writing — Practice Pack', 299, 'Cambridge')">
+            Buy Now
+            <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </button>
+        </div>
+        <a href="https://wa.me/919823888638?text=Hi%2C%20I%27m%20interested%20in%20the%20IGCSE%20Directed%20Writing%20Pack." target="_blank" class="ws-wa-link">
+          <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.917 1.04 5.592 2.757 7.671L.947 23.243l3.682-1.77A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 0 1-5.024-1.378l-.36-.215-3.728.977.995-3.638-.235-.374A9.818 9.818 0 1 1 12 21.818z"/></svg>
+          Ask on WhatsApp before buying
+        </a>
+      </div>
+
+      <!-- Cambridge 2 -->
+      <div class="ws-card" data-cat="cambridge">
+        <div class="ws-card-visual cambridge">
+          <div class="ws-visual-pattern"></div>
+          <div class="ws-visual-icon">
+            <svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+          </div>
+          <span class="ws-visual-label">Cambridge</span>
+          <span class="ws-badge-new">New</span>
+        </div>
+        <div class="ws-card-body">
+          <div class="ws-cat cambridge">Cambridge</div>
+          <h3>IGCSE Summary Writing — Skills Builder</h3>
+          <p>12 graded summary writing tasks with annotated source passages, step-by-step technique guides, and full model summaries.</p>
+          <div class="ws-meta">
+            <div class="ws-meta-item"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> 12 tasks</div>
+            <div class="ws-meta-item"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg> IGCSE</div>
+            <div class="ws-meta-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Model answers</div>
+          </div>
+        </div>
+        <div class="ws-card-foot">
+          <div class="ws-price-wrap">
+            <div class="ws-price">₹299</div>
+            <div class="ws-price-label">PDF download</div>
+          </div>
+          <button class="ws-buy-btn" onclick="openModal('IGCSE Summary Writing — Skills Builder', 299, 'Cambridge')">
+            Buy Now
+            <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </button>
+        </div>
+        <a href="https://wa.me/919823888638?text=Hi%2C%20I%27m%20interested%20in%20the%20IGCSE%20Summary%20Writing%20pack." target="_blank" class="ws-wa-link">
+          <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.917 1.04 5.592 2.757 7.671L.947 23.243l3.682-1.77A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 0 1-5.024-1.378l-.36-.215-3.728.977.995-3.638-.235-.374A9.818 9.818 0 1 1 12 21.818z"/></svg>
+          Ask on WhatsApp before buying
+        </a>
+      </div>
+
+      <!-- Cambridge 3 -->
+      <div class="ws-card" data-cat="cambridge">
+        <div class="ws-card-visual cambridge">
+          <div class="ws-visual-pattern"></div>
+          <div class="ws-visual-icon">
+            <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          </div>
+          <span class="ws-visual-label">Cambridge</span>
+        </div>
+        <div class="ws-card-body">
+          <div class="ws-cat cambridge">Cambridge</div>
+          <h3>Cambridge Grade 10 & 12 — Complete Revision Kit</h3>
+          <p>Full exam preparation kit covering all paper components — reading comprehension, writing, grammar in context, and literature.</p>
+          <div class="ws-meta">
+            <div class="ws-meta-item"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> 50 pages</div>
+            <div class="ws-meta-item"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg> Grade 10 & 12</div>
+            <div class="ws-meta-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Full solutions</div>
+          </div>
+        </div>
+        <div class="ws-card-foot">
+          <div class="ws-price-wrap">
+            <div class="ws-price">₹399</div>
+            <div class="ws-price-label">PDF download</div>
+          </div>
+          <button class="ws-buy-btn" onclick="openModal('Cambridge Grade 10 & 12 — Complete Revision Kit', 399, 'Cambridge')">
+            Buy Now
+            <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </button>
+        </div>
+        <a href="https://wa.me/919823888638?text=Hi%2C%20I%27m%20interested%20in%20the%20Cambridge%20Complete%20Revision%20Kit." target="_blank" class="ws-wa-link">
+          <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.917 1.04 5.592 2.757 7.671L.947 23.243l3.682-1.77A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 0 1-5.024-1.378l-.36-.215-3.728.977.995-3.638-.235-.374A9.818 9.818 0 1 1 12 21.818z"/></svg>
+          Ask on WhatsApp before buying
+        </a>
+      </div>
+
+    </div><!-- /ws-grid -->
+  </div>
+</section>
+
+<!-- CTA Band -->
+<section class="cta-band">
+  <div class="container" style="position:relative">
+    <div class="eyebrow">Looking for More?</div>
+    <h2>Want Aahana Ma'am to teach<br>your child directly?</h2>
+    <p>Worksheets are a great start — but nothing replaces personalised teaching. Book a free demo class today.</p>
+    <div class="cta-band-btns">
+      <a href="contact.html" class="btn btn-primary">
+        Book a Free Demo
+        <svg class="arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+      <a href="https://wa.me/919823888638?text=Hi%2C%20I%27d%20like%20to%20know%20more%20about%20worksheets%20at%20Rise%20and%20Shine." target="_blank" class="btn btn-ghost-white">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.917 1.04 5.592 2.757 7.671L.947 23.243l3.682-1.77A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 0 1-5.024-1.378l-.36-.215-3.728.977.995-3.638-.235-.374A9.818 9.818 0 1 1 12 21.818z"/></svg>
+        WhatsApp Us
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand-name">Rise And Shine</div>
+        <p class="footer-brand-desc">Nagpur's trusted learning centre for over two decades, nurturing confident and capable learners across every stage of education.</p>
+        <div class="footer-social">
+          <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
+          <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
+          <a href="https://wa.me/919823888638" target="_blank" aria-label="WhatsApp"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.917 1.04 5.592 2.757 7.671L.947 23.243l3.682-1.77A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 0 1-5.024-1.378l-.36-.215-3.728.977.995-3.638-.235-.374A9.818 9.818 0 1 1 12 21.818z"/></svg></a>
+        </div>
+      </div>
+      <div>
+        <h4>Worksheets</h4>
+        <ul>
+          <li><a href="#" onclick="filterWS('phonics',null)">Phonics & Reading</a></li>
+          <li><a href="#" onclick="filterWS('grammar',null)">English Grammar</a></li>
+          <li><a href="#" onclick="filterWS('cambridge',null)">Cambridge</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="programs.html">Our Programs</a></li>
+          <li><a href="about.html">About Aahana Ma'am</a></li>
+          <li><a href="contact.html">Book a Demo</a></li>
+          <li><a href="https://wa.me/919823888638" target="_blank">WhatsApp</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <address class="footer-address">
+          NIKHAR HERITAGE, Plot no-4<br>HB Town, Bhandara Road<br>Nagpur, Maharashtra 440035<br><br>
+          <a href="tel:+919823888638">+91 98238 88638</a><br>Mon–Sat, 9 AM – 7 PM
+        </address>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 Rise and Shine Academy, Nagpur. All rights reserved.</p>
+      <p>Payments secured by Razorpay.</p>
+    </div>
+  </div>
+</footer>
+
+<!-- WhatsApp Float -->
+<a class="wa-float" href="https://wa.me/919823888638" target="_blank" aria-label="Chat on WhatsApp">
+  <div class="wa-float-tooltip">Chat with us</div>
+  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.917 1.04 5.592 2.757 7.671L.947 23.243l3.682-1.77A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 0 1-5.024-1.378l-.36-.215-3.728.977.995-3.638-.235-.374A9.818 9.818 0 1 1 12 21.818z"/></svg>
+</a>
+
+<!-- Purchase Modal -->
+<div class="modal-overlay" id="payModal">
+  <div class="modal">
+    <div class="modal-header">
+      <button class="modal-close" onclick="closeModal()">✕</button>
+      <div class="modal-product-tag" id="modalCat">Phonics & Reading</div>
+      <div class="modal-title" id="modalTitle">Worksheet Title</div>
+      <div class="modal-price" id="modalPrice">₹149</div>
+    </div>
+    <div class="modal-body">
+      <label>Your Name *</label>
+      <input type="text" id="buyerName" placeholder="Full name">
+      <label>Email Address *</label>
+      <input type="email" id="buyerEmail" placeholder="your@email.com">
+      <label>Phone Number *</label>
+      <input type="tel" id="buyerPhone" placeholder="+91 XXXXX XXXXX">
+      <button class="modal-pay-btn" onclick="initiatePayment()">
+        <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Pay Securely with Razorpay
+      </button>
+      <div class="modal-note">
+        <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        256-bit SSL · Instant PDF delivery after payment
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── Navbar
+window.addEventListener('scroll', () => {
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 20);
+});
+function toggleMenu() {
+  document.getElementById('mobileMenu').classList.toggle('open');
+}
+document.addEventListener('click', (e) => {
+  const menu = document.getElementById('mobileMenu');
+  const ham = document.getElementById('hamburger');
+  if (!menu.contains(e.target) && !ham.contains(e.target)) menu.classList.remove('open');
+});
+
+// ── Filter
+function filterWS(cat, btn) {
+  const cards = document.querySelectorAll('.ws-card');
+  const tabs = document.querySelectorAll('.filter-tab');
+  tabs.forEach(t => t.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+
+  let count = 0;
+  cards.forEach(card => {
+    const show = cat === 'all' || card.dataset.cat === cat;
+    card.style.display = show ? '' : 'none';
+    if (show) count++;
+  });
+  document.getElementById('wsCount').textContent = count;
+}
+
+// ── Modal
+let currentProduct = {};
+function openModal(title, price, cat) {
+  currentProduct = { title, price, cat };
+  document.getElementById('modalTitle').textContent = title;
+  document.getElementById('modalPrice').textContent = '₹' + price;
+  document.getElementById('modalCat').textContent = cat;
+  document.getElementById('buyerName').value = '';
+  document.getElementById('buyerEmail').value = '';
+  document.getElementById('buyerPhone').value = '';
+  document.getElementById('payModal').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal() {
+  document.getElementById('payModal').classList.remove('active');
+  document.body.style.overflow = '';
+}
+document.getElementById('payModal').addEventListener('click', (e) => {
+  if (e.target === document.getElementById('payModal')) closeModal();
+});
+
+// ── Razorpay
+function initiatePayment() {
+  const name  = document.getElementById('buyerName').value.trim();
+  const email = document.getElementById('buyerEmail').value.trim();
+  const phone = document.getElementById('buyerPhone').value.trim();
+
+  if (!name || !email || !phone) {
+    alert('Please fill in all fields to proceed.');
+    return;
+  }
+
+  // TODO: Replace with your live Razorpay Key ID
+  const RAZORPAY_KEY = 'rzp_test_REPLACE_WITH_YOUR_KEY';
+
+  const options = {
+    key: RAZORPAY_KEY,
+    amount: currentProduct.price * 100, // paise
+    currency: 'INR',
+    name: 'Rise and Shine Academy',
+    description: currentProduct.title,
+    image: 'rise-and-shine-high-resolution-logo-transparent__1_.png',
+    prefill: { name, email, contact: phone },
+    theme: { color: '#0B3C5D' },
+    handler: function(response) {
+      closeModal();
+      // TODO: Verify payment on backend & trigger PDF delivery
+      alert(`Payment successful! 🎉\n\nPayment ID: ${response.razorpay_payment_id}\n\nYour worksheet PDF will be sent to ${email} within a few minutes. Check your spam folder too.`);
+      console.log('Razorpay response:', response);
+    },
+    modal: {
+      ondismiss: function() { console.log('Payment dismissed'); }
+    }
+  };
+
+  try {
+    const rzp = new Razorpay(options);
+    rzp.open();
+  } catch(e) {
+    // Razorpay not loaded or key invalid — fallback to WhatsApp
+    closeModal();
+    const msg = encodeURIComponent(`Hi, I'd like to purchase "${currentProduct.title}" (₹${currentProduct.price}). My name is ${name}, email: ${email}, phone: ${phone}`);
+    window.open(`https://wa.me/919823888638?text=${msg}`, '_blank');
+  }
+}
+</script>
+</body>
+</html>
