@@ -1492,8 +1492,18 @@ async function saveProduct() {
     updatedAt: new Date().toISOString(),
     ...(editingProductId ? {} : { createdAt: new Date().toISOString() }),
   };
+  const errEl = document.getElementById('productSaveError');
   if (window.FIREBASE_READY) {
-    await db.collection('products').doc(id).set(product, { merge: true });
+    try {
+      await db.collection('products').doc(id).set(product, { merge: true });
+    } catch(e) {
+      console.error('saveProduct Firestore error:', e);
+      errEl.textContent = e.code === 'permission-denied'
+        ? '⚠ Permission denied. Update your Firestore rules to include the products collection, then re-publish them in Firebase Console.'
+        : '⚠ Save failed: ' + e.message;
+      errEl.style.display = 'block';
+      return;
+    }
   } else {
     const prods = JSON.parse(localStorage.getItem('ras_products') || '[]');
     const idx = prods.findIndex(p => p.id === id);
@@ -1507,7 +1517,8 @@ async function saveProduct() {
 
 async function toggleProductActive(id, active) {
   if (window.FIREBASE_READY) {
-    await db.collection('products').doc(id).update({ active, updatedAt: new Date().toISOString() });
+    try { await db.collection('products').doc(id).update({ active, updatedAt: new Date().toISOString() }); }
+    catch(e) { console.error('toggleProductActive:', e); alert('Update failed: ' + e.message); return; }
   } else {
     const prods = JSON.parse(localStorage.getItem('ras_products') || '[]');
     const p = prods.find(x => x.id === id);
@@ -1522,7 +1533,8 @@ async function toggleProductActive(id, active) {
 async function deleteProduct(id) {
   if (!confirm('Delete this product? It will no longer appear on the worksheets page.')) return;
   if (window.FIREBASE_READY) {
-    await db.collection('products').doc(id).delete();
+    try { await db.collection('products').doc(id).delete(); }
+    catch(e) { console.error('deleteProduct:', e); alert('Delete failed: ' + e.message); return; }
   } else {
     localStorage.setItem('ras_products', JSON.stringify(
       JSON.parse(localStorage.getItem('ras_products') || '[]').filter(p => p.id !== id)
