@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cambridge Grade 1 – Mock Test | Rise &amp; Shine Academy</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --blue:#0B3C5D; --gold:#E8A000; --gold-light:#FFF3D4;
+      --red:#C0392B; --green:#27AE60;
+      --gray-100:#F8F9FA; --gray-200:#E9ECEF; --gray-600:#6C757D; --gray-800:#343A40;
+      --radius:12px; --shadow:0 4px 20px rgba(0,0,0,0.08);
+    }
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:'Inter',sans-serif;background:var(--gray-100);color:var(--gray-800);min-height:100vh;}
+
+    /* ── INSTRUCTIONS ─────────────────────────────────── */
+    #s-instructions{min-height:100vh;background:linear-gradient(135deg,var(--blue) 0%,#1a5276 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem;}
+    .instr-card{background:white;border-radius:20px;padding:3rem;max-width:780px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,0.2);}
+    .instr-header{text-align:center;margin-bottom:1.5rem;}
+    .instr-header .acad{font-size:.82rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:.4rem;}
+    .instr-header h1{font-family:'Playfair Display',serif;font-size:2.1rem;color:var(--blue);margin-bottom:.2rem;}
+    .instr-header .sub{color:var(--gray-600);font-size:.95rem;}
+    .timer-badge{display:flex;align-items:center;justify-content:center;gap:.5rem;background:var(--gold-light);border:2px solid var(--gold);border-radius:100px;padding:.55rem 1.5rem;font-weight:700;color:#92610D;font-size:1.05rem;width:fit-content;margin:1.25rem auto;}
+    .instr-rules{background:var(--gray-100);border-radius:var(--radius);padding:1.4rem 1.75rem;margin:1.25rem 0;}
+    .instr-rules h3{font-size:.82rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--blue);margin-bottom:.9rem;}
+    .instr-rules ol{padding-left:1.2rem;display:flex;flex-direction:column;gap:.55rem;}
+    .instr-rules li{line-height:1.65;color:var(--gray-800);font-size:.92rem;}
+    .sections-overview{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1.25rem 0;}
+    .sect-card{border:2px solid var(--gray-200);border-radius:var(--radius);padding:1rem 1.25rem;}
+    .sect-card h4{font-size:.78rem;font-weight:700;text-transform:uppercase;color:var(--gold);letter-spacing:.05em;margin-bottom:.3rem;}
+    .sect-card p{font-size:.9rem;color:var(--gray-800);font-weight:600;}
+    .sect-card span{font-size:.78rem;color:var(--gray-600);}
+    .btn-start{display:block;width:100%;padding:1rem;background:var(--gold);color:var(--blue);border:none;border-radius:var(--radius);font-family:'Inter',sans-serif;font-size:1.05rem;font-weight:700;cursor:pointer;transition:all .2s;margin-top:1.5rem;}
+    .btn-start:hover{background:#D4900A;transform:translateY(-1px);}
+
+    /* ── TIMER BAR ───────────────────────────────────── */
+    #timer-bar{position:sticky;top:0;z-index:100;background:var(--blue);color:white;display:flex;align-items:center;justify-content:space-between;padding:.75rem 2rem;box-shadow:0 2px 10px rgba(0,0,0,0.15);}
+    #timer-bar .logo{font-family:'Playfair Display',serif;font-size:.95rem;color:var(--gold);}
+    #timer-display{font-size:1.5rem;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:.05em;transition:color .3s;}
+    #timer-display.yellow{color:#F0C040;}
+    #timer-display.red{color:#FF6B6B;animation:pulse 1s infinite;}
+    @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.5;}}
+    .timer-label{font-size:.78rem;opacity:.7;text-align:right;}
+
+    /* ── TEST BODY ───────────────────────────────────── */
+    #test-body{max-width:880px;margin:0 auto;padding:2rem 1.5rem 7rem;}
+    .passage-box{background:white;border-left:4px solid var(--gold);border-radius:var(--radius);padding:1.75rem 2rem;margin-bottom:2.5rem;box-shadow:var(--shadow);}
+    .passage-instruction{font-size:.78rem;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:.07em;margin-bottom:.6rem;}
+    .passage-title{font-family:'Playfair Display',serif;font-size:1.15rem;color:var(--blue);margin-bottom:1rem;}
+    .passage-text{line-height:1.9;color:var(--gray-800);font-size:.93rem;}
+    .passage-text p{margin-bottom:.75rem;}
+    .passage-text p:last-child{margin-bottom:0;}
+    .section-heading{font-family:'Playfair Display',serif;font-size:1.45rem;color:var(--blue);margin:2.5rem 0 1.25rem;padding-bottom:.75rem;border-bottom:2px solid var(--gray-200);}
+    .sub-heading{font-size:.8rem;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:.09em;margin:2rem 0 .75rem;}
+    .q-block{background:white;border-radius:var(--radius);padding:1.25rem 1.5rem;margin-bottom:.7rem;box-shadow:0 2px 8px rgba(0,0,0,0.05);border:1.5px solid transparent;transition:border-color .2s;}
+    .q-block:focus-within{border-color:var(--gold);}
+    .q-block.correct{border-color:var(--green)!important;background:#F0FFF4;}
+    .q-block.incorrect{border-color:var(--red)!important;background:#FFF5F5;}
+    .q-label{font-size:.72rem;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:.07em;margin-bottom:.45rem;}
+    .q-text{font-size:.93rem;line-height:1.65;color:var(--gray-800);margin-bottom:.7rem;}
+    .options{display:flex;flex-direction:column;gap:.45rem;}
+    .option-label{display:flex;align-items:center;gap:.6rem;padding:.6rem .9rem;border-radius:8px;border:1.5px solid var(--gray-200);cursor:pointer;transition:all .15s;font-size:.9rem;user-select:none;}
+    .option-label:hover{border-color:var(--gold);background:var(--gold-light);}
+    .option-label:has(input:checked){border-color:var(--blue);background:#EBF5FB;}
+    input[type="radio"]{accent-color:var(--blue);width:15px;height:15px;cursor:pointer;}
+    .inline-q{font-size:.93rem;line-height:2.4;color:var(--gray-800);}
+    .b-sel select,.b-inp input{border:none;border-bottom:2.5px solid var(--blue);background:transparent;font-family:'Inter',sans-serif;font-size:.93rem;color:var(--blue);font-weight:600;padding:0 .25rem;outline:none;cursor:pointer;vertical-align:middle;}
+    .b-sel select{min-width:95px;}
+    .b-inp input{width:100px;text-align:center;}
+    .q-textarea{width:100%;border:1.5px solid var(--gray-200);border-radius:8px;padding:.75rem;font-family:'Inter',sans-serif;font-size:.9rem;color:var(--gray-800);resize:vertical;min-height:80px;transition:border-color .2s;outline:none;}
+    .q-textarea:focus{border-color:var(--gold);}
+    .q-input{width:100%;border:1.5px solid var(--gray-200);border-radius:8px;padding:.6rem .75rem;font-family:'Inter',sans-serif;font-size:.9rem;color:var(--gray-800);outline:none;transition:border-color .2s;}
+    .q-input:focus{border-color:var(--gold);}
+    .open-badge{display:inline-block;background:#EDE9FE;color:#7C3AED;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:.15rem .55rem;border-radius:100px;margin-left:.4rem;vertical-align:middle;}
+    .matching-wrap{width:100%;border-collapse:collapse;margin-top:.75rem;}
+    .matching-wrap td{padding:.6rem .75rem;border:1.5px solid var(--gray-200);font-size:.9rem;}
+    .matching-wrap td:first-child{font-weight:600;color:var(--blue);width:28%;background:var(--gray-100);}
+    .m-sel{width:100%;border:1.5px solid var(--gray-200);border-radius:6px;padding:.4rem .5rem;font-family:'Inter',sans-serif;font-size:.85rem;outline:none;color:var(--gray-800);background:white;cursor:pointer;}
+    .m-sel:focus{border-color:var(--gold);}
+    .diagram-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;align-items:start;margin-top:.75rem;}
+    .diagram-img-box{border:2px solid var(--gray-200);border-radius:var(--radius);overflow:hidden;background:var(--gray-100);display:flex;align-items:center;justify-content:center;min-height:220px;}
+    .diagram-img-box img{max-width:100%;display:block;}
+    .diagram-placeholder{text-align:center;padding:2rem 1.5rem;color:var(--gray-600);font-size:.85rem;line-height:1.7;}
+    .diagram-labels{display:flex;flex-direction:column;gap:.85rem;padding-top:.5rem;}
+    .label-row{display:flex;align-items:center;gap:.75rem;}
+    .label-num{width:28px;height:28px;background:var(--blue);color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.78rem;font-weight:700;flex-shrink:0;}
+    .label-input{flex:1;border:1.5px solid var(--gray-200);border-radius:8px;padding:.5rem .75rem;font-family:'Inter',sans-serif;font-size:.9rem;outline:none;transition:border-color .2s;}
+    .label-input:focus{border-color:var(--gold);}
+    .submit-area{text-align:center;padding:2.5rem 0;border-top:2px solid var(--gray-200);margin-top:3rem;}
+    .btn-submit{background:var(--blue);color:white;border:none;border-radius:100px;padding:1rem 3.5rem;font-family:'Inter',sans-serif;font-size:1.05rem;font-weight:700;cursor:pointer;transition:all .2s;}
+    .btn-submit:hover{background:#0a325a;transform:translateY(-1px);}
+
+    /* ── RESULTS ─────────────────────────────────────── */
+    #s-results{min-height:100vh;background:var(--gray-100);}
+    .results-header{background:var(--blue);color:white;padding:3rem 2rem 2.5rem;text-align:center;}
+    .results-header h1{font-family:'Playfair Display',serif;font-size:2.25rem;margin-bottom:.3rem;}
+    .score-circle{width:140px;height:140px;border-radius:50%;border:5px solid var(--gold);display:flex;flex-direction:column;align-items:center;justify-content:center;margin:1.5rem auto .75rem;background:rgba(255,255,255,0.1);}
+    .score-num{font-size:2.5rem;font-weight:800;color:var(--gold);line-height:1;}
+    .score-lbl{font-size:.78rem;opacity:.75;}
+    .results-body{max-width:880px;margin:0 auto;padding:2rem 1.5rem 4rem;}
+    .results-section{background:white;border-radius:var(--radius);padding:1.5rem 2rem;margin-bottom:1.5rem;box-shadow:var(--shadow);}
+    .results-section h2{font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--blue);margin-bottom:1rem;padding-bottom:.75rem;border-bottom:2px solid var(--gray-200);}
+    .r-item{display:flex;align-items:flex-start;gap:.75rem;padding:.65rem 0;border-bottom:1px solid var(--gray-100);}
+    .r-item:last-child{border-bottom:none;}
+    .r-icon{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:800;flex-shrink:0;margin-top:2px;}
+    .r-icon.c{background:var(--green);color:white;}
+    .r-icon.x{background:var(--red);color:white;}
+    .r-icon.o{background:#8B5CF6;color:white;}
+    .r-det{flex:1;font-size:.875rem;}
+    .r-det .ql{color:var(--gray-600);font-size:.73rem;margin-bottom:.2rem;}
+    .r-det .ua{color:var(--gray-800);}
+    .r-det .ca{color:var(--green);font-weight:600;font-size:.8rem;margin-top:.15rem;}
+    .r-det .th{color:#7C3AED;font-weight:600;font-size:.8rem;margin-top:.15rem;}
+    .btn-action{display:inline-flex;align-items:center;gap:.5rem;border:none;border-radius:100px;padding:.75rem 2rem;font-family:'Inter',sans-serif;font-size:.9rem;font-weight:700;cursor:pointer;transition:all .2s;margin:.5rem .4rem 0;}
+    .btn-action:hover{transform:translateY(-1px);}
+    .btn-action.gold{background:var(--gold);color:var(--blue);}
+    .btn-action.blue{background:var(--blue);color:white;}
+
+    @media(max-width:640px){
+      .sections-overview,.diagram-grid{grid-template-columns:1fr;}
+      #timer-bar{padding:.5rem 1rem;}
+      #timer-display{font-size:1.2rem;}
+      .instr-card{padding:1.75rem 1.25rem;}
+      .q-block{padding:1rem 1.1rem;}
+    }
+    @media print{
+      #timer-bar,.btn-start,.btn-submit,.btn-action{display:none!important;}
+      .q-block{break-inside:avoid;}
+      #s-instructions,#s-test{display:none!important;}
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════
+     SCREEN 1 · INSTRUCTIONS
+══════════════════════════════════════════════════ -->
+<section id="s-instructions">
+  <div class="instr-card">
+    <div class="instr-header">
+      <div class="acad">Rise &amp; Shine Academy · Nagpur</div>
+      <h1>Cambridge Grade 1</h1>
+      <p class="sub">Mock Paper – English Language</p>
+    </div>
+
+    <div class="timer-badge">⏱ Duration: 60 Minutes</div>
+
+    <div class="instr-rules">
+      <h3>Instructions – Please read before starting</h3>
+      <ol>
+        <li>This paper has <strong>two sections</strong>: Section A (Fiction) and Section B (Non-Fiction).</li>
+        <li>Read each passage carefully before answering the questions.</li>
+        <li>Answer <strong>all</strong> questions. Leave no blank unanswered.</li>
+        <li>The timer starts the moment you click <strong>Start Test</strong> and <strong>cannot be paused</strong>.</li>
+        <li>Your answers are <strong>saved automatically</strong>. If you accidentally refresh the page, your answers and remaining time will be restored.</li>
+        <li>Some questions are open-ended and will be checked separately by your teacher.</li>
+        <li>Once you click <strong>Submit</strong>, you cannot go back and change answers.</li>
+        <li>Find a quiet place, sit comfortably, and then press <strong>Start Test</strong>.</li>
+      </ol>
+    </div>
+
+    <div class="sections-overview">
+      <div class="sect-card">
+        <h4>Section A</h4>
+        <p>The Curious Little Bunny</p>
+        <span>Fiction · Comprehension + Grammar</span>
+      </div>
+      <div class="sect-card">
+        <h4>Section B</h4>
+        <p>All About Penguins</p>
+        <span>Non-Fiction · Reading + Language</span>
+      </div>
+    </div>
+
+    <button class="btn-start" onclick="startTest()">▶&nbsp; Start Test</button>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════
+     SCREEN 2 · TEST
+══════════════════════════════════════════════════ -->
+<section id="s-test" style="display:none">
+
+  <!-- Sticky timer -->
+  <div id="timer-bar">
+    <div class="logo">Rise &amp; Shine Academy</div>
+    <div>
+      <div id="timer-display">60:00</div>
+      <div class="timer-label">remaining</div>
+    </div>
+    <div style="font-size:.8rem;opacity:.7;text-align:right;">Cambridge Grade 1<br>Mock Paper</div>
+  </div>
+
+  <div id="test-body">
+
+    <!-- ── SECTION A ────────────────────────────── -->
+    <h2 class="section-heading">Section A – Fiction</h2>
+
+    <div class="passage-box">
+      <div class="passage-instruction">Read the passage carefully</div>
+      <div class="passage-title">The Curious Little Bunny</div>
+      <div class="passage-text">
+        <p>Once upon a time, a curious little bunny lived in a green meadow near a sparkling stream. The bunny loved to hop around and explore. One day, it saw a colorful butterfly flying high in the sky. "I wish, I wish I could fly like the butterfly!" the bunny said.</p>
+        <p>Just then, the Wind Spirit appeared. "Little bunny, you can jump high. Try leaping with all your strength!" The bunny leaped as high as it could, feeling the air rush around it. "Wheee!" it laughed.</p>
+        <p>As the bunny continued its adventure, it saw a swift fish swimming in the stream. "I wish, I wish I could swim like the fish!" it said.</p>
+        <p>"You can splash in the water instead!" said the Wind Spirit. The bunny dipped its paws into the stream, making tiny ripples.</p>
+        <p>After hopping further, the bunny saw a playful squirrel climbing a tall tree. "I wish, I wish I could climb trees like the squirrel!" it said.</p>
+        <p>"You can run fast on the ground!" said the Wind Spirit. The bunny raced through the soft grass, feeling the wind in its fur.</p>
+        <p>At last, the bunny felt tired and missed home. "I wish, I wish I could go home!" it whispered. It closed its eyes for a moment. When it opened them, it was back in its cozy burrow.</p>
+        <p>"What happened?" the bunny wondered. Then, it smiled. "Thank you, Wind Spirit!"</p>
+        <p>That night, the bunny dreamed of new adventures to come.</p>
+      </div>
+    </div>
+
+    <!-- MCQ -->
+    <div class="sub-heading">Multiple Choice Questions</div>
+
+    <div class="q-block" id="qA1">
+      <div class="q-label">Question A1</div>
+      <div class="q-text">What kind of text is this?</div>
+      <div class="options">
+        <label class="option-label"><input type="radio" name="A1" value="a" oninput="autoSave()"><span>a.&nbsp; A circular story</span></label>
+        <label class="option-label"><input type="radio" name="A1" value="b" oninput="autoSave()"><span>b.&nbsp; An information text</span></label>
+        <label class="option-label"><input type="radio" name="A1" value="c" oninput="autoSave()"><span>c.&nbsp; A story written by a famous author</span></label>
+      </div>
+    </div>
+
+    <div class="q-block" id="qA2">
+      <div class="q-label">Question A2</div>
+      <div class="q-text">What did the bunny want to do when it saw the butterfly?</div>
+      <div class="options">
+        <label class="option-label"><input type="radio" name="A2" value="a" oninput="autoSave()"><span>a.&nbsp; Climb trees</span></label>
+        <label class="option-label"><input type="radio" name="A2" value="b" oninput="autoSave()"><span>b.&nbsp; Fly</span></label>
+        <label class="option-label"><input type="radio" name="A2" value="c" oninput="autoSave()"><span>c.&nbsp; Dig a hole</span></label>
+      </div>
+    </div>
+
+    <!-- WH WORDS -->
+    <div class="sub-heading">WH Question Words</div>
+    <div class="q-block" style="background:var(--gold-light);border-color:var(--gold);">
+      <div class="q-text" style="margin-bottom:0;">Complete each sentence with the correct WH question word: <strong>Who &nbsp;·&nbsp; What &nbsp;·&nbsp; Where &nbsp;·&nbsp; When &nbsp;·&nbsp; Why &nbsp;·&nbsp; How</strong></div>
+    </div>
+
+    <div class="q-block" id="qA3">
+      <div class="q-label">Question A3</div>
+      <div class="inline-q">
+        <span class="b-sel"><select name="A3" onchange="autoSave()"><option value="">— Select —</option><option value="who">Who</option><option value="what">What</option><option value="where">Where</option><option value="when">When</option><option value="why">Why</option><option value="how">How</option></select></span>
+        &nbsp;helped the bunny jump high in the sky?
+      </div>
+    </div>
+
+    <div class="q-block" id="qA4">
+      <div class="q-label">Question A4</div>
+      <div class="inline-q">
+        <span class="b-sel"><select name="A4" onchange="autoSave()"><option value="">— Select —</option><option value="who">Who</option><option value="what">What</option><option value="where">Where</option><option value="when">When</option><option value="why">Why</option><option value="how">How</option></select></span>
+        &nbsp;should be the title of the story?
+      </div>
+    </div>
+
+    <div class="q-block" id="qA5">
+      <div class="q-label">Question A5</div>
+      <div class="inline-q">
+        <span class="b-sel"><select name="A5" onchange="autoSave()"><option value="">— Select —</option><option value="who">Who</option><option value="what">What</option><option value="where">Where</option><option value="when">When</option><option value="why">Why</option><option value="how">How</option></select></span>
+        &nbsp;helped the bunny on its adventure?
+      </div>
+    </div>
+
+    <div class="q-block" id="qA6">
+      <div class="q-label">Question A6</div>
+      <div class="inline-q">
+        <span class="b-sel"><select name="A6" onchange="autoSave()"><option value="">— Select —</option><option value="who">Who</option><option value="what">What</option><option value="where">Where</option><option value="when">When</option><option value="why">Why</option><option value="how">How</option></select></span>
+        &nbsp;did the bunny live?
+      </div>
+    </div>
+
+    <div class="q-block" id="qA7">
+      <div class="q-label">Question A7</div>
+      <div class="inline-q">
+        <span class="b-sel"><select name="A7" onchange="autoSave()"><option value="">— Select —</option><option value="who">Who</option><option value="what">What</option><option value="where">Where</option><option value="when">When</option><option value="why">Why</option><option value="how">How</option></select></span>
+        &nbsp;did the bunny learn from its adventure?
+      </div>
+    </div>
+
+    <!-- ARTICLES -->
+    <div class="sub-heading">Grammar – Articles (a / an / the)</div>
+
+    <div class="q-block" id="qA8">
+      <div class="q-label">Question A8</div>
+      <div class="q-text">Fill in both blanks with the correct article:</div>
+      <div class="inline-q">
+        The bunny saw
+        <span class="b-sel"><select name="A8a" onchange="autoSave()"><option value="">—</option><option value="a">a</option><option value="an">an</option><option value="the">the</option></select></span>
+        squirrel climbing
+        <span class="b-sel"><select name="A8b" onchange="autoSave()"><option value="">—</option><option value="a">a</option><option value="an">an</option><option value="the">the</option></select></span>
+        tall tree.
+      </div>
+    </div>
+
+    <div class="q-block" id="qA9">
+      <div class="q-label">Question A9</div>
+      <div class="inline-q">
+        The bunny jumped over
+        <span class="b-sel"><select name="A9" onchange="autoSave()"><option value="">—</option><option value="a">a</option><option value="an">an</option><option value="the">the</option></select></span>
+        rock.
+      </div>
+    </div>
+
+    <!-- SENTENCE TYPES -->
+    <div class="sub-heading">Sentence Types</div>
+    <div class="q-block" style="background:var(--gold-light);border-color:var(--gold);">
+      <div class="q-text" style="margin-bottom:0;">Read each sentence and select whether it is a <strong>Statement, Command, Question</strong> or <strong>Exclamation</strong>:</div>
+    </div>
+
+    <div class="q-block" id="qA10">
+      <div class="q-label">Question A10</div>
+      <div class="q-text" style="font-style:italic;">"Try leaping with all your strength!"</div>
+      <span class="b-sel"><select name="A10" onchange="autoSave()"><option value="">— Select type —</option><option value="statement">Statement</option><option value="command">Command</option><option value="question">Question</option><option value="exclamation">Exclamation</option></select></span>
+    </div>
+
+    <div class="q-block" id="qA11">
+      <div class="q-label">Question A11</div>
+      <div class="q-text" style="font-style:italic;">"I wish, I wish I could climb trees!"</div>
+      <span class="b-sel"><select name="A11" onchange="autoSave()"><option value="">— Select type —</option><option value="statement">Statement</option><option value="command">Command</option><option value="question">Question</option><option value="exclamation">Exclamation</option></select></span>
+    </div>
+
+    <div class="q-block" id="qA12">
+      <div class="q-label">Question A12</div>
+      <div class="q-text">The bunny lived in a cozy burrow.</div>
+      <span class="b-sel"><select name="A12" onchange="autoSave()"><option value="">— Select type —</option><option value="statement">Statement</option><option value="command">Command</option><option value="question">Question</option><option value="exclamation">Exclamation</option></select></span>
+    </div>
+
+    <div class="q-block" id="qA13">
+      <div class="q-label">Question A13</div>
+      <div class="q-text" style="font-style:italic;">"Where is my home?"</div>
+      <span class="b-sel"><select name="A13" onchange="autoSave()"><option value="">— Select type —</option><option value="statement">Statement</option><option value="command">Command</option><option value="question">Question</option><option value="exclamation">Exclamation</option></select></span>
+    </div>
+
+    <!-- CONJUNCTIONS -->
+    <div class="sub-heading">Conjunctions (and / so / because)</div>
+
+    <div class="q-block" id="qA14">
+      <div class="q-label">Question A14</div>
+      <div class="inline-q">
+        The bunny saw a butterfly
+        <span class="b-sel"><select name="A14" onchange="autoSave()"><option value="">—</option><option value="and">and</option><option value="so">so</option><option value="because">because</option></select></span>
+        it wanted to fly.
+      </div>
+    </div>
+
+    <div class="q-block" id="qA15">
+      <div class="q-label">Question A15</div>
+      <div class="inline-q">
+        The bunny ran fast
+        <span class="b-sel"><select name="A15" onchange="autoSave()"><option value="">—</option><option value="and">and</option><option value="so">so</option><option value="because">because</option></select></span>
+        it could reach home quickly.
+      </div>
+    </div>
+
+    <!-- OPEN WH -->
+    <div class="sub-heading">Written Answer</div>
+
+    <div class="q-block" id="qA16">
+      <div class="q-label">Question A16 <span class="open-badge">Teacher Reviews</span></div>
+      <div class="q-text">What did the bunny see first on its adventure?</div>
+      <textarea class="q-textarea" name="A16" rows="3" placeholder="Write your answer here…" oninput="autoSave()"></textarea>
+    </div>
+
+    <!-- SUFFIXES -->
+    <div class="sub-heading">Suffixes (-ly / -ful)</div>
+    <div class="q-block" style="background:var(--gold-light);border-color:var(--gold);">
+      <div class="q-text" style="margin-bottom:0;">Add the correct suffix <strong>(-ly</strong> or <strong>-ful)</strong> to the word in brackets. Write the complete new word in the box.</div>
+    </div>
+
+    <div class="q-block" id="qA17">
+      <div class="q-label">Question A17 <span class="open-badge">Teacher Reviews</span></div>
+      <div class="q-text">The bunny hopped <strong>(quick)</strong> through the meadow.</div>
+      <input type="text" class="q-input" name="A17" placeholder="Write the word with suffix…" oninput="autoSave()" />
+    </div>
+
+    <div class="q-block" id="qA18">
+      <div class="q-label">Question A18 <span class="open-badge">Teacher Reviews</span></div>
+      <div class="q-text">The river was <strong>(beauty)</strong> and sparkled in the sunlight.</div>
+      <input type="text" class="q-input" name="A18" placeholder="Write the word with suffix…" oninput="autoSave()" />
+    </div>
+
+    <!-- STORY SUMMARY -->
+    <div class="sub-heading">Story Summary – Beginning, Middle &amp; End</div>
+    <div class="q-block" style="background:var(--gold-light);border-color:var(--gold);">
+      <div class="q-text" style="margin-bottom:0;">Look at the story and write <strong>one sentence</strong> for each part: the beginning, middle and end.</div>
+    </div>
+
+    <div class="q-block" id="qA19">
+      <div class="q-label">Question A19 – Beginning <span class="open-badge">Teacher Reviews</span></div>
+      <textarea class="q-textarea" name="A19" rows="3" placeholder="What happened at the beginning of the story?" oninput="autoSave()"></textarea>
+    </div>
+
+    <div class="q-block" id="qA20">
+      <div class="q-label">Question A20 – Middle <span class="open-badge">Teacher Reviews</span></div>
+      <textarea class="q-textarea" name="A20" rows="3" placeholder="What happened in the middle of the story?" oninput="autoSave()"></textarea>
+    </div>
+
+    <div class="q-block" id="qA21">
+      <div class="q-label">Question A21 – End <span class="open-badge">Teacher Reviews</span></div>
+      <textarea class="q-textarea" name="A21" rows="3" placeholder="How did the story end?" oninput="autoSave()"></textarea>
+    </div>
+
+
+    <!-- ── SECTION B ────────────────────────────── -->
+    <h2 class="section-heading" style="margin-top:3.5rem;">Section B – Non-Fiction</h2>
+
+    <div class="passage-box">
+      <div class="passage-instruction">Read the passage carefully</div>
+      <div class="passage-title">All About Penguins</div>
+      <div class="passage-text">
+        <p><strong>Do you know how many different kinds of penguins there are?</strong><br>
+        There are 18 different kinds of penguins. Penguins are birds, but they cannot fly. Instead, they are excellent swimmers!</p>
+        <p><strong>Where do penguins live?</strong><br>
+        Penguins live in the Southern Hemisphere. Many penguins live in Antarctica, where it is very cold. Some penguins also live in warmer places like South Africa, New Zealand, and Australia.</p>
+        <p><strong>What kind of homes do penguins have?</strong><br>
+        Penguins do not build nests in trees like other birds. They live on land or ice and use rocks and pebbles to make their nests.</p>
+        <p><strong>What do penguins eat?</strong><br>
+        Penguins eat fish, squid, and krill. They catch their food while swimming in the ocean. Penguins have strong beaks to grab their food.</p>
+      </div>
+    </div>
+
+    <!-- COMPREHENSION -->
+    <div class="sub-heading">Comprehension – Tick the Correct Answer</div>
+
+    <div class="q-block" id="qB1">
+      <div class="q-label">Question B1</div>
+      <div class="q-text">There are __________ different kinds of penguins.</div>
+      <div class="options">
+        <label class="option-label"><input type="radio" name="B1" value="a" oninput="autoSave()"><span>10</span></label>
+        <label class="option-label"><input type="radio" name="B1" value="b" oninput="autoSave()"><span>18</span></label>
+        <label class="option-label"><input type="radio" name="B1" value="c" oninput="autoSave()"><span>30</span></label>
+      </div>
+    </div>
+
+    <div class="q-block" id="qB2">
+      <div class="q-label">Question B2</div>
+      <div class="q-text">Penguins are <strong>not</strong> found in:</div>
+      <div class="options">
+        <label class="option-label"><input type="radio" name="B2" value="a" oninput="autoSave()"><span>Antarctica</span></label>
+        <label class="option-label"><input type="radio" name="B2" value="b" oninput="autoSave()"><span>Australia</span></label>
+        <label class="option-label"><input type="radio" name="B2" value="c" oninput="autoSave()"><span>North America</span></label>
+      </div>
+    </div>
+
+    <div class="q-block" id="qB3">
+      <div class="q-label">Question B3</div>
+      <div class="q-text">Penguins can fly like other birds.</div>
+      <div class="options">
+        <label class="option-label"><input type="radio" name="B3" value="true" oninput="autoSave()"><span>True</span></label>
+        <label class="option-label"><input type="radio" name="B3" value="false" oninput="autoSave()"><span>False</span></label>
+      </div>
+    </div>
+
+    <div class="q-block" id="qB4">
+      <div class="q-label">Question B4</div>
+      <div class="q-text">Penguins use rocks and pebbles to build their nests.</div>
+      <div class="options">
+        <label class="option-label"><input type="radio" name="B4" value="true" oninput="autoSave()"><span>True</span></label>
+        <label class="option-label"><input type="radio" name="B4" value="false" oninput="autoSave()"><span>False</span></label>
+      </div>
+    </div>
+
+    <!-- TEXT FEATURES -->
+    <div class="sub-heading">Text Features</div>
+
+    <div class="q-block" id="qB5">
+      <div class="q-label">Question B5 <span class="open-badge">Teacher Reviews</span></div>
+      <div class="q-text">Copy a heading from the text.</div>
+      <textarea class="q-textarea" name="B5" rows="2" placeholder="Write a heading exactly as it appears in the passage…" oninput="autoSave()"></textarea>
+    </div>
+
+    <!-- PENGUIN DIAGRAM -->
+    <div class="sub-heading">Diagram – Label the Penguin</div>
+
+    <div class="q-block" id="qB6">
+      <div class="q-label">Question B6 <span class="open-badge">Teacher Reviews</span></div>
+      <div class="q-text">Look at the picture and write the correct label for each numbered arrow.<br><em>Word bank: &nbsp;<strong>Beak &nbsp;·&nbsp; Flippers &nbsp;·&nbsp; Feet &nbsp;·&nbsp; Eyes</strong></em></div>
+      <div class="diagram-grid">
+        <div class="diagram-img-box">
+          <img src="images/test/penguin-diagram.png" alt="Labelled penguin diagram"
+            onerror="this.outerHTML='<div class=\'diagram-placeholder\'>🐧<br><br><strong>Penguin Diagram</strong><br><span style=\'font-size:.8rem\'>Image not yet added.<br>See placeholder instructions below.</span></div>'" />
+        </div>
+        <div class="diagram-labels">
+          <p style="font-size:.8rem;color:var(--gray-600);margin-bottom:.25rem;">Type the label for each numbered arrow:</p>
+          <div class="label-row">
+            <div class="label-num">1</div>
+            <input class="label-input" type="text" name="B6a" placeholder="Label 1…" oninput="autoSave()" />
+          </div>
+          <div class="label-row">
+            <div class="label-num">2</div>
+            <input class="label-input" type="text" name="B6b" placeholder="Label 2…" oninput="autoSave()" />
+          </div>
+          <div class="label-row">
+            <div class="label-num">3</div>
+            <input class="label-input" type="text" name="B6c" placeholder="Label 3…" oninput="autoSave()" />
+          </div>
+          <div class="label-row">
+            <div class="label-num">4</div>
+            <input class="label-input" type="text" name="B6d" placeholder="Label 4…" oninput="autoSave()" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PENGUINS EAT -->
+    <div class="sub-heading">Written Answers</div>
+
+    <div class="q-block" id="qB7">
+      <div class="q-label">Question B7 <span class="open-badge">Teacher Reviews</span></div>
+      <div class="q-text">Write any two things that penguins eat.</div>
+      <div class="inline-q" style="margin-top:.5rem;">
+        Penguins eat &nbsp;
+        <span class="b-inp"><input type="text" name="B7a" placeholder="food 1" oninput="autoSave()" style="width:110px;" /></span>
+        &nbsp;and&nbsp;
+        <span class="b-inp"><input type="text" name="B7b" placeholder="food 2" oninput="autoSave()" style="width:110px;" /></span>.
+      </div>
+    </div>
+
+    <!-- FILL IN BLANK -->
+    <div class="sub-heading">Fill in the Blank – Choose the Correct Word</div>
+
+    <div class="q-block" id="qB8">
+      <div class="q-label">Question B8</div>
+      <div class="inline-q">
+        <span class="b-sel"><select name="B8" onchange="autoSave()"><option value="">—</option><option value="who">Who</option><option value="where">Where</option></select></span>
+        &nbsp;do penguins live? &nbsp;<em style="color:var(--gray-600);font-size:.83rem;">(Who / Where)</em>
+      </div>
+    </div>
+
+    <div class="q-block" id="qB9">
+      <div class="q-label">Question B9</div>
+      <div class="inline-q">
+        Penguins live
+        <span class="b-sel"><select name="B9" onchange="autoSave()"><option value="">—</option><option value="in">in</option><option value="on">on</option></select></span>
+        the Southern Hemisphere. &nbsp;<em style="color:var(--gray-600);font-size:.83rem;">(in / on)</em>
+      </div>
+    </div>
+
+    <!-- SUFFIX WORD -->
+    <div class="sub-heading">Vocabulary – Find the Word with a Suffix</div>
+
+    <div class="q-block" id="qB10">
+      <div class="q-label">Question B10</div>
+      <div class="q-text">Select the word that has a suffix:</div>
+      <div class="options">
+        <label class="option-label"><input type="radio" name="B10" value="a" oninput="autoSave()"><span>Cold</span></label>
+        <label class="option-label"><input type="radio" name="B10" value="b" oninput="autoSave()"><span>Warmer</span></label>
+        <label class="option-label"><input type="radio" name="B10" value="c" oninput="autoSave()"><span>Water</span></label>
+      </div>
+    </div>
+
+    <!-- VERB CHOICE -->
+    <div class="sub-heading">Grammar – Choose the Correct Verb</div>
+
+    <div class="q-block" id="qB11">
+      <div class="q-label">Question B11</div>
+      <div class="q-text">Read the sentence and select the correct verb:</div>
+      <div class="inline-q" style="margin-top:.5rem;">
+        Penguins &nbsp;
+        <span class="b-sel"><select name="B11" onchange="autoSave()"><option value="">—</option><option value="a">like</option><option value="b">liking</option></select></span>
+        &nbsp;to swim in the ocean.
+      </div>
+    </div>
+
+    <!-- MATCHING -->
+    <div class="sub-heading">Matching – Words and Meanings</div>
+
+    <div class="q-block" id="qB12">
+      <div class="q-label">Question B12</div>
+      <div class="q-text">Match each word with its correct meaning by selecting from the dropdown:</div>
+      <table class="matching-wrap">
+        <thead>
+          <tr>
+            <td style="font-weight:700;">Word</td>
+            <td style="font-weight:700;">Select the correct meaning</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Heading</td>
+            <td><select class="m-sel" name="B12a" onchange="autoSave()">
+              <option value="">— Choose meaning —</option>
+              <option value="a">Tells you the different parts of an object</option>
+              <option value="b">Tells you the meaning of difficult words</option>
+              <option value="c">Tells you what the text is about</option>
+            </select></td>
+          </tr>
+          <tr>
+            <td>Label</td>
+            <td><select class="m-sel" name="B12b" onchange="autoSave()">
+              <option value="">— Choose meaning —</option>
+              <option value="a">Tells you the different parts of an object</option>
+              <option value="b">Tells you the meaning of difficult words</option>
+              <option value="c">Tells you what the text is about</option>
+            </select></td>
+          </tr>
+          <tr>
+            <td>Glossary</td>
+            <td><select class="m-sel" name="B12c" onchange="autoSave()">
+              <option value="">— Choose meaning —</option>
+              <option value="a">Tells you the different parts of an object</option>
+              <option value="b">Tells you the meaning of difficult words</option>
+              <option value="c">Tells you what the text is about</option>
+            </select></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- SUBMIT -->
+    <div class="submit-area">
+      <p style="color:var(--gray-600);margin-bottom:1.25rem;font-size:.9rem;">Check all your answers before submitting. Once submitted you cannot make changes.</p>
+      <button class="btn-submit" onclick="confirmSubmit()">✓ &nbsp;Submit Test</button>
+    </div>
+
+  </div><!-- #test-body -->
+</section>
+
+<!-- ══════════════════════════════════════════════════
+     SCREEN 3 · RESULTS
+══════════════════════════════════════════════════ -->
+<section id="s-results" style="display:none">
+  <div class="results-header">
+    <div style="font-size:.82rem;opacity:.7;margin-bottom:.4rem;">Rise &amp; Shine Academy · Cambridge Grade 1 Mock Paper</div>
+    <h1>Test Complete! 🎉</h1>
+    <div id="score-circle-wrap"></div>
+    <div id="time-taken" style="opacity:.75;font-size:.88rem;margin-top:.25rem;"></div>
+  </div>
+  <div class="results-body">
+    <div id="results-content"></div>
+    <div style="text-align:center;padding-bottom:3rem;">
+      <button class="btn-action gold" onclick="window.print()">🖨 Print Results</button>
+      <button class="btn-action blue" onclick="retakeTest()">↺ Retake Test</button>
+      <button class="btn-action" style="background:var(--gray-200);color:var(--gray-800);" onclick="window.location.href='practice-tests.html'">← Back to Tests</button>
+    </div>
+  </div>
+</section>
+
+<script>
+  // ═══════════════════════════════════════
+  // CONSTANTS
+  // ═══════════════════════════════════════
+  const STORAGE_KEY = 'ras_test_cambridge_g1';
+  const DURATION    = 3600; // 60 min in seconds
+
+  const ANSWER_KEY = {
+    A1:'a', A2:'b',
+    A3:'who', A4:'what', A5:'who', A6:'where', A7:'what',
+    A8a:'a', A8b:'a', A9:'a',
+    A10:'command', A11:'exclamation', A12:'statement', A13:'question',
+    A14:'and', A15:'so',
+    // A16–A21 open-ended
+    B1:'b', B2:'c', B3:'false', B4:'true',
+    // B5–B7 open-ended
+    B8:'where', B9:'in', B10:'b', B11:'a',
+    B12a:'c', B12b:'a', B12c:'b'
+  };
+
+  // Each entry: {id, label, type:'auto'|'open', fields:[], hint?}
+  const QUESTIONS = [
+    {id:'A1',  label:'A1 – Type of text',                    type:'auto', fields:['A1']},
+    {id:'A2',  label:'A2 – Bunny and butterfly',             type:'auto', fields:['A2']},
+    {id:'A3',  label:'A3 – WH word: helped jump',           type:'auto', fields:['A3']},
+    {id:'A4',  label:'A4 – WH word: title of story',        type:'auto', fields:['A4']},
+    {id:'A5',  label:'A5 – WH word: helped on adventure',   type:'auto', fields:['A5']},
+    {id:'A6',  label:'A6 – WH word: did bunny live',        type:'auto', fields:['A6']},
+    {id:'A7',  label:'A7 – WH word: did bunny learn',       type:'auto', fields:['A7']},
+    {id:'A8',  label:'A8 – Articles (squirrel & tree)',      type:'auto', fields:['A8a','A8b'], multi:true},
+    {id:'A9',  label:'A9 – Article (rock)',                  type:'auto', fields:['A9']},
+    {id:'A10', label:'A10 – Sentence type: Try leaping!',   type:'auto', fields:['A10']},
+    {id:'A11', label:'A11 – Sentence type: I wish, I wish!',type:'auto', fields:['A11']},
+    {id:'A12', label:'A12 – Sentence type: bunny lived',    type:'auto', fields:['A12']},
+    {id:'A13', label:'A13 – Sentence type: Where is home?', type:'auto', fields:['A13']},
+    {id:'A14', label:'A14 – Conjunction (butterfly)',        type:'auto', fields:['A14']},
+    {id:'A15', label:'A15 – Conjunction (ran fast)',         type:'auto', fields:['A15']},
+    {id:'A16', label:'A16 – What did the bunny see first?', type:'open',  fields:['A16'], hint:'Expected: A colorful butterfly flying high in the sky.'},
+    {id:'A17', label:'A17 – Suffix: quick → ?',             type:'open',  fields:['A17'], hint:'Expected answer: quickly'},
+    {id:'A18', label:'A18 – Suffix: beauty → ?',            type:'open',  fields:['A18'], hint:'Expected answer: beautiful'},
+    {id:'A19', label:'A19 – Story: Beginning',               type:'open',  fields:['A19'], hint:'Should describe the bunny\'s life in the meadow and seeing the butterfly.'},
+    {id:'A20', label:'A20 – Story: Middle',                  type:'open',  fields:['A20'], hint:'Should describe the bunny\'s wishes and the Wind Spirit\'s help.'},
+    {id:'A21', label:'A21 – Story: End',                     type:'open',  fields:['A21'], hint:'Should describe the bunny returning home to its cozy burrow.'},
+    {id:'B1',  label:'B1 – How many kinds of penguins?',    type:'auto', fields:['B1']},
+    {id:'B2',  label:'B2 – Penguins not found in?',         type:'auto', fields:['B2']},
+    {id:'B3',  label:'B3 – True/False: Penguins can fly',   type:'auto', fields:['B3']},
+    {id:'B4',  label:'B4 – True/False: Rocks and pebbles',  type:'auto', fields:['B4']},
+    {id:'B5',  label:'B5 – Copy a heading from text',        type:'open',  fields:['B5'], hint:'Any heading is valid: "All About Penguins", "Where do penguins live?", "What kind of homes do penguins have?", "What do penguins eat?"'},
+    {id:'B6',  label:'B6 – Penguin diagram labels',          type:'open',  fields:['B6a','B6b','B6c','B6d'], hint:'Correct labels (in diagram order): Beak, Eyes, Flippers, Feet — check against the numbered arrows in your image.'},
+    {id:'B7',  label:'B7 – Two things penguins eat',         type:'open',  fields:['B7a','B7b'], hint:'Accept any two of: fish, squid, krill.'},
+    {id:'B8',  label:'B8 – Fill blank: __ do penguins live?',type:'auto', fields:['B8']},
+    {id:'B9',  label:'B9 – Fill blank: live __ Hemisphere',  type:'auto', fields:['B9']},
+    {id:'B10', label:'B10 – Word with a suffix',             type:'auto', fields:['B10']},
+    {id:'B11', label:'B11 – Correct verb (like / liking)',   type:'auto', fields:['B11']},
+    {id:'B12', label:'B12 – Matching: Heading/Label/Glossary',type:'auto', fields:['B12a','B12b','B12c'], multi:true},
+  ];
+
+  // ═══════════════════════════════════════
+  // STATE
+  // ═══════════════════════════════════════
+  let timerInterval = null;
+  let testStartTime  = null;
+
+  // ═══════════════════════════════════════
+  // INIT
+  // ═══════════════════════════════════════
+  window.addEventListener('DOMContentLoaded', () => {
+    const saved = getSaved();
+    if (saved && saved.submitted) {
+      showResults(saved.answers, saved.timeTaken);
+      return;
+    }
+    if (saved && saved.startTime) {
+      testStartTime = saved.startTime;
+      showScreen('test');
+      restoreAnswers(saved.answers || {});
+      startTimer();
+    }
+    // else: show instructions (default)
+  });
+
+  // ═══════════════════════════════════════
+  // STORAGE
+  // ═══════════════════════════════════════
+  function getSaved() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY)); }
+    catch(e) { return null; }
+  }
+
+  function autoSave() {
+    const data  = getSaved() || {};
+    data.answers = collectAnswers();
+    if (testStartTime) data.startTime = testStartTime;
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+  }
+
+  function collectAnswers() {
+    const ans = {};
+    document.querySelectorAll('input[type="radio"]:checked').forEach(el => { ans[el.name] = el.value; });
+    document.querySelectorAll('select[name]').forEach(el          => { ans[el.name] = el.value; });
+    document.querySelectorAll('textarea[name]').forEach(el        => { ans[el.name] = el.value; });
+    document.querySelectorAll('input[type="text"][name]').forEach(el => { ans[el.name] = el.value; });
+    return ans;
+  }
+
+  function restoreAnswers(answers) {
+    Object.entries(answers).forEach(([name, val]) => {
+      const radio = document.querySelector(`input[type="radio"][name="${name}"][value="${val}"]`);
+      if (radio) { radio.checked = true; return; }
+      const sel = document.querySelector(`select[name="${name}"]`);
+      if (sel) { sel.value = val; return; }
+      const ta = document.querySelector(`textarea[name="${name}"]`);
+      if (ta) { ta.value = val; return; }
+      const inp = document.querySelector(`input[type="text"][name="${name}"]`);
+      if (inp) { inp.value = val; }
+    });
+  }
+
+  // ═══════════════════════════════════════
+  // TIMER
+  // ═══════════════════════════════════════
+  function startTest() {
+    testStartTime = Date.now();
+    const data = { startTime: testStartTime, answers: {} };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    showScreen('test');
+    startTimer();
+    window.scrollTo(0, 0);
+  }
+
+  function startTimer() {
+    tick();
+    timerInterval = setInterval(tick, 1000);
+  }
+
+  function tick() {
+    const elapsed    = (Date.now() - testStartTime) / 1000;
+    const remaining  = Math.max(0, DURATION - elapsed);
+    const mins       = Math.floor(remaining / 60);
+    const secs       = Math.floor(remaining % 60);
+    const disp       = document.getElementById('timer-display');
+    disp.textContent = `${pad(mins)}:${pad(secs)}`;
+
+    disp.classList.remove('yellow','red');
+    if (remaining <= 600)       disp.classList.add('red');
+    else if (remaining <= 1200) disp.classList.add('yellow');
+
+    if (remaining <= 0) {
+      clearInterval(timerInterval);
+      alert('⏰ Time is up! Your answers are being submitted now.');
+      submitTest(true);
+    }
+  }
+
+  function pad(n) { return String(n).padStart(2,'0'); }
+
+  // ═══════════════════════════════════════
+  // SUBMIT
+  // ═══════════════════════════════════════
+  function confirmSubmit() {
+    if (confirm('Submit the test now? You cannot change answers after submitting.')) {
+      submitTest(false);
+    }
+  }
+
+  function submitTest(auto) {
+    clearInterval(timerInterval);
+    const elapsed   = (Date.now() - testStartTime) / 1000;
+    const timeTaken = Math.min(DURATION, elapsed);
+    const answers   = collectAnswers();
+    const data      = { submitted: true, answers, timeTaken, startTime: testStartTime };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    showResults(answers, timeTaken);
+  }
+
+  function retakeTest() {
+    if (confirm('Clear all answers and start a fresh test?')) {
+      localStorage.removeItem(STORAGE_KEY);
+      location.reload();
+    }
+  }
+
+  // ═══════════════════════════════════════
+  // SCREENS
+  // ═══════════════════════════════════════
+  function showScreen(name) {
+    ['instructions','test','results'].forEach(s => {
+      document.getElementById('s-' + s).style.display = (s === name) ? '' : 'none';
+    });
+    window.scrollTo(0,0);
+  }
+
+  // ═══════════════════════════════════════
+  // GRADING
+  // ═══════════════════════════════════════
+  function gradeAnswers(answers) {
+    let correct = 0, total = 0;
+    const details = [];
+
+    QUESTIONS.forEach(q => {
+      if (q.type === 'auto') {
+        if (q.multi) {
+          const fieldResults = q.fields.map(f => {
+            const ua = (answers[f] || '').toLowerCase().trim();
+            const ca = (ANSWER_KEY[f] || '').toLowerCase().trim();
+            const ok = ua === ca;
+            total++; if (ok) correct++;
+            return { field: f, userAns: answers[f] || '(blank)', correctAns: ANSWER_KEY[f] || '', ok };
+          });
+          details.push({ ...q, fieldResults, allOk: fieldResults.every(r => r.ok) });
+        } else {
+          const f  = q.fields[0];
+          const ua = (answers[f] || '').toLowerCase().trim();
+          const ca = (ANSWER_KEY[f] || '').toLowerCase().trim();
+          const ok = ua === ca;
+          total++; if (ok) correct++;
+          details.push({ ...q, userAns: answers[f] || '(blank)', correctAns: ANSWER_KEY[f] || '', ok });
+        }
+      } else {
+        // Open-ended
+        const vals = q.fields.map(f => answers[f] || '').join(' | ');
+        details.push({ ...q, userAns: vals });
+      }
+    });
+
+    return { correct, total, details };
+  }
+
+  // ═══════════════════════════════════════
+  // RESULTS RENDER
+  // ═══════════════════════════════════════
+  function showResults(answers, timeTaken) {
+    showScreen('results');
+
+    const { correct, total, details } = gradeAnswers(answers);
+    const pct  = Math.round((correct / total) * 100);
+    const mins = Math.floor(timeTaken / 60);
+    const secs = Math.floor(timeTaken % 60);
+
+    // Score circle
+    document.getElementById('score-circle-wrap').innerHTML = `
+      <div class="score-circle">
+        <div class="score-num">${correct}/${total}</div>
+        <div class="score-lbl">auto-graded</div>
+      </div>
+      <div style="opacity:.85;font-size:.95rem;">${pct}% correct on auto-graded questions</div>`;
+
+    document.getElementById('time-taken').textContent = `Time taken: ${mins}m ${pad(secs)}s`;
+
+    const autoList = details.filter(d => d.type === 'auto');
+    const openList = details.filter(d => d.type === 'open');
+
+    let html = '';
+
+    // ── Auto-graded ──────────────────────
+    html += `<div class="results-section">
+      <h2>✅ Auto-Graded Results &nbsp;(${correct} / ${total})</h2>`;
+
+    autoList.forEach(d => {
+      if (d.multi) {
+        html += `<div class="r-item">
+          <div class="r-icon ${d.allOk ? 'c' : 'x'}">${d.allOk ? '✓' : '✗'}</div>
+          <div class="r-det">
+            <div class="ql">${d.label}</div>`;
+        d.fieldResults.forEach(fr => {
+          html += `<div class="ua" style="margin-top:.2rem;">Your answer: <strong>${esc(fr.userAns)}</strong> ${fr.ok ? '<span style="color:var(--green)">✓</span>' : `<span style="color:var(--red)">✗</span>`}</div>`;
+          if (!fr.ok) html += `<div class="ca">Correct: ${esc(fr.correctAns)}</div>`;
+        });
+        html += `</div></div>`;
+      } else {
+        html += `<div class="r-item">
+          <div class="r-icon ${d.ok ? 'c' : 'x'}">${d.ok ? '✓' : '✗'}</div>
+          <div class="r-det">
+            <div class="ql">${d.label}</div>
+            <div class="ua">Your answer: <strong>${esc(d.userAns)}</strong></div>
+            ${!d.ok ? `<div class="ca">Correct answer: ${esc(d.correctAns)}</div>` : ''}
+          </div>
+        </div>`;
+      }
+    });
+    html += `</div>`;
+
+    // ── Teacher review ───────────────────
+    html += `<div class="results-section">
+      <h2>📝 Teacher Review Required</h2>
+      <p style="color:var(--gray-600);font-size:.875rem;margin-bottom:1.25rem;">
+        These open-ended answers need manual marking. The hint shows what a good answer looks like.
+      </p>`;
+
+    openList.forEach(d => {
+      const display = d.userAns && d.userAns.trim() ? esc(d.userAns) : '<em style="color:var(--gray-600)">(no answer given)</em>';
+      html += `<div class="r-item">
+        <div class="r-icon o">T</div>
+        <div class="r-det">
+          <div class="ql">${d.label}</div>
+          <div class="ua">Student wrote: ${display}</div>
+          ${d.hint ? `<div class="th">💡 ${esc(d.hint)}</div>` : ''}
+        </div>
+      </div>`;
+    });
+    html += `</div>`;
+
+    document.getElementById('results-content').innerHTML = html;
+  }
+
+  function esc(str) {
+    return String(str)
+      .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+      .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+</script>
+</body>
+</html>
