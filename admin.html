@@ -671,11 +671,12 @@ tr:hover td { background: var(--blue-50); }
             <div class="card-body">
               <div class="setting-row">
                 <label>Razorpay Key ID</label>
-                <input type="text" id="rzpKey" placeholder="rzp_live_XXXXXXXXXXXX">
-                <small>Paste your live key from the Razorpay dashboard.</small>
+                <input type="text" id="rzpKey" placeholder="rzp_live_XXXXXXXXXXXX" autocomplete="off">
+                <small>Paste your <strong>live</strong> Key ID from the Razorpay dashboard (Settings → API Keys). This is the public key — never paste your Key Secret here.</small>
               </div>
-              <button class="save-btn" onclick="saveSettings('rzp')">Save</button>
-              <div class="save-notice" id="rzpNotice">Saved!</div>
+              <div id="rzpStatus" style="font-size:0.8rem;margin-bottom:10px;display:none;"></div>
+              <button class="save-btn" onclick="saveSettings('rzp')">Save &amp; Activate Payments</button>
+              <div class="save-notice" id="rzpNotice">✓ Saved to Firestore — payments are now live for all customers!</div>
             </div>
           </div>
           <div class="card">
@@ -1272,14 +1273,47 @@ async function renderSales(force = false) {
 }
 
 // ─── SETTINGS ────────────────────────────────────────────
-function loadSettings() {
-  document.getElementById('rzpKey').value = localStorage.getItem('ras_rzp_key') || '';
+async function loadSettings() {
+  // Load from Firestore first (source of truth), fall back to localStorage
+  if (window.FIREBASE_READY && window.db) {
+    try {
+      const snap = await window.db.collection('settings').doc('razorpay').get();
+      if (snap.exists && snap.data().keyId) {
+        document.getElementById('rzpKey').value = snap.data().keyId;
+      } else {
+        document.getElementById('rzpKey').value = localStorage.getItem('ras_rzp_key') || '';
+      }
+    } catch(e) {
+      document.getElementById('rzpKey').value = localStorage.getItem('ras_rzp_key') || '';
+    }
+  } else {
+    document.getElementById('rzpKey').value = localStorage.getItem('ras_rzp_key') || '';
+  }
   document.getElementById('waNumber').value = localStorage.getItem('ras_wa_number') || '';
 }
-function saveSettings(type) {
+
+async function saveSettings(type) {
   if (type === 'rzp') {
-    localStorage.setItem('ras_rzp_key', document.getElementById('rzpKey').value.trim());
-    showNotice('rzpNotice');
+    const key = document.getElementById('rzpKey').value.trim();
+    if (!key) { alert('Please enter a Razorpay Key ID.'); return; }
+    if (!key.startsWith('rzp_')) { alert('Invalid key format. Razorpay keys start with rzp_live_ or rzp_test_'); return; }
+    // Save to Firestore (accessible to all customers) AND localStorage (fallback)
+    localStorage.setItem('ras_rzp_key', key);
+    if (window.FIREBASE_READY && window.db) {
+      try {
+        await window.db.collection('settings').doc('razorpay').set({ keyId: key }, { merge: true });
+        showNotice('rzpNotice');
+      } catch(e) {
+        if (e.code === 'permission-denied') {
+          alert('⚠ Permission denied. Make sure you are logged in and Firestore rules include the settings collection.\n\nKey saved locally only for now.');
+        } else {
+          alert('⚠ Firestore save failed: ' + e.message + '\n\nKey saved locally only.');
+        }
+        showNotice('rzpNotice');
+      }
+    } else {
+      showNotice('rzpNotice');
+    }
   } else if (type === 'wa') {
     localStorage.setItem('ras_wa_number', document.getElementById('waNumber').value.trim());
     showNotice('waNotice');

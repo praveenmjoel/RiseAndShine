@@ -272,6 +272,28 @@ nav.scrolled { box-shadow: var(--shadow-md); }
 .modal-pay-btn svg { width: 16px; height: 16px; stroke: white; fill: none; stroke-width: 2.5; }
 .modal-note { text-align: center; font-size: 0.72rem; color: var(--grey-400); margin-top: 12px; display: flex; align-items: center; justify-content: center; gap: 6px; }
 .modal-note svg { width: 12px; height: 12px; stroke: var(--grey-400); fill: none; stroke-width: 2; }
+.modal-body input { margin-bottom: 4px; }
+.field-err { font-size: 0.72rem; color: #C0392B; margin-bottom: 10px; display: none; font-weight: 500; }
+
+/* ─── SUCCESS MODAL ──────────────────────────────────── */
+.suc-modal { padding: 36px 32px; text-align: center; max-width: 480px; }
+.suc-icon { width: 64px; height: 64px; border-radius: 50%; background: #E8F8F0; color: #27AE60; font-size: 2rem; display: flex; align-items: center; justify-content: center; margin: 0 auto 18px; border: 3px solid #27AE60; font-weight: 800; }
+.suc-heading { font-family: 'Playfair Display', serif; font-size: 1.6rem; color: var(--blue-900); margin-bottom: 8px; }
+.suc-sub { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 22px; line-height: 1.5; }
+.suc-card { background: var(--grey-50); border-radius: var(--r-sm); border: 1.5px solid var(--border); padding: 16px; text-align: left; margin-bottom: 20px; }
+.suc-row { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; padding: 7px 0; border-bottom: 1px solid var(--border); font-size: 0.85rem; }
+.suc-row:last-child { border-bottom: none; }
+.suc-label { color: var(--text-muted); font-size: 0.78rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; white-space: nowrap; padding-top: 1px; }
+.suc-val { color: var(--text); font-weight: 500; text-align: right; word-break: break-all; }
+.suc-mono { font-family: 'Courier New', monospace; font-size: 0.78rem; color: var(--blue-700); }
+.suc-btn { display: flex; align-items: center; justify-content: center; gap: 9px; width: 100%; padding: 13px; border-radius: var(--r-sm); font-family: 'Inter', sans-serif; font-size: 0.88rem; font-weight: 600; text-decoration: none; transition: all 0.2s; margin-bottom: 10px; cursor: pointer; }
+.suc-btn-primary { background: var(--blue-800); color: white; }
+.suc-btn-primary:hover { background: var(--blue-900); }
+.suc-btn-wa { background: #25D366; color: white; }
+.suc-btn-wa:hover { background: #1EBE5C; }
+.suc-note { font-size: 0.73rem; color: var(--text-muted); margin: 10px 0 20px; line-height: 1.6; }
+.suc-close-btn { background: none; border: 1.5px solid var(--border); border-radius: var(--r-sm); padding: 10px 28px; font-family: 'Inter', sans-serif; font-size: 0.88rem; cursor: pointer; color: var(--text-muted); transition: all 0.2s; }
+.suc-close-btn:hover { border-color: var(--blue-600); color: var(--blue-800); }
 
 /* ─── CTA BAND ───────────────────────────────────────── */
 .cta-band { background: linear-gradient(135deg, var(--blue-800) 0%, var(--blue-900) 100%); padding: 88px 5%; text-align: center; position: relative; overflow: hidden; }
@@ -512,26 +534,71 @@ footer ul li a:hover { color: var(--gold-light); }
   <div class="modal">
     <div class="modal-header">
       <button class="modal-close" onclick="closeModal()">✕</button>
-      <div class="modal-product-tag" id="modalCat">Phonics & Reading</div>
+      <div class="modal-product-tag" id="modalCat">Phonics &amp; Reading</div>
       <div class="modal-title" id="modalTitle">Worksheet Title</div>
       <div class="modal-price" id="modalPrice">₹149</div>
     </div>
     <div class="modal-body">
       <label>Your Name *</label>
-      <input type="text" id="buyerName" placeholder="Full name">
+      <input type="text" id="buyerName" placeholder="Full name" autocomplete="name">
+      <div class="field-err" id="buyerNameErr">Please enter your name.</div>
       <label>Email Address *</label>
-      <input type="email" id="buyerEmail" placeholder="your@email.com">
+      <input type="email" id="buyerEmail" placeholder="your@email.com" autocomplete="email">
+      <div class="field-err" id="buyerEmailErr">Please enter a valid email address.</div>
       <label>Phone Number *</label>
-      <input type="tel" id="buyerPhone" placeholder="+91 XXXXX XXXXX">
+      <input type="tel" id="buyerPhone" placeholder="+91 XXXXX XXXXX" autocomplete="tel">
+      <div class="field-err" id="buyerPhoneErr">Please enter your phone number.</div>
       <button class="modal-pay-btn" onclick="initiatePayment()">
         <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
         Pay Securely with Razorpay
       </button>
       <div class="modal-note">
         <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-        256-bit SSL · Instant PDF delivery after payment
+        256-bit SSL · Powered by Razorpay · UPI, Cards, Net Banking accepted
       </div>
     </div>
+  </div>
+</div>
+
+<!-- Success Modal -->
+<div class="modal-overlay" id="successModal" style="display:none">
+  <div class="modal suc-modal">
+    <div class="suc-icon">✓</div>
+    <h2 class="suc-heading">Payment Successful!</h2>
+    <p class="suc-sub">Thank you, <strong id="suc-name"></strong>! Your order has been confirmed.</p>
+
+    <div class="suc-card">
+      <div class="suc-row">
+        <span class="suc-label">Product</span>
+        <span class="suc-val" id="suc-product"></span>
+      </div>
+      <div class="suc-row">
+        <span class="suc-label">Amount Paid</span>
+        <span class="suc-val" id="suc-amount" style="font-weight:700;color:#27AE60;"></span>
+      </div>
+      <div class="suc-row">
+        <span class="suc-label">Payment ID</span>
+        <span class="suc-val suc-mono" id="suc-payid"></span>
+      </div>
+      <div class="suc-row">
+        <span class="suc-label">Receipt sent to</span>
+        <span class="suc-val" id="suc-email"></span>
+      </div>
+    </div>
+
+    <a id="suc-download" href="#" target="_blank" download class="suc-btn suc-btn-primary" style="display:none">
+      <svg viewBox="0 0 24 24" width="18" height="18"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      Download PDF Now
+    </a>
+
+    <a id="suc-wa" href="#" target="_blank" class="suc-btn suc-btn-wa">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.917 1.04 5.592 2.757 7.671L.947 23.243l3.682-1.77A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 0 1-5.024-1.378l-.36-.215-3.728.977.995-3.638-.235-.374A9.818 9.818 0 1 1 12 21.818z"/></svg>
+      Message Aahana Ma'am on WhatsApp
+    </a>
+
+    <p class="suc-note">Save your Payment ID as proof of purchase. Razorpay will send a receipt to your email.</p>
+
+    <button class="suc-close-btn" onclick="closeSuccessModal()">Close</button>
   </div>
 </div>
 
@@ -598,8 +665,10 @@ function buildCard(p) {
     : '';
   const icon = CAT_ICONS[p.category] || CAT_ICONS.phonics;
   const label = CAT_LABEL[p.category] || p.category;
-  const titleEsc = p.title.replace(/'/g, "\'");
-  const catEsc = label.replace(/'/g, "\'");
+  const idEsc    = (p.id || '').replace(/'/g, "\\'");
+  const titleEsc = p.title.replace(/'/g, "\\'");
+  const catEsc   = label.replace(/'/g, "\\'");
+  const pdfEsc   = (p.pdfUrl || '').replace(/'/g, "\\'");
   return `
     <div class="ws-card" data-cat="${p.category}">
       <div class="ws-card-visual ${p.category}">
@@ -623,7 +692,7 @@ function buildCard(p) {
           <div class="ws-price">₹${p.price}</div>
           <div class="ws-price-label">PDF download</div>
         </div>
-        <button class="ws-buy-btn" onclick="openModal('${titleEsc}', ${p.price}, '${catEsc}')">
+        <button class="ws-buy-btn" onclick="openModal('${idEsc}', '${titleEsc}', ${p.price}, '${catEsc}', '${pdfEsc}')">
           Buy Now
           <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
         </button>
@@ -638,7 +707,9 @@ function buildCard(p) {
 function buildBundleBanner(bundle, individualTotal) {
   const savings = individualTotal - bundle.price;
   const pct = Math.round(savings / individualTotal * 100);
-  const titleEsc = bundle.title.replace(/'/g, "\'");
+  const idEscB    = (bundle.id || '').replace(/'/g, "\\'");
+  const titleEsc  = bundle.title.replace(/'/g, "\\'");
+  const pdfEscB   = (bundle.pdfUrl || '').replace(/'/g, "\\'");
   return `
     <div class="bundle-banner">
       <div class="bundle-left">
@@ -654,7 +725,7 @@ function buildBundleBanner(bundle, individualTotal) {
           <div class="bundle-final">₹${bundle.price}</div>
           <div class="bundle-save">Save ₹${savings} · ${pct}% off</div>
         </div>
-        <button class="btn btn-primary" onclick="openModal('${titleEsc}', ${bundle.price}, 'Bundle')">
+        <button class="btn btn-primary" onclick="openModal('${idEscB}', '${titleEsc}', ${bundle.price}, 'Bundle', '${pdfEscB}')">
           Buy Bundle
           <svg class="arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
         </button>
@@ -692,18 +763,56 @@ async function loadProducts() {
   filterWS(activeFilter, null);
 }
 
+// ─── RAZORPAY KEY (loaded from Firestore, cached globally) ───
+let razorpayKey = null;
+
+async function loadRazorpayKey() {
+  // Primary: Firestore settings/razorpay (works for all customers on all browsers)
+  if (window.FIREBASE_READY && window.db) {
+    try {
+      const snap = await window.db.collection('settings').doc('razorpay').get();
+      if (snap.exists && snap.data().keyId) {
+        razorpayKey = snap.data().keyId;
+        console.log('✅ Razorpay key loaded from Firestore');
+        return;
+      }
+    } catch(e) {
+      console.warn('Could not fetch Razorpay key from Firestore:', e.message);
+    }
+  }
+  // Fallback: localStorage (useful for admin's own browser testing)
+  const local = localStorage.getItem('ras_rzp_key');
+  if (local) { razorpayKey = local; console.log('⚠ Razorpay key loaded from localStorage (fallback)'); }
+}
+
 // ─── PURCHASE MODAL ───────────────────────────────────────
 let currentProduct = {};
 
-function openModal(title, price, cat) {
-  currentProduct = { title, price, cat };
+function openModal(id, title, price, cat, pdfUrl) {
+  currentProduct = { id, title, price, cat, pdfUrl: pdfUrl || '' };
   document.getElementById('modalTitle').textContent = title;
   document.getElementById('modalPrice').textContent = '₹' + price;
-  document.getElementById('payModal').style.display = 'flex';
+  // Clear previous inputs & errors
+  ['buyerName','buyerEmail','buyerPhone'].forEach(f => {
+    document.getElementById(f).value = '';
+    const e = document.getElementById(f + 'Err');
+    if (e) { e.style.display = 'none'; e.textContent = e.id === 'buyerEmailErr' ? 'Please enter a valid email address.' : e.textContent; }
+  });
+  const el = document.getElementById('payModal');
+  el.style.display = 'flex';
+  requestAnimationFrame(() => el.classList.add('active'));
   document.body.style.overflow = 'hidden';
 }
 function closeModal() {
-  document.getElementById('payModal').style.display = 'none';
+  const el = document.getElementById('payModal');
+  el.classList.remove('active');
+  setTimeout(() => { el.style.display = 'none'; }, 300);
+  document.body.style.overflow = '';
+}
+function closeSuccessModal() {
+  const el = document.getElementById('successModal');
+  el.classList.remove('active');
+  setTimeout(() => { el.style.display = 'none'; }, 300);
   document.body.style.overflow = '';
 }
 
@@ -711,60 +820,117 @@ function initiatePayment() {
   const name  = document.getElementById('buyerName').value.trim();
   const email = document.getElementById('buyerEmail').value.trim();
   const phone = document.getElementById('buyerPhone').value.trim();
+
+  // Validate
   let valid = true;
-  ['buyerName','buyerEmail','buyerPhone'].forEach(id => {
-    const el = document.getElementById(id);
+  [['buyerName',name],['buyerEmail',email],['buyerPhone',phone]].forEach(([id, val]) => {
     const err = document.getElementById(id + 'Err');
-    if (!el.value.trim()) { if (err) err.style.display = 'block'; valid = false; }
+    if (!val) { if (err) err.style.display = 'block'; valid = false; }
     else { if (err) err.style.display = 'none'; }
   });
   if (!valid) return;
 
-  const RAZORPAY_KEY = localStorage.getItem('ras_rzp_key') || 'rzp_test_REPLACE_WITH_YOUR_KEY';
+  // Email format check
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    const err = document.getElementById('buyerEmailErr');
+    if (err) { err.textContent = 'Please enter a valid email address.'; err.style.display = 'block'; }
+    return;
+  }
+
+  // Key check
+  if (!razorpayKey) {
+    // Graceful fallback: open WhatsApp with order details
+    closeModal();
+    const msg = encodeURIComponent(`Hi, I'd like to purchase "${currentProduct.title}" (₹${currentProduct.price}). My name is ${name}, email: ${email}, phone: ${phone}`);
+    window.open(`https://wa.me/919823888638?text=${msg}`, '_blank');
+    return;
+  }
 
   const options = {
-    key: RAZORPAY_KEY,
-    amount: currentProduct.price * 100,
+    key: razorpayKey,
+    amount: currentProduct.price * 100,  // paise
     currency: 'INR',
     name: 'Rise and Shine Academy',
     description: currentProduct.title,
     image: 'rise-and-shine-high-resolution-logo-transparent__1_.png',
     prefill: { name, email, contact: phone },
     theme: { color: '#0B3C5D' },
+    notes: { product_id: currentProduct.id || '', category: currentProduct.cat || '' },
     handler: function(response) {
       closeModal();
+
+      // 1. Save order to Firestore
+      const order = {
+        id: response.razorpay_payment_id,
+        product: currentProduct.title,
+        productId: currentProduct.id || '',
+        cat: currentProduct.cat,
+        amount: currentProduct.price,
+        buyerName: name,
+        email,
+        phone,
+        date: new Date().toISOString(),
+        status: 'paid',
+        razorpayPaymentId: response.razorpay_payment_id,
+        pdfUrl: currentProduct.pdfUrl || '',
+      };
       if (window.FIREBASE_READY && window.db) {
-        const order = {
-          id: response.razorpay_payment_id,
-          product: currentProduct.title,
-          cat: currentProduct.cat,
-          amount: currentProduct.price,
-          phone, email,
-          date: new Date().toISOString(),
-          status: 'paid',
-          razorpayPaymentId: response.razorpay_payment_id,
-        };
-        window.db.collection('orders').doc(order.id).set(order).catch(e => console.warn('Order save failed:', e));
+        window.db.collection('orders').doc(order.id).set(order)
+          .catch(e => console.warn('Order save failed:', e));
       }
-      alert(`Payment successful! 🎉\n\nPayment ID: ${response.razorpay_payment_id}\n\nYour worksheet PDF will be sent to ${email} within a few minutes. Check your spam folder too.`);
+
+      // 2. Show success modal
+      showSuccessModal(response.razorpay_payment_id, name, email, currentProduct);
     },
-    modal: { ondismiss: function() { console.log('Payment dismissed'); } }
+    modal: { ondismiss: function() {} }
   };
 
   try {
     const rzp = new Razorpay(options);
+    rzp.on('payment.failed', function(resp) {
+      alert('Payment failed: ' + (resp.error.description || 'Please try again.'));
+    });
     rzp.open();
   } catch(e) {
+    console.error('Razorpay init error:', e);
     closeModal();
     const msg = encodeURIComponent(`Hi, I'd like to purchase "${currentProduct.title}" (₹${currentProduct.price}). My name is ${name}, email: ${email}, phone: ${phone}`);
     window.open(`https://wa.me/919823888638?text=${msg}`, '_blank');
   }
 }
 
+function showSuccessModal(paymentId, buyerName, email, product) {
+  document.getElementById('suc-name').textContent   = buyerName.split(' ')[0];
+  document.getElementById('suc-product').textContent = product.title;
+  document.getElementById('suc-amount').textContent  = '₹' + product.price;
+  document.getElementById('suc-payid').textContent   = paymentId;
+  document.getElementById('suc-email').textContent   = email;
+
+  // PDF download button
+  const dlBtn = document.getElementById('suc-download');
+  if (product.pdfUrl) {
+    dlBtn.href = product.pdfUrl;
+    dlBtn.style.display = 'flex';
+  } else {
+    dlBtn.style.display = 'none';
+  }
+
+  // WhatsApp share
+  const waMsg = encodeURIComponent(`Hi Aahana Ma'am, I just purchased "${product.title}" (₹${product.price}). Payment ID: ${paymentId}. Please send the PDF to ${email}.`);
+  document.getElementById('suc-wa').href = `https://wa.me/919823888638?text=${waMsg}`;
+
+  const sucEl = document.getElementById('successModal');
+  sucEl.style.display = 'flex';
+  requestAnimationFrame(() => sucEl.classList.add('active'));
+  document.body.style.overflow = 'hidden';
+}
+
 // ─── INIT ─────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
-  // Wait for Firebase config to load (it's at bottom of body), then load products
-  setTimeout(loadProducts, 100);
+  // Firebase config loads at bottom of body; give it 150ms then load everything
+  setTimeout(async () => {
+    await Promise.all([loadProducts(), loadRazorpayKey()]);
+  }, 150);
 });
 </script>
 <!-- Firebase SDK -->

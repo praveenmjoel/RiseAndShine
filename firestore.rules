@@ -19,5 +19,12 @@ service cloud.firestore {
       allow read: if true;
       allow create, update, delete: if request.auth != null;
     }
+
+    // Site settings (Razorpay key ID etc): public read, auth-only write
+    // Note: Key ID is a public identifier (not a secret). Key Secret is never stored here.
+    match /settings/{settingId} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
   }
 }
