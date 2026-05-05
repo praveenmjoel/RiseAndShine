@@ -80,6 +80,10 @@ nav.scrolled { box-shadow: var(--shadow-md); }
 .nav-wa:hover { background: rgba(37,211,102,0.08); }
 .nav-cta-link { background: var(--blue-800); color: var(--white) !important; padding: 10px 22px; border-radius: var(--r-sm); font-size: 0.8rem; font-weight: 600; display: inline-block; transition: background 0.2s; }
 .nav-cta-link:hover { background: var(--blue-700) !important; }
+.nav-lib-link { display: none; align-items: center; gap: 6px; font-size: 0.8rem; font-weight: 600; color: var(--blue-800); padding: 8px 16px; border-radius: var(--r-sm); border: 1.5px solid var(--border); transition: all 0.2s; }
+.nav-lib-link:hover { background: var(--blue-50); border-color: var(--blue-600); }
+.nav-login-link { font-size: 0.8rem; font-weight: 600; color: var(--blue-800); padding: 8px 16px; border-radius: var(--r-sm); border: 1.5px solid var(--blue-800); transition: all 0.2s; display: none; }
+.nav-login-link:hover { background: var(--blue-800); color: white; }
 .hamburger { display: none; flex-direction: column; gap: 5px; padding: 8px; cursor: pointer; }
 .hamburger span { display: block; width: 22px; height: 2px; background: var(--blue-800); border-radius: 2px; }
 .mobile-menu { display: none; position: fixed; top: 70px; left: 0; right: 0; background: var(--white); border-bottom: 1px solid var(--border); padding: 20px 5%; z-index: 899; flex-direction: column; gap: 4px; box-shadow: var(--shadow-md); }
@@ -378,6 +382,11 @@ footer ul li a:hover { color: var(--gold-light); }
     <li><a href="contact.html">Contact</a></li>
   </ul>
   <div class="nav-right">
+    <a href="my-library.html" class="nav-lib-link" id="navLibLink">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+      My Library
+    </a>
+    <a href="login.html?redirect=worksheets.html" class="nav-login-link" id="navLoginLink">Sign In</a>
     <a href="https://wa.me/919823888638" target="_blank" class="nav-wa">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.917 1.04 5.592 2.757 7.671L.947 23.243l3.682-1.77A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 0 1-5.024-1.378l-.36-.215-3.728.977.995-3.638-.235-.374A9.818 9.818 0 1 1 12 21.818z"/></svg>
       WhatsApp
@@ -393,7 +402,9 @@ footer ul li a:hover { color: var(--gold-light); }
   <a href="programs.html">Programs</a>
   <a href="worksheets.html">Worksheets</a>
   <a href="contact.html">Contact</a>
+  <a href="my-library.html" id="mobileLibLink" style="display:none">📚 My Library</a>
   <a href="https://wa.me/919823888638" target="_blank">WhatsApp Us</a>
+  <a href="login.html?redirect=worksheets.html" id="mobileLoginLink" class="mobile-cta" style="display:none">Sign In to Your Account</a>
   <a href="contact.html" class="mobile-cta">Book a Free Demo</a>
 </div>
 
@@ -586,9 +597,13 @@ footer ul li a:hover { color: var(--gold-light); }
       </div>
     </div>
 
-    <a id="suc-download" href="#" target="_blank" download class="suc-btn suc-btn-primary" style="display:none">
+    <a href="my-library.html" class="suc-btn suc-btn-primary">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+      Go to My Library
+    </a>
+    <a id="suc-download" href="#" target="_blank" download class="suc-btn" style="display:none;background:var(--grey-100);color:var(--text);border:1.5px solid var(--border)">
       <svg viewBox="0 0 24 24" width="18" height="18"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-      Download PDF Now
+      Download PDF
     </a>
 
     <a id="suc-wa" href="#" target="_blank" class="suc-btn suc-btn-wa">
@@ -789,15 +804,30 @@ async function loadRazorpayKey() {
 let currentProduct = {};
 
 function openModal(id, title, price, cat, pdfUrl) {
+  // Require the customer to be signed in before buying
+  if (window.auth && !window.auth.currentUser) {
+    window.location.href = 'login.html?redirect=worksheets.html';
+    return;
+  }
+
   currentProduct = { id, title, price, cat, pdfUrl: pdfUrl || '' };
   document.getElementById('modalTitle').textContent = title;
   document.getElementById('modalPrice').textContent = '₹' + price;
-  // Clear previous inputs & errors
+
+  // Pre-fill name/email from the logged-in account
+  const user = window.auth && window.auth.currentUser;
+  if (user) {
+    if (user.displayName) document.getElementById('buyerName').value = user.displayName;
+    if (user.email)       document.getElementById('buyerEmail').value = user.email;
+  }
+
+  // Clear previous errors
   ['buyerName','buyerEmail','buyerPhone'].forEach(f => {
-    document.getElementById(f).value = '';
     const e = document.getElementById(f + 'Err');
-    if (e) { e.style.display = 'none'; e.textContent = e.id === 'buyerEmailErr' ? 'Please enter a valid email address.' : e.textContent; }
+    if (e) e.style.display = 'none';
   });
+  document.getElementById('buyerPhone').value = '';
+
   const el = document.getElementById('payModal');
   el.style.display = 'flex';
   requestAnimationFrame(() => el.classList.add('active'));
@@ -869,6 +899,7 @@ function initiatePayment() {
         buyerName: name,
         email,
         phone,
+        userId: (window.auth && window.auth.currentUser) ? window.auth.currentUser.uid : null,
         date: new Date().toISOString(),
         status: 'paid',
         razorpayPaymentId: response.razorpay_payment_id,
@@ -925,16 +956,37 @@ function showSuccessModal(paymentId, buyerName, email, product) {
   document.body.style.overflow = 'hidden';
 }
 
+// ─── AUTH NAV STATE ───────────────────────────────────────
+function updateAuthNav(user) {
+  const libLink     = document.getElementById('navLibLink');
+  const loginLink   = document.getElementById('navLoginLink');
+  const mobileLib   = document.getElementById('mobileLibLink');
+  const mobileLogin = document.getElementById('mobileLoginLink');
+  if (libLink)     libLink.style.display     = user ? 'flex'  : 'none';
+  if (loginLink)   loginLink.style.display   = user ? 'none'  : 'inline-block';
+  if (mobileLib)   mobileLib.style.display   = user ? ''      : 'none';
+  if (mobileLogin) mobileLogin.style.display = user ? 'none'  : '';
+}
+
 // ─── INIT ─────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
   // Firebase config loads at bottom of body; give it 150ms then load everything
   setTimeout(async () => {
     await Promise.all([loadProducts(), loadRazorpayKey()]);
+
+    // Auth state → update nav
+    if (window.FIREBASE_READY && window.auth) {
+      window.auth.onAuthStateChanged(updateAuthNav);
+    } else {
+      // Firebase not configured — show login link so user knows it exists
+      updateAuthNav(null);
+    }
   }, 150);
 });
 </script>
 <!-- Firebase SDK -->
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
 <script src="firebase-config.js"></script>
 </body>

@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign In – Rise &amp; Shine Academy</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --blue:#0B3C5D; --gold:#E8A000; --gold-light:#FFF3D4;
+      --red:#C0392B; --green:#27AE60;
+      --gray-100:#F8F9FA; --gray-200:#E9ECEF; --gray-600:#6C757D; --gray-800:#343A40;
+      --radius:12px; --shadow:0 4px 24px rgba(0,0,0,0.10);
+    }
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:'Inter',sans-serif;background:linear-gradient(135deg,#0B3C5D 0%,#1a5276 100%);min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:1.5rem;}
+
+    .logo-wrap{text-align:center;margin-bottom:1.75rem;}
+    .logo-name{font-family:'Playfair Display',serif;color:var(--gold);font-size:1.4rem;}
+    .logo-sub{color:rgba(255,255,255,.6);font-size:.8rem;margin-top:.25rem;}
+
+    .card{background:white;border-radius:20px;padding:2.5rem 2rem;width:100%;max-width:420px;box-shadow:0 24px 64px rgba(0,0,0,.25);}
+
+    .tabs{display:flex;border-bottom:2px solid var(--gray-200);margin-bottom:1.75rem;}
+    .tab{flex:1;padding:.65rem;border:none;background:none;font-family:'Inter',sans-serif;font-size:.9rem;font-weight:600;color:var(--gray-600);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all .2s;}
+    .tab.active{color:var(--blue);border-bottom-color:var(--blue);}
+
+    .form-title{font-family:'Playfair Display',serif;font-size:1.35rem;color:var(--blue);margin-bottom:.25rem;}
+    .form-sub{font-size:.82rem;color:var(--gray-600);margin-bottom:1.4rem;line-height:1.5;}
+
+    label{display:block;font-size:.75rem;font-weight:600;color:var(--blue);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.35rem;}
+    input[type="text"],input[type="email"],input[type="password"],input[type="tel"]{
+      width:100%;padding:.7rem .9rem;border:1.5px solid var(--gray-200);border-radius:8px;
+      font-family:'Inter',sans-serif;font-size:.9rem;color:var(--gray-800);outline:none;
+      transition:border-color .2s;margin-bottom:.9rem;
+    }
+    input:focus{border-color:var(--blue);}
+    .field-err{font-size:.75rem;color:var(--red);margin-top:-.65rem;margin-bottom:.75rem;display:none;font-weight:500;}
+
+    .btn-primary{width:100%;padding:.85rem;background:var(--blue);color:white;border:none;border-radius:8px;font-family:'Inter',sans-serif;font-size:.95rem;font-weight:700;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:.5rem;}
+    .btn-primary:hover{background:#0a325a;}
+    .btn-primary:disabled{opacity:.6;cursor:not-allowed;}
+
+    .divider{text-align:center;color:var(--gray-600);font-size:.78rem;margin:1.1rem 0;position:relative;}
+    .divider::before{content:'';position:absolute;top:50%;left:0;right:0;height:1px;background:var(--gray-200);}
+    .divider span{background:white;padding:0 .75rem;position:relative;}
+
+    .err-box{background:#FEF2F2;border:1.5px solid #FECACA;border-radius:8px;padding:.75rem 1rem;font-size:.83rem;color:var(--red);margin-bottom:1rem;display:none;}
+    .ok-box{background:#F0FFF4;border:1.5px solid #BBF7D0;border-radius:8px;padding:.75rem 1rem;font-size:.83rem;color:var(--green);margin-bottom:1rem;display:none;}
+
+    .back-link{text-align:center;margin-top:1.25rem;}
+    .back-link a{color:rgba(255,255,255,.75);font-size:.82rem;text-decoration:none;}
+    .back-link a:hover{color:white;}
+
+    .form-section{display:none;}
+    .form-section.active{display:block;}
+
+    .spinner{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,.4);border-top-color:white;border-radius:50%;animation:spin .6s linear infinite;}
+    @keyframes spin{to{transform:rotate(360deg);}}
+
+    .terms{font-size:.72rem;color:var(--gray-600);margin-top:.85rem;text-align:center;line-height:1.6;}
+    .terms a{color:var(--blue);}
+  </style>
+</head>
+<body>
+
+<div class="logo-wrap">
+  <div class="logo-name">Rise &amp; Shine Academy</div>
+  <div class="logo-sub">Nagpur · riseandshineacademy.in</div>
+</div>
+
+<div class="card">
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('signin')">Sign In</button>
+    <button class="tab" onclick="switchTab('signup')">Create Account</button>
+  </div>
+
+  <!-- ── SIGN IN ── -->
+  <div class="form-section active" id="sec-signin">
+    <h2 class="form-title">Welcome back!</h2>
+    <p class="form-sub">Sign in to access your purchased worksheets.</p>
+    <div class="err-box" id="si-err"></div>
+    <form onsubmit="doSignIn(event)">
+      <label>Email Address</label>
+      <input type="email" id="si-email" placeholder="your@email.com" autocomplete="email" required />
+      <label>Password</label>
+      <input type="password" id="si-pass" placeholder="••••••••" autocomplete="current-password" required />
+      <div style="text-align:right;margin-top:-.5rem;margin-bottom:.9rem;">
+        <a href="#" onclick="showForgot(event)" style="font-size:.78rem;color:var(--blue);">Forgot password?</a>
+      </div>
+      <button class="btn-primary" type="submit" id="si-btn">Sign In</button>
+    </form>
+    <p class="terms">Don't have an account? <a href="#" onclick="switchTab('signup');return false;">Create one free →</a></p>
+  </div>
+
+  <!-- ── SIGN UP ── -->
+  <div class="form-section" id="sec-signup">
+    <h2 class="form-title">Create your account</h2>
+    <p class="form-sub">Free account · Access your worksheets anytime after purchase.</p>
+    <div class="err-box" id="su-err"></div>
+    <div class="ok-box" id="su-ok"></div>
+    <form onsubmit="doSignUp(event)">
+      <label>Full Name</label>
+      <input type="text" id="su-name" placeholder="Your name" autocomplete="name" required />
+      <label>Email Address</label>
+      <input type="email" id="su-email" placeholder="your@email.com" autocomplete="email" required />
+      <label>Phone (optional)</label>
+      <input type="tel" id="su-phone" placeholder="+91 XXXXX XXXXX" autocomplete="tel" />
+      <label>Password</label>
+      <input type="password" id="su-pass" placeholder="Min. 6 characters" autocomplete="new-password" required minlength="6" />
+      <button class="btn-primary" type="submit" id="su-btn">Create Account &amp; Continue</button>
+    </form>
+    <p class="terms">Already have an account? <a href="#" onclick="switchTab('signin');return false;">Sign in →</a></p>
+    <p class="terms">By creating an account you agree to our <a href="#">Terms of Service</a>.</p>
+  </div>
+
+  <!-- ── FORGOT PASSWORD ── -->
+  <div class="form-section" id="sec-forgot">
+    <h2 class="form-title">Reset Password</h2>
+    <p class="form-sub">Enter your email and we'll send a reset link.</p>
+    <div class="err-box" id="fp-err"></div>
+    <div class="ok-box" id="fp-ok"></div>
+    <form onsubmit="doForgot(event)">
+      <label>Email Address</label>
+      <input type="email" id="fp-email" placeholder="your@email.com" required />
+      <button class="btn-primary" type="submit" id="fp-btn">Send Reset Link</button>
+    </form>
+    <p class="terms" style="margin-top:.85rem;"><a href="#" onclick="switchTab('signin');return false;">← Back to Sign In</a></p>
+  </div>
+</div>
+
+<div class="back-link"><a href="index.html">← Back to Rise &amp; Shine Academy</a></div>
+
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script src="firebase-config.js"></script>
+<script>
+  // ── After login, where to go? ───────────────────────────
+  const params    = new URLSearchParams(location.search);
+  const redirectTo = params.get('redirect') || 'my-library.html';
+
+  // If already logged in, redirect immediately
+  window.addEventListener('DOMContentLoaded', () => {
+    if (!window.FIREBASE_READY) {
+      showErr('si-err', 'Firebase not configured. Contact the academy administrator.');
+      return;
+    }
+    window.auth.onAuthStateChanged(user => {
+      if (user) window.location.href = redirectTo;
+    });
+  });
+
+  function switchTab(tab) {
+    ['signin','signup','forgot'].forEach(t => {
+      document.getElementById('sec-' + t).classList.toggle('active', t === tab);
+      const btn = document.querySelector(`.tab:nth-child(${t==='signin'?1:2})`);
+    });
+    document.querySelectorAll('.tab').forEach((b,i) => {
+      b.classList.toggle('active', (i===0 && tab==='signin') || (i===1 && tab==='signup'));
+    });
+    clearErrors();
+  }
+
+  function showForgot(e) {
+    e.preventDefault();
+    ['signin','signup','forgot'].forEach(t => document.getElementById('sec-'+t).classList.remove('active'));
+    document.getElementById('sec-forgot').classList.add('active');
+    document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
+  }
+
+  function clearErrors() {
+    document.querySelectorAll('.err-box,.ok-box').forEach(el => el.style.display='none');
+  }
+  function showErr(id, msg) {
+    const el = document.getElementById(id);
+    el.textContent = msg; el.style.display = 'block';
+  }
+  function showOk(id, msg) {
+    const el = document.getElementById(id);
+    el.textContent = msg; el.style.display = 'block';
+  }
+  function setLoading(btnId, loading) {
+    const btn = document.getElementById(btnId);
+    btn.disabled = loading;
+    btn.innerHTML = loading
+      ? '<span class="spinner"></span> Please wait…'
+      : btn.dataset.label || btn.textContent;
+    if (!loading && !btn.dataset.label) btn.dataset.label = btn.textContent;
+  }
+
+  async function doSignIn(e) {
+    e.preventDefault();
+    clearErrors();
+    const email = document.getElementById('si-email').value.trim();
+    const pass  = document.getElementById('si-pass').value;
+    setLoading('si-btn', true);
+    try {
+      await window.auth.signInWithEmailAndPassword(email, pass);
+      // onAuthStateChanged will redirect
+    } catch(err) {
+      setLoading('si-btn', false);
+      const msg = (err.code === 'auth/wrong-password' || err.code === 'auth/user-not-found' || err.code === 'auth/invalid-credential')
+        ? 'Incorrect email or password. Please try again.'
+        : (err.code === 'auth/too-many-requests'
+          ? 'Too many attempts. Please try again later.'
+          : err.message);
+      showErr('si-err', msg);
+    }
+  }
+
+  async function doSignUp(e) {
+    e.preventDefault();
+    clearErrors();
+    const name  = document.getElementById('su-name').value.trim();
+    const email = document.getElementById('su-email').value.trim();
+    const phone = document.getElementById('su-phone').value.trim();
+    const pass  = document.getElementById('su-pass').value;
+    if (!name) { showErr('su-err', 'Please enter your full name.'); return; }
+    setLoading('su-btn', true);
+    try {
+      const cred = await window.auth.createUserWithEmailAndPassword(email, pass);
+      // Update display name
+      await cred.user.updateProfile({ displayName: name });
+      // Save user profile to Firestore
+      if (window.db) {
+        await window.db.collection('users').doc(cred.user.uid).set({
+          uid: cred.user.uid,
+          name, email, phone,
+          createdAt: new Date().toISOString(),
+          role: 'customer',
+        });
+      }
+      // onAuthStateChanged will redirect
+    } catch(err) {
+      setLoading('su-btn', false);
+      const msg = err.code === 'auth/email-already-in-use'
+        ? 'An account with this email already exists. Please sign in instead.'
+        : (err.code === 'auth/weak-password'
+          ? 'Password is too weak. Use at least 6 characters.'
+          : err.message);
+      showErr('su-err', msg);
+    }
+  }
+
+  async function doForgot(e) {
+    e.preventDefault();
+    clearErrors();
+    const email = document.getElementById('fp-email').value.trim();
+    setLoading('fp-btn', true);
+    try {
+      await window.auth.sendPasswordResetEmail(email);
+      setLoading('fp-btn', false);
+      showOk('fp-ok', '✓ Reset link sent! Check your inbox (and spam folder).');
+    } catch(err) {
+      setLoading('fp-btn', false);
+      showErr('fp-err', err.code === 'auth/user-not-found' ? 'No account found with this email.' : err.message);
+    }
+  }
+</script>
+</body>
+</html>

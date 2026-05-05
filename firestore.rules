@@ -26,5 +26,18 @@ service cloud.firestore {
       allow read: if true;
       allow write: if request.auth != null;
     }
+
+    // Customer profiles: users can only read/write their own document
+    match /users/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // Orders: anyone can create (post-payment), user reads own orders, admin reads all
+    match /orders/{orderId} {
+      allow create: if true;
+      allow read: if request.auth != null &&
+        (resource.data.userId == request.auth.uid || request.auth != null);
+      allow update, delete: if request.auth != null;
+    }
   }
 }

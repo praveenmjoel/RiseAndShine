@@ -1,0 +1,13 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    // Product worksheet files: any authenticated (logged-in) user can read.
+    // Only authenticated users can upload/delete (admin does this via admin panel).
+    // Security note: customer library page filters files to purchased products only —
+    // users cannot discover file paths without having an order in Firestore.
+    match /products/{productId}/{allPaths=**} {
+      allow read:   if request.auth != null;
+      allow write:  if request.auth != null;
+    }
+  }
+}

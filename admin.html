@@ -314,6 +314,50 @@ tr:hover td { background: var(--blue-50); }
 .drawer-actions { margin-top: 22px; display: flex; gap: 10px; }
 .btn-full { flex: 1; padding: 10px; border-radius: var(--r-md); font-size: 0.85rem; font-weight: 600; }
 
+/* ─── FILE UPLOAD ─────────────────────────────────────── */
+.upload-zone {
+  border: 2px dashed var(--grey-300); border-radius: var(--r-md);
+  padding: 24px 16px; text-align: center; cursor: pointer;
+  transition: border-color 0.2s, background 0.2s; background: var(--grey-50);
+}
+.upload-zone:hover, .upload-zone.drag-over {
+  border-color: var(--blue-600); background: var(--blue-50);
+}
+.upload-zone-icon { font-size: 2rem; margin-bottom: 8px; }
+.upload-zone-title { font-size: 0.88rem; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+.upload-zone-sub { font-size: 0.78rem; color: var(--text-muted); margin-bottom: 12px; }
+.upload-zone-btns { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+.upload-zone-btns button { padding: 6px 14px; font-size: 0.78rem; }
+
+.upload-list { margin-top: 10px; display: flex; flex-direction: column; gap: 6px; }
+.upload-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 12px; border-radius: var(--r-sm);
+  background: white; border: 1.5px solid var(--grey-200); font-size: 0.82rem;
+}
+.upload-item.uploading { border-color: var(--blue-600); }
+.upload-item.done { border-color: #27AE60; background: #F0FFF4; }
+.upload-item.error { border-color: #E74C3C; background: #FFF5F5; }
+.upload-item-icon { font-size: 1rem; flex-shrink: 0; }
+.upload-item-info { flex: 1; min-width: 0; }
+.upload-item-name { font-weight: 500; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.upload-item-meta { font-size: 0.72rem; color: var(--text-muted); margin-top: 2px; }
+.upload-item-bar { width: 100%; height: 3px; background: var(--grey-200); border-radius: 2px; margin-top: 4px; }
+.upload-item-bar-fill { height: 100%; background: var(--blue-600); border-radius: 2px; transition: width 0.2s; }
+.upload-item-del {
+  background: none; border: none; cursor: pointer; color: var(--grey-400);
+  font-size: 1rem; padding: 2px 4px; border-radius: 4px; flex-shrink: 0;
+  transition: color 0.15s;
+}
+.upload-item-del:hover { color: #E74C3C; }
+
+.file-folder-header {
+  font-size: 0.78rem; font-weight: 700; color: var(--blue-800);
+  padding: 6px 0 4px; display: flex; align-items: center; gap: 6px;
+  text-transform: uppercase; letter-spacing: 0.05em;
+}
+.file-folder-files { padding-left: 16px; border-left: 2px solid var(--grey-200); margin-left: 8px; }
+
 /* ─── EMPTY STATE ─────────────────────────────────────── */
 .empty-state {
   text-align: center; padding: 60px 20px;
@@ -412,6 +456,7 @@ tr:hover td { background: var(--blue-50); }
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-storage-compat.js"></script>
 <script src="firebase-config.js"></script>
 </head>
 <body>
@@ -788,10 +833,24 @@ tr:hover td { background: var(--blue-50); }
           </div>
         </div>
         <div class="dl-full" style="grid-column:1/-1">
-          <div class="setting-row">
-            <label>PDF Delivery URL</label>
-            <input type="url" id="pPdfUrl" placeholder="https://drive.google.com/... (sent to buyer after payment)">
-            <small style="color:var(--text-muted);font-size:0.72rem;display:block;margin-top:4px">Paste a Google Drive / Dropbox shareable link. Will be used for automatic delivery once wired up.</small>
+          <div class="setting-row" style="margin-bottom:6px">
+            <label>Worksheet Files</label>
+            <div class="upload-zone" id="uploadZone"
+              ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event)">
+              <div class="upload-zone-icon">📤</div>
+              <p class="upload-zone-title">Drag &amp; drop PDF files here</p>
+              <p class="upload-zone-sub">Supports PDFs, images, and Office files</p>
+              <div class="upload-zone-btns">
+                <button type="button" class="btn-sm btn-ghost" onclick="document.getElementById('fileInput').click()">Select Files</button>
+                <button type="button" class="btn-sm btn-ghost" onclick="document.getElementById('folderInput').click()">Select Folder</button>
+              </div>
+              <input type="file" id="fileInput" multiple accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" style="display:none" onchange="handleFileSelect(this.files)">
+              <input type="file" id="folderInput" webkitdirectory multiple style="display:none" onchange="handleFileSelect(this.files, true)">
+            </div>
+            <div class="upload-list" id="uploadList"></div>
+            <div id="uploadStorageWarn" style="display:none;margin-top:8px;font-size:0.75rem;color:var(--gold);background:#FFF8E1;border-radius:6px;padding:8px 12px;">
+              ⚠ Firebase Storage not initialised — enable Storage in the Firebase Console (Build → Storage → Get started), then refresh.
+            </div>
           </div>
         </div>
         <div class="dl-full" style="grid-column:1/-1;display:flex;gap:20px;align-items:center;margin-top:4px">
@@ -1467,10 +1526,15 @@ async function renderProducts(force = false) {
   `).join('');
 }
 
+let currentProductFiles = []; // files staged for current product
+
 function openProductModal(id) {
-  editingProductId = id || null;
+  // Pre-generate an ID for new products so uploads can use it immediately
+  editingProductId = id || (Date.now().toString(36) + Math.random().toString(36).slice(2,5));
   document.getElementById('productModalTitle').textContent = id ? 'Edit Product' : 'New Product';
   document.getElementById('productSaveError').style.display = 'none';
+  currentProductFiles = [];
+
   if (id) {
     const p = (productsCache||[]).find(x => x.id === id);
     if (!p) return;
@@ -1482,9 +1546,10 @@ function openProductModal(id) {
     document.getElementById('pBadge').value = p.badge || '';
     document.getElementById('pSort').value = p.sortOrder ?? 99;
     document.getElementById('pDesc').value = p.description || '';
-    document.getElementById('pPdfUrl').value = p.pdfUrl || '';
     document.getElementById('pAnswerKey').checked = !!p.answerKey;
     document.getElementById('pActive').checked = p.active !== false;
+    // Load existing files
+    currentProductFiles = (p.files || []).map(f => ({ ...f }));
   } else {
     document.getElementById('pTitle').value = '';
     document.getElementById('pCategory').value = 'phonics';
@@ -1494,10 +1559,12 @@ function openProductModal(id) {
     document.getElementById('pBadge').value = '';
     document.getElementById('pSort').value = '99';
     document.getElementById('pDesc').value = '';
-    document.getElementById('pPdfUrl').value = '';
     document.getElementById('pAnswerKey').checked = true;
     document.getElementById('pActive').checked = true;
   }
+  renderUploadList();
+  document.getElementById('uploadStorageWarn').style.display =
+    (window.FIREBASE_READY && !window.storage) ? 'block' : 'none';
   document.getElementById('productOverlay').classList.add('open');
 }
 
@@ -1509,7 +1576,7 @@ async function saveProduct() {
     document.getElementById('productSaveError').style.display = 'block'; return;
   }
   document.getElementById('productSaveError').style.display = 'none';
-  const id = editingProductId || (Date.now().toString(36) + Math.random().toString(36).slice(2,5));
+  const id = editingProductId; // always pre-set in openProductModal()
   const product = {
     id,
     title,
@@ -1520,7 +1587,8 @@ async function saveProduct() {
     grade: document.getElementById('pGrade').value.trim(),
     badge: document.getElementById('pBadge').value,
     sortOrder: parseInt(document.getElementById('pSort').value) || 99,
-    pdfUrl: document.getElementById('pPdfUrl').value.trim(),
+    files: currentProductFiles,           // replaces pdfUrl
+    pdfUrl: '',                           // keep for backwards compatibility
     answerKey: document.getElementById('pAnswerKey').checked,
     active: document.getElementById('pActive').checked,
     updatedAt: new Date().toISOString(),
@@ -1547,6 +1615,153 @@ async function saveProduct() {
   productsCache = null;
   closeProductModalDirect();
   await renderProducts(true);
+}
+
+// ─── FILE UPLOAD ──────────────────────────────────────────
+
+function formatBytes(b) {
+  if (!b) return '';
+  if (b < 1024) return b + ' B';
+  if (b < 1048576) return (b/1024).toFixed(1) + ' KB';
+  return (b/1048576).toFixed(1) + ' MB';
+}
+
+function renderUploadList() {
+  const container = document.getElementById('uploadList');
+  if (!currentProductFiles.length) {
+    container.innerHTML = '<p style="font-size:0.78rem;color:var(--text-muted);text-align:center;padding:10px 0;">No files attached yet.</p>';
+    return;
+  }
+
+  // Group by folder (derived from displayName path segments)
+  const grouped = {};
+  currentProductFiles.forEach(f => {
+    const parts = (f.displayName || f.name).split('/');
+    const folder = parts.length > 1 ? parts.slice(0,-1).join('/') : '';
+    if (!grouped[folder]) grouped[folder] = [];
+    grouped[folder].push(f);
+  });
+
+  let html = '<div class="upload-list">';
+  Object.entries(grouped).sort().forEach(([folder, files]) => {
+    if (folder) {
+      html += `<div class="file-folder-header">📁 ${folder}</div>
+               <div class="file-folder-files">`;
+    }
+    files.forEach(f => {
+      const dispName = (f.displayName || f.name).split('/').pop();
+      const ext = dispName.split('.').pop().toUpperCase();
+      html += `<div class="upload-item done">
+        <span class="upload-item-icon">${ext === 'PDF' ? '📄' : ext.match(/JPG|JPEG|PNG/i) ? '🖼️' : '📎'}</span>
+        <div class="upload-item-info">
+          <div class="upload-item-name" title="${f.displayName || f.name}">${dispName}</div>
+          <div class="upload-item-meta">${formatBytes(f.size)}${f.url ? ' · <a href="'+f.url+'" target="_blank" style="color:var(--blue-600)">Preview</a>' : ''}</div>
+        </div>
+        <button class="upload-item-del" onclick="removeProductFile('${(f.path||'').replace(/'/g,"\\'")}', '${(f.displayName||f.name).replace(/'/g,"\\'")}')">✕</button>
+      </div>`;
+    });
+    if (folder) html += '</div>';
+  });
+  html += '</div>';
+  container.innerHTML = html;
+}
+
+function handleDragOver(e) {
+  e.preventDefault();
+  document.getElementById('uploadZone').classList.add('drag-over');
+}
+function handleDragLeave(e) {
+  document.getElementById('uploadZone').classList.remove('drag-over');
+}
+function handleDrop(e) {
+  e.preventDefault();
+  document.getElementById('uploadZone').classList.remove('drag-over');
+  handleFileSelect(e.dataTransfer.files);
+}
+
+function handleFileSelect(fileList, isFolder) {
+  if (!fileList.length) return;
+  Array.from(fileList).forEach(file => queueUpload(file, isFolder));
+}
+
+async function queueUpload(file, isFolder) {
+  if (!window.FIREBASE_READY || !window.storage) {
+    document.getElementById('uploadStorageWarn').style.display = 'block';
+    return;
+  }
+  if (!editingProductId) return;
+
+  // Determine the display path (preserves folder structure for folder uploads)
+  let displayName = file.name;
+  if (isFolder && file.webkitRelativePath) {
+    // e.g. "MyFolder/subdir/file.pdf" → strip first segment (the parent folder chosen by user)
+    const parts = file.webkitRelativePath.split('/');
+    displayName = parts.length > 1 ? parts.slice(1).join('/') : file.name;
+  }
+
+  const storagePath = `products/${editingProductId}/${displayName}`;
+  const uploadKey = 'up_' + Date.now() + '_' + Math.random().toString(36).slice(2,5);
+
+  // Add a progress item to UI
+  const list = document.getElementById('uploadList');
+  const item = document.createElement('div');
+  item.className = 'upload-item uploading';
+  item.id = uploadKey;
+  item.innerHTML = `
+    <span class="upload-item-icon">⏫</span>
+    <div class="upload-item-info">
+      <div class="upload-item-name">${displayName.split('/').pop()}</div>
+      <div class="upload-item-meta">Uploading…</div>
+      <div class="upload-item-bar"><div class="upload-item-bar-fill" id="${uploadKey}_bar" style="width:0%"></div></div>
+    </div>`;
+  // Prepend before existing "no files" placeholder
+  if (list.querySelector('p')) list.innerHTML = '';
+  list.appendChild(item);
+
+  try {
+    const ref = window.storage.ref(storagePath);
+    const task = ref.put(file);
+
+    task.on('state_changed',
+      snap => {
+        const pct = Math.round(snap.bytesTransferred / snap.totalBytes * 100);
+        const bar = document.getElementById(uploadKey + '_bar');
+        if (bar) bar.style.width = pct + '%';
+        const el = document.getElementById(uploadKey);
+        if (el) el.querySelector('.upload-item-meta').textContent = pct + '% of ' + formatBytes(file.size);
+      },
+      err => {
+        const el = document.getElementById(uploadKey);
+        if (el) {
+          el.className = 'upload-item error';
+          el.querySelector('.upload-item-meta').textContent = '✗ ' + err.message;
+          el.querySelector('.upload-item-icon').textContent = '❌';
+        }
+      },
+      async () => {
+        const url = await task.snapshot.ref.getDownloadURL();
+        const fileEntry = { name: file.name, displayName, path: storagePath, url, size: file.size, type: file.type || 'application/pdf', uploadedAt: new Date().toISOString() };
+        currentProductFiles.push(fileEntry);
+        // Refresh the full list (removes progress item, adds styled item)
+        renderUploadList();
+      }
+    );
+  } catch(e) {
+    const el = document.getElementById(uploadKey);
+    if (el) { el.className = 'upload-item error'; el.querySelector('.upload-item-meta').textContent = '✗ ' + e.message; }
+  }
+}
+
+async function removeProductFile(storagePath, displayName) {
+  if (!confirm(`Remove "${displayName.split('/').pop()}" from this product?`)) return;
+  // Remove from in-memory list
+  currentProductFiles = currentProductFiles.filter(f => f.path !== storagePath);
+  renderUploadList();
+  // Delete from Firebase Storage
+  if (window.FIREBASE_READY && window.storage && storagePath) {
+    try { await window.storage.ref(storagePath).delete(); }
+    catch(e) { console.warn('Storage delete failed (file may not exist):', e.message); }
+  }
 }
 
 async function toggleProductActive(id, active) {

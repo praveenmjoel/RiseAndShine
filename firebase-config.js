@@ -27,9 +27,13 @@ if (!firebaseConfig.apiKey.includes('REPLACE_WITH')) {
   try {
     firebase.initializeApp(firebaseConfig);
     window.db = firebase.firestore();
-    // Auth SDK is only loaded on admin.html — guard against missing SDK on other pages
+    // Auth SDK — loaded on admin, login, library, and worksheets pages
     if (typeof firebase.auth === 'function') {
       window.auth = firebase.auth();
+    }
+    // Storage SDK — loaded on admin page for file uploads
+    if (typeof firebase.storage === 'function') {
+      window.storage = firebase.storage();
     }
     window.FIREBASE_READY = true;
     console.log('%c✅ Firebase connected: ' + firebaseConfig.projectId, 'color:green;font-weight:bold');

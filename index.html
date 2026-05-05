@@ -169,6 +169,10 @@ nav.scrolled { box-shadow: var(--shadow-md); }
 .nav-wa:hover { background: rgba(37,211,102,0.08); }
 .nav-cta { background: var(--blue-800); color: var(--white) !important; padding: 10px 22px !important; border-radius: var(--r-sm) !important; font-size: 0.8rem !important; font-weight: 600 !important; }
 .nav-cta:hover { background: var(--blue-700) !important; color: var(--white) !important; }
+.nav-lib-link { display: none; align-items: center; gap: 6px; font-size: 0.8rem; font-weight: 600; color: var(--blue-800); padding: 8px 16px; border-radius: var(--r-sm); border: 1.5px solid var(--border); transition: all 0.2s; }
+.nav-lib-link:hover { background: var(--blue-50); border-color: var(--blue-600); }
+.nav-login-link { font-size: 0.8rem; font-weight: 600; color: var(--blue-800); padding: 8px 16px; border-radius: var(--r-sm); border: 1.5px solid var(--blue-800); transition: all 0.2s; display: none; }
+.nav-login-link:hover { background: var(--blue-800); color: white; }
 .hamburger { display: none; flex-direction: column; gap: 5px; padding: 8px; cursor: pointer; }
 .hamburger span { display: block; width: 22px; height: 2px; background: var(--blue-800); border-radius: 2px; transition: all 0.3s; }
 .mobile-menu {
@@ -721,6 +725,11 @@ footer ul li a:hover { color: var(--gold-light); }
     <li><a href="contact.html">Contact</a></li>
   </ul>
   <div class="nav-right">
+    <a href="my-library.html" class="nav-lib-link" id="navLibLink">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+      My Library
+    </a>
+    <a href="login.html" class="nav-login-link" id="navLoginLink">Sign In</a>
     <a href="https://wa.me/919823888638" target="_blank" class="nav-wa">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.917 1.04 5.592 2.757 7.671L.947 23.243l3.682-1.77A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 0 1-5.024-1.378l-.36-.215-3.728.977.995-3.638-.235-.374A9.818 9.818 0 1 1 12 21.818z"/></svg>
       WhatsApp
@@ -740,7 +749,9 @@ footer ul li a:hover { color: var(--gold-light); }
   <a href="worksheets.html">Worksheets</a>
   <a href="practice-tests.html">Practice Tests</a>
   <a href="contact.html">Contact</a>
+  <a href="my-library.html" id="mobileLibLink" style="display:none">📚 My Library</a>
   <a href="https://wa.me/919823888638" target="_blank">WhatsApp Us</a>
+  <a href="login.html" id="mobileLoginLink" class="mobile-cta" style="display:none">Sign In to Your Account</a>
   <a href="contact.html" class="mobile-cta">Book a Free Demo</a>
 </div>
 
@@ -1316,6 +1327,34 @@ function submitPopupForm(e) {
   // TODO: Replace with actual Supabase / Firebase API call
   alert('Thank you! We will contact you within 24 hours to confirm your free demo class.');
 }
+</script>
+
+<!-- Firebase SDK (auth only — for nav state) -->
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script src="firebase-config.js"></script>
+<script>
+// ── Auth nav state ─────────────────────────────────────
+(function initAuthNav() {
+  function updateAuthNav(user) {
+    var libLink     = document.getElementById('navLibLink');
+    var loginLink   = document.getElementById('navLoginLink');
+    var mobileLib   = document.getElementById('mobileLibLink');
+    var mobileLogin = document.getElementById('mobileLoginLink');
+    if (libLink)     libLink.style.display     = user ? 'flex'         : 'none';
+    if (loginLink)   loginLink.style.display   = user ? 'none'         : 'inline-block';
+    if (mobileLib)   mobileLib.style.display   = user ? ''            : 'none';
+    if (mobileLogin) mobileLogin.style.display = user ? 'none'         : '';
+  }
+  // Wait for firebase-config.js to initialise
+  setTimeout(function() {
+    if (window.FIREBASE_READY && window.auth) {
+      window.auth.onAuthStateChanged(updateAuthNav);
+    } else {
+      updateAuthNav(null);
+    }
+  }, 150);
+})();
 </script>
 </body>
 </html>

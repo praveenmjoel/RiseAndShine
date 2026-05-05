@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Library – Rise &amp; Shine Academy</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --blue:#0B3C5D; --blue-light:#EBF5FB; --gold:#E8A000; --gold-light:#FFF3D4;
+      --green:#27AE60; --red:#C0392B; --gray-50:#F8F9FA; --gray-100:#F1F3F5;
+      --gray-200:#E9ECEF; --gray-600:#6C757D; --gray-800:#343A40;
+      --radius:12px; --shadow:0 4px 20px rgba(0,0,0,.08);
+    }
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:'Inter',sans-serif;background:var(--gray-50);color:var(--gray-800);min-height:100vh;}
+
+    /* ── NAV ─────────────────────────────────────────────── */
+    .topbar{background:var(--blue);color:white;padding:.85rem 2rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;}
+    .topbar-logo{font-family:'Playfair Display',serif;color:var(--gold);font-size:1rem;text-decoration:none;}
+    .topbar-user{display:flex;align-items:center;gap:.75rem;font-size:.83rem;}
+    .topbar-email{opacity:.8;}
+    .topbar-btns{display:flex;gap:.5rem;}
+    .btn-outline-white{padding:.4rem .9rem;border:1.5px solid rgba(255,255,255,.4);border-radius:100px;color:white;font-family:'Inter',sans-serif;font-size:.78rem;font-weight:600;cursor:pointer;background:none;transition:all .2s;}
+    .btn-outline-white:hover{background:rgba(255,255,255,.1);}
+
+    /* ── HERO ────────────────────────────────────────────── */
+    .hero{background:linear-gradient(135deg,var(--blue) 0%,#1a5276 100%);padding:3rem 2rem 2.5rem;text-align:center;}
+    .hero h1{font-family:'Playfair Display',serif;font-size:1.9rem;color:white;margin-bottom:.4rem;}
+    .hero p{color:rgba(255,255,255,.75);font-size:.9rem;}
+
+    /* ── GRID ────────────────────────────────────────────── */
+    .library-wrap{max-width:1100px;margin:2.5rem auto;padding:0 1.5rem 4rem;}
+    .section-label{font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--gold);margin-bottom:1.25rem;}
+
+    .product-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.25rem;}
+    .product-card{background:white;border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;cursor:pointer;transition:transform .2s,box-shadow .2s;border:2px solid transparent;}
+    .product-card:hover{transform:translateY(-3px);box-shadow:0 10px 30px rgba(0,0,0,.12);border-color:var(--gold);}
+    .product-card-top{height:8px;background:var(--blue);}
+    .product-card-top.phonics{background:linear-gradient(90deg,#27AE60,#2ECC71);}
+    .product-card-top.grammar{background:linear-gradient(90deg,#2980B9,#3498DB);}
+    .product-card-top.cambridge{background:linear-gradient(90deg,#8E44AD,#9B59B6);}
+    .product-card-top.bundle{background:linear-gradient(90deg,var(--gold),#E8A000);}
+    .product-card-body{padding:1.25rem;}
+    .product-card-cat{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--gray-600);margin-bottom:.4rem;}
+    .product-card-title{font-family:'Playfair Display',serif;font-size:1rem;color:var(--blue);margin-bottom:.5rem;line-height:1.35;}
+    .product-card-meta{display:flex;gap:.75rem;font-size:.75rem;color:var(--gray-600);flex-wrap:wrap;}
+    .product-card-foot{padding:.85rem 1.25rem;border-top:1px solid var(--gray-200);display:flex;align-items:center;justify-content:space-between;}
+    .file-count{font-size:.78rem;color:var(--gray-600);display:flex;align-items:center;gap:.35rem;}
+    .view-btn{background:var(--blue);color:white;border:none;border-radius:100px;padding:.4rem 1rem;font-family:'Inter',sans-serif;font-size:.78rem;font-weight:600;cursor:pointer;transition:background .2s;}
+    .view-btn:hover{background:#0a325a;}
+
+    .empty{text-align:center;padding:5rem 2rem;}
+    .empty-icon{font-size:3rem;margin-bottom:1rem;}
+    .empty h2{font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--blue);margin-bottom:.5rem;}
+    .empty p{color:var(--gray-600);margin-bottom:1.5rem;font-size:.9rem;}
+    .btn-gold{display:inline-block;padding:.75rem 2rem;background:var(--gold);color:var(--blue);border-radius:100px;font-weight:700;text-decoration:none;font-size:.9rem;transition:all .2s;}
+    .btn-gold:hover{background:#D4900A;transform:translateY(-1px);}
+
+    .loading{text-align:center;padding:5rem 2rem;color:var(--gray-600);}
+    .spinner{display:inline-block;width:36px;height:36px;border:3px solid var(--gray-200);border-top-color:var(--blue);border-radius:50%;animation:spin .7s linear infinite;margin-bottom:1rem;}
+    @keyframes spin{to{transform:rotate(360deg);}}
+
+    /* ── VIEWER MODAL ────────────────────────────────────── */
+    .viewer-overlay{position:fixed;inset:0;z-index:200;display:none;background:rgba(0,0,0,.55);backdrop-filter:blur(3px);}
+    .viewer-overlay.open{display:flex;}
+    .viewer-panel{
+      position:fixed;inset:0;z-index:201;display:none;flex-direction:column;
+      background:white;
+    }
+    .viewer-panel.open{display:flex;}
+
+    .viewer-header{background:var(--blue);color:white;padding:.85rem 1.25rem;display:flex;align-items:center;gap:1rem;flex-shrink:0;}
+    .viewer-close{background:rgba(255,255,255,.15);border:none;color:white;width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:1.1rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .2s;}
+    .viewer-close:hover{background:rgba(255,255,255,.25);}
+    .viewer-product-name{font-family:'Playfair Display',serif;font-size:1rem;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+    .viewer-file-count{font-size:.75rem;opacity:.7;flex-shrink:0;}
+
+    .viewer-body{display:flex;flex:1;min-height:0;}
+
+    /* Sidebar */
+    .viewer-sidebar{width:260px;flex-shrink:0;border-right:1px solid var(--gray-200);overflow-y:auto;background:var(--gray-50);}
+    .sidebar-section-label{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--gray-600);padding:.75rem 1rem .35rem;}
+    .sidebar-folder{font-size:.78rem;font-weight:700;color:var(--blue);padding:.6rem 1rem .3rem;display:flex;align-items:center;gap:.4rem;border-top:1px solid var(--gray-200);}
+    .sidebar-file{
+      display:flex;align-items:center;gap:.6rem;padding:.55rem .85rem .55rem 1rem;
+      cursor:pointer;font-size:.82rem;color:var(--gray-800);
+      transition:background .15s;border-left:3px solid transparent;
+    }
+    .sidebar-file:hover{background:var(--blue-light);}
+    .sidebar-file.active{background:var(--blue-light);border-left-color:var(--blue);color:var(--blue);font-weight:600;}
+    .sidebar-file-icon{font-size:.95rem;flex-shrink:0;}
+    .sidebar-file-name{flex:1;line-height:1.3;}
+    .sidebar-file-size{font-size:.68rem;color:var(--gray-600);}
+
+    /* PDF frame area */
+    .viewer-main{flex:1;display:flex;flex-direction:column;min-width:0;}
+    .viewer-toolbar{padding:.6rem 1rem;background:white;border-bottom:1px solid var(--gray-200);display:flex;align-items:center;gap:.75rem;flex-shrink:0;flex-wrap:wrap;}
+    .viewer-filename{font-size:.83rem;font-weight:600;color:var(--blue);flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+    .viewer-action-btn{padding:.35rem .85rem;border:1.5px solid var(--gray-200);border-radius:6px;background:white;font-family:'Inter',sans-serif;font-size:.75rem;font-weight:600;cursor:pointer;color:var(--gray-800);transition:all .2s;text-decoration:none;display:inline-flex;align-items:center;gap:.3rem;}
+    .viewer-action-btn:hover{border-color:var(--blue);color:var(--blue);}
+    .pdf-frame{flex:1;width:100%;border:none;min-height:0;}
+
+    /* Mobile: sidebar becomes top strip */
+    @media(max-width:700px){
+      .viewer-sidebar{width:100%;max-height:180px;border-right:none;border-bottom:1px solid var(--gray-200);}
+      .viewer-body{flex-direction:column;}
+      .viewer-sidebar .sidebar-section-label{padding:.5rem .85rem .25rem;}
+      .viewer-sidebar .sidebar-file{padding:.45rem .75rem;}
+    }
+
+    .no-files{padding:3rem;text-align:center;color:var(--gray-600);font-size:.9rem;}
+  </style>
+</head>
+<body>
+
+<!-- Top bar -->
+<div class="topbar">
+  <a class="topbar-logo" href="index.html">Rise &amp; Shine Academy</a>
+  <div class="topbar-user">
+    <span class="topbar-email" id="userEmail">Loading…</span>
+    <div class="topbar-btns">
+      <a href="worksheets.html" class="btn-outline-white">Shop Worksheets</a>
+      <button class="btn-outline-white" onclick="doLogout()">Sign Out</button>
+    </div>
+  </div>
+</div>
+
+<!-- Hero -->
+<div class="hero">
+  <h1>My Library</h1>
+  <p>Your purchased worksheets — ready to view anytime.</p>
+</div>
+
+<!-- Content -->
+<div class="library-wrap">
+  <div id="library-content">
+    <div class="loading">
+      <div class="spinner"></div>
+      <p>Loading your library…</p>
+    </div>
+  </div>
+</div>
+
+<!-- Viewer Panel -->
+<div class="viewer-panel" id="viewerPanel">
+  <div class="viewer-header">
+    <button class="viewer-close" onclick="closeViewer()">✕</button>
+    <div class="viewer-product-name" id="viewerProductName">Product Name</div>
+    <div class="viewer-file-count" id="viewerFileCount"></div>
+  </div>
+  <div class="viewer-body">
+    <div class="viewer-sidebar" id="viewerSidebar"></div>
+    <div class="viewer-main">
+      <div class="viewer-toolbar">
+        <div class="viewer-filename" id="viewerCurrentFile">Select a file to view</div>
+        <a class="viewer-action-btn" id="viewerDownloadBtn" href="#" target="_blank" download>
+          ↓ Download
+        </a>
+        <a class="viewer-action-btn" id="viewerOpenBtn" href="#" target="_blank">
+          ↗ Open in tab
+        </a>
+      </div>
+      <iframe class="pdf-frame" id="pdfFrame" src="about:blank" allowfullscreen></iframe>
+    </div>
+  </div>
+</div>
+
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script src="firebase-config.js"></script>
+<script>
+  let currentUser = null;
+  let viewerFiles  = [];
+
+  // ── AUTH GUARD ──────────────────────────────────────────
+  window.addEventListener('DOMContentLoaded', () => {
+    if (!window.FIREBASE_READY) {
+      showError('Firebase is not configured. Please contact the academy.');
+      return;
+    }
+    window.auth.onAuthStateChanged(async user => {
+      if (!user) {
+        window.location.href = 'login.html?redirect=my-library.html';
+        return;
+      }
+      currentUser = user;
+      document.getElementById('userEmail').textContent = user.displayName || user.email;
+      await loadLibrary(user.uid);
+    });
+  });
+
+  async function doLogout() {
+    await window.auth.signOut();
+    window.location.href = 'index.html';
+  }
+
+  // ── LOAD LIBRARY ────────────────────────────────────────
+  async function loadLibrary(uid) {
+    try {
+      // Fetch all orders belonging to this user
+      const ordersSnap = await window.db
+        .collection('orders')
+        .where('userId', '==', uid)
+        .orderBy('date', 'desc')
+        .get();
+
+      if (ordersSnap.empty) {
+        renderEmpty();
+        return;
+      }
+
+      // Collect unique product IDs from orders
+      const orders = ordersSnap.docs.map(d => d.data());
+      const productIds = [...new Set(orders.map(o => o.productId).filter(Boolean))];
+
+      // Fetch product documents
+      let products = [];
+      if (productIds.length) {
+        const prods = await Promise.all(
+          productIds.map(pid => window.db.collection('products').doc(pid).get())
+        );
+        products = prods.filter(d => d.exists).map(d => d.data());
+      }
+
+      // Fallback: if productId not stored, use order product name to identify
+      if (!products.length) {
+        renderEmpty(true); // bought but files not linked
+        return;
+      }
+
+      renderLibrary(orders, products);
+    } catch(e) {
+      console.error('loadLibrary error:', e);
+      showError('Could not load your library. ' + e.message);
+    }
+  }
+
+  function renderLibrary(orders, products) {
+    const CAT_LABEL = { phonics:'Phonics & Reading', grammar:'English Grammar', cambridge:'Cambridge', bundle:'Bundle' };
+    const grid = products.map(p => {
+      const order = orders.find(o => o.productId === p.id) || orders[0];
+      const fileCount = (p.files || []).length;
+      const purchaseDate = order?.date ? new Date(order.date).toLocaleDateString('en-IN', {day:'numeric',month:'short',year:'numeric'}) : '';
+      return `
+        <div class="product-card" onclick="openViewer(${JSON.stringify(p.id)})">
+          <div class="product-card-top ${p.category || ''}"></div>
+          <div class="product-card-body">
+            <div class="product-card-cat">${CAT_LABEL[p.category] || p.category || ''}</div>
+            <div class="product-card-title">${esc(p.title)}</div>
+            <div class="product-card-meta">
+              ${p.grade ? `<span>📚 ${esc(p.grade)}</span>` : ''}
+              ${purchaseDate ? `<span>🛒 Purchased ${purchaseDate}</span>` : ''}
+            </div>
+          </div>
+          <div class="product-card-foot">
+            <div class="file-count">
+              📄 ${fileCount} file${fileCount !== 1 ? 's' : ''}
+            </div>
+            <button class="view-btn">View Files →</button>
+          </div>
+        </div>`;
+    }).join('');
+
+    document.getElementById('library-content').innerHTML = `
+      <div class="section-label">Your Purchases (${products.length})</div>
+      <div class="product-grid">${grid}</div>`;
+
+    // Cache products for viewer
+    window.__libraryProducts = products;
+  }
+
+  function renderEmpty(hasPurchase) {
+    document.getElementById('library-content').innerHTML = `
+      <div class="empty">
+        <div class="empty-icon">${hasPurchase ? '⏳' : '📚'}</div>
+        <h2>${hasPurchase ? 'Your files are being prepared' : 'Your library is empty'}</h2>
+        <p>${hasPurchase
+          ? 'Your purchase was received! Files will appear here shortly. Contact us on WhatsApp if it takes more than a few minutes.'
+          : 'You haven\'t purchased any worksheets yet. Browse our collection to get started!'}</p>
+        <a href="worksheets.html" class="btn-gold">Browse Worksheets</a>
+      </div>`;
+  }
+
+  function showError(msg) {
+    document.getElementById('library-content').innerHTML = `
+      <div class="empty">
+        <div class="empty-icon">⚠️</div>
+        <h2>Something went wrong</h2>
+        <p>${esc(msg)}</p>
+      </div>`;
+  }
+
+  // ── PDF VIEWER ──────────────────────────────────────────
+  async function openViewer(productId) {
+    const products = window.__libraryProducts || [];
+    const product  = products.find(p => p.id === productId);
+    if (!product) return;
+
+    const files = (product.files || []);
+
+    document.getElementById('viewerProductName').textContent = product.title;
+    document.getElementById('viewerFileCount').textContent   = files.length + ' file' + (files.length !== 1 ? 's' : '');
+
+    viewerFiles = files;
+    renderSidebar(files);
+
+    // Auto-open first file
+    if (files.length > 0) loadFile(0);
+
+    document.getElementById('viewerPanel').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeViewer() {
+    document.getElementById('viewerPanel').classList.remove('open');
+    document.getElementById('pdfFrame').src = 'about:blank';
+    document.body.style.overflow = '';
+    viewerFiles = [];
+  }
+
+  function renderSidebar(files) {
+    if (!files.length) {
+      document.getElementById('viewerSidebar').innerHTML = '<div class="no-files">No files in this product yet. Check back soon!</div>';
+      return;
+    }
+
+    // Group by folder
+    const grouped = {};
+    files.forEach((f, idx) => {
+      const parts = (f.displayName || f.name).split('/');
+      const folder = parts.length > 1 ? parts.slice(0,-1).join('/') : '';
+      if (!grouped[folder]) grouped[folder] = [];
+      grouped[folder].push({ ...f, idx });
+    });
+
+    let html = '<div class="sidebar-section-label">Files</div>';
+    Object.entries(grouped).sort().forEach(([folder, ffiles]) => {
+      if (folder) html += `<div class="sidebar-folder">📁 ${esc(folder)}</div>`;
+      ffiles.forEach(f => {
+        const name = (f.displayName || f.name).split('/').pop();
+        const ext  = name.split('.').pop().toUpperCase();
+        const icon = ext === 'PDF' ? '📄' : ext.match(/JPG|JPEG|PNG/i) ? '🖼️' : '📎';
+        const size = formatBytes(f.size);
+        html += `<div class="sidebar-file" id="sf_${f.idx}" onclick="loadFile(${f.idx})">
+          <span class="sidebar-file-icon">${icon}</span>
+          <span class="sidebar-file-name">${esc(name)}</span>
+          ${size ? `<span class="sidebar-file-size">${size}</span>` : ''}
+        </div>`;
+      });
+    });
+
+    document.getElementById('viewerSidebar').innerHTML = html;
+  }
+
+  function loadFile(idx) {
+    const file = viewerFiles[idx];
+    if (!file || !file.url) return;
+
+    // Update sidebar highlight
+    document.querySelectorAll('.sidebar-file').forEach(el => el.classList.remove('active'));
+    const sfEl = document.getElementById('sf_' + idx);
+    if (sfEl) { sfEl.classList.add('active'); sfEl.scrollIntoView({ block:'nearest' }); }
+
+    const name = (file.displayName || file.name).split('/').pop();
+    document.getElementById('viewerCurrentFile').textContent = name;
+    document.getElementById('viewerDownloadBtn').href = file.url;
+    document.getElementById('viewerOpenBtn').href     = file.url;
+
+    // Embed PDF
+    const ext = name.split('.').pop().toLowerCase();
+    const frame = document.getElementById('pdfFrame');
+    if (ext === 'pdf') {
+      frame.src = file.url;
+    } else if (['jpg','jpeg','png','gif','webp'].includes(ext)) {
+      frame.srcdoc = `<html><body style="margin:0;background:#222;display:flex;align-items:center;justify-content:center;min-height:100vh;"><img src="${file.url}" style="max-width:100%;max-height:100vh;object-fit:contain;"></body></html>`;
+    } else {
+      frame.srcdoc = `<html><body style="font-family:sans-serif;padding:2rem;text-align:center;color:#555;">
+        <p style="font-size:1.1rem;margin-bottom:1rem;">This file type cannot be previewed here.</p>
+        <a href="${file.url}" download style="background:#0B3C5D;color:white;padding:.75rem 1.5rem;border-radius:8px;text-decoration:none;font-weight:600;">Download File</a>
+      </body></html>`;
+    }
+  }
+
+  function formatBytes(b) {
+    if (!b) return '';
+    if (b < 1024) return b + ' B';
+    if (b < 1048576) return (b/1024).toFixed(1) + ' KB';
+    return (b/1048576).toFixed(1) + ' MB';
+  }
+
+  function esc(str) {
+    return String(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  // Close viewer on Escape
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeViewer(); });
+</script>
+</body>
+</html>
