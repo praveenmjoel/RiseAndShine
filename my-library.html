@@ -225,7 +225,8 @@
         const prods = await Promise.all(
           productIds.map(pid => window.db.collection('products').doc(pid).get())
         );
-        products = prods.filter(d => d.exists).map(d => d.data());
+        // Include the Firestore doc ID so openViewer can look up the product
+        products = prods.filter(d => d.exists).map(d => ({ id: d.id, ...d.data() }));
       }
 
       // Fallback: if productId not stored, use order product name to identify
@@ -248,7 +249,7 @@
       const fileCount = (p.files || []).length;
       const purchaseDate = order?.date ? new Date(order.date).toLocaleDateString('en-IN', {day:'numeric',month:'short',year:'numeric'}) : '';
       return `
-        <div class="product-card" onclick="openViewer(${JSON.stringify(p.id)})">
+        <div class="product-card" onclick="openViewer('${(p.id||'').replace(/'/g,'\\'')}')">
           <div class="product-card-top ${p.category || ''}"></div>
           <div class="product-card-body">
             <div class="product-card-cat">${CAT_LABEL[p.category] || p.category || ''}</div>
@@ -298,23 +299,29 @@
 
   // ── PDF VIEWER ──────────────────────────────────────────
   async function openViewer(productId) {
-    const products = window.__libraryProducts || [];
-    const product  = products.find(p => p.id === productId);
-    if (!product) return;
+    try {
+      const products = window.__libraryProducts || [];
+      // Find by id, or fall back to first product if id wasn't set
+      const product = products.find(p => p.id === productId) || (products.length === 1 ? products[0] : null);
+      if (!product) { alert('Could not open product. Please refresh and try again.'); return; }
 
-    const files = (product.files || []);
+      const files = (product.files || []);
 
-    document.getElementById('viewerProductName').textContent = product.title;
-    document.getElementById('viewerFileCount').textContent   = files.length + ' file' + (files.length !== 1 ? 's' : '');
+      document.getElementById('viewerProductName').textContent = product.title || 'Product';
+      document.getElementById('viewerFileCount').textContent   = files.length + ' file' + (files.length !== 1 ? 's' : '');
 
-    viewerFiles = files;
-    renderSidebar(files);
+      viewerFiles = files;
+      renderSidebar(files);
 
-    // Auto-open first file
-    if (files.length > 0) loadFile(0);
+      // Auto-open first file
+      if (files.length > 0) loadFile(0);
 
-    document.getElementById('viewerPanel').classList.add('open');
-    document.body.style.overflow = 'hidden';
+      document.getElementById('viewerPanel').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    } catch(err) {
+      console.error('openViewer error:', err);
+      alert('Could not open files: ' + err.message);
+    }
   }
 
   function closeViewer() {
@@ -333,17 +340,18 @@
     // Group by folder
     const grouped = {};
     files.forEach((f, idx) => {
-      const parts = (f.displayName || f.name).split('/');
+      const fullName = f.displayName || f.name || ('File ' + (idx + 1));
+      const parts = fullName.split('/');
       const folder = parts.length > 1 ? parts.slice(0,-1).join('/') : '';
       if (!grouped[folder]) grouped[folder] = [];
-      grouped[folder].push({ ...f, idx });
+      grouped[folder].push({ ...f, _fullName: fullName, idx });
     });
 
     let html = '<div class="sidebar-section-label">Files</div>';
     Object.entries(grouped).sort().forEach(([folder, ffiles]) => {
       if (folder) html += `<div class="sidebar-folder">📁 ${esc(folder)}</div>`;
       ffiles.forEach(f => {
-        const name = (f.displayName || f.name).split('/').pop();
+        const name = f._fullName.split('/').pop();
         const ext  = name.split('.').pop().toUpperCase();
         const icon = ext === 'PDF' ? '📄' : ext.match(/JPG|JPEG|PNG/i) ? '🖼️' : '📎';
         const size = formatBytes(f.size);

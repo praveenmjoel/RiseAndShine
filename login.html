@@ -148,7 +148,11 @@
       return;
     }
     window.auth.onAuthStateChanged(user => {
-      if (user) window.location.href = redirectTo;
+      if (user) {
+        // Set flag so the destination page can show a welcome toast
+        sessionStorage.setItem('ras_just_authed', '1');
+        window.location.href = redirectTo;
+      }
     });
   });
 
@@ -250,12 +254,22 @@
     const email = document.getElementById('fp-email').value.trim();
     setLoading('fp-btn', true);
     try {
-      await window.auth.sendPasswordResetEmail(email);
+      // actionCodeSettings: after the user clicks the reset link, send them back to our login page
+      const actionCodeSettings = {
+        url: 'https://riseandshineacademy.in/login.html',
+        handleCodeInApp: false,
+      };
+      await window.auth.sendPasswordResetEmail(email, actionCodeSettings);
       setLoading('fp-btn', false);
-      showOk('fp-ok', '✓ Reset link sent! Check your inbox (and spam folder).');
+      showOk('fp-ok', '✓ Reset link sent! Check your inbox — and your spam/junk folder if you don\'t see it within 2 minutes.');
     } catch(err) {
       setLoading('fp-btn', false);
-      showErr('fp-err', err.code === 'auth/user-not-found' ? 'No account found with this email.' : err.message);
+      const msg = err.code === 'auth/user-not-found'
+        ? 'No account found with this email address.'
+        : (err.code === 'auth/invalid-email'
+          ? 'Please enter a valid email address.'
+          : err.message);
+      showErr('fp-err', msg);
     }
   }
 </script>
