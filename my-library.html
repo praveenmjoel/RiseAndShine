@@ -201,10 +201,11 @@
   async function loadLibrary(uid) {
     try {
       // Fetch all orders belonging to this user
+      // No .orderBy() here — that would require a Firestore composite index.
+      // We sort client-side instead so the library works with zero extra setup.
       const ordersSnap = await window.db
         .collection('orders')
         .where('userId', '==', uid)
-        .orderBy('date', 'desc')
         .get();
 
       if (ordersSnap.empty) {
@@ -212,8 +213,10 @@
         return;
       }
 
-      // Collect unique product IDs from orders
-      const orders = ordersSnap.docs.map(d => d.data());
+      // Sort newest-first in JS
+      const orders = ordersSnap.docs
+        .map(d => d.data())
+        .sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0));
       const productIds = [...new Set(orders.map(o => o.productId).filter(Boolean))];
 
       // Fetch product documents
