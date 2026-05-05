@@ -278,12 +278,12 @@
 
   function renderLibrary(orders, products) {
     const CAT_LABEL = { phonics:'Phonics & Reading', grammar:'English Grammar', cambridge:'Cambridge', bundle:'Bundle' };
-    const grid = products.map(p => {
+    const grid = products.map((p, idx) => {
       const order = orders.find(o => o.productId === p.id) || orders[0];
       const fileCount = (p.files || []).length;
       const purchaseDate = order?.date ? new Date(order.date).toLocaleDateString('en-IN', {day:'numeric',month:'short',year:'numeric'}) : '';
       return `
-        <div class="product-card" onclick="openViewer('${(p.id||'').replace(/'/g,'\\'')}')">
+        <div class="product-card" onclick="openViewer(${idx})">
           <div class="product-card-top ${p.category || ''}"></div>
           <div class="product-card-body">
             <div class="product-card-cat">${CAT_LABEL[p.category] || p.category || ''}</div>
@@ -333,11 +333,11 @@
   }
 
   // ── PDF VIEWER ──────────────────────────────────────────
-  async function openViewer(productId) {
+  // idx is the numeric index into window.__libraryProducts (avoids string-escaping issues)
+  async function openViewer(idx) {
     try {
       const products = window.__libraryProducts || [];
-      // Find by id, or fall back to first product if id wasn't set
-      const product = products.find(p => p.id === productId) || (products.length === 1 ? products[0] : null);
+      const product = products[idx] || null;
       if (!product) { alert('Could not open product. Please refresh and try again.'); return; }
 
       const files = (product.files || []);
