@@ -176,21 +176,53 @@
   let viewerFiles  = [];
 
   // ── AUTH GUARD ──────────────────────────────────────────
-  window.addEventListener('DOMContentLoaded', () => {
-    if (!window.FIREBASE_READY) {
+  // Scripts are at the end of <body> so DOM is already ready — no need for
+  // DOMContentLoaded. We also try auth.currentUser first (synchronous cache)
+  // so the page loads instantly for users who were already signed in.
+  (function initAuth() {
+    if (!window.FIREBASE_READY || !window.auth) {
       showError('Firebase is not configured. Please contact the academy.');
       return;
     }
-    window.auth.onAuthStateChanged(async user => {
+
+    function startWithUser(user) {
       if (!user) {
         window.location.href = 'login.html?redirect=my-library.html';
         return;
       }
       currentUser = user;
-      document.getElementById('userEmail').textContent = user.displayName || user.email;
-      await loadLibrary(user.uid);
+      document.getElementById('userEmail').textContent = user.displayName || user.email || 'My Account';
+      loadLibrary(user.uid);
+    }
+
+    // 1. Try synchronous currentUser first (available immediately if session is cached)
+    const cached = window.auth.currentUser;
+    if (cached) {
+      startWithUser(cached);
+      return;
+    }
+
+    // 2. Fall back to async onAuthStateChanged with a timeout
+    let resolved = false;
+    const timer = setTimeout(() => {
+      if (!resolved) {
+        resolved = true;
+        showError(
+          'Loading is taking too long. Your connection may be slow. ' +
+          '<br><br><a href="" onclick="location.reload();return false;" ' +
+          'style="color:#0B3C5D;font-weight:700;text-decoration:underline;">Tap to Refresh</a>',
+          true  // allow HTML
+        );
+      }
+    }, 10000); // 10 seconds
+
+    window.auth.onAuthStateChanged(user => {
+      if (resolved) return; // timeout already fired
+      resolved = true;
+      clearTimeout(timer);
+      startWithUser(user);
     });
-  });
+  })();
 
   async function doLogout() {
     await window.auth.signOut();
@@ -200,6 +232,8 @@
   // ── LOAD LIBRARY ────────────────────────────────────────
   async function loadLibrary(uid) {
     try {
+      if (!window.db) throw new Error('Firestore is not initialised. Please refresh the page.');
+
       // Fetch all orders belonging to this user
       // No .orderBy() here — that would require a Firestore composite index.
       // We sort client-side instead so the library works with zero extra setup.
@@ -288,12 +322,13 @@
       </div>`;
   }
 
-  function showError(msg) {
+  function showError(msg, isHtml) {
+    // isHtml=true lets us embed links (e.g. the refresh link in the timeout message)
     document.getElementById('library-content').innerHTML = `
       <div class="empty">
         <div class="empty-icon">⚠️</div>
         <h2>Something went wrong</h2>
-        <p>${esc(msg)}</p>
+        <p>${isHtml ? msg : esc(msg)}</p>
       </div>`;
   }
 
