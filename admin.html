@@ -1456,7 +1456,23 @@ async function loadSettings() {
     document.getElementById('rzpKey').value = localStorage.getItem('ras_rzp_key') || '';
   }
   document.getElementById('waNumber').value = localStorage.getItem('ras_wa_number') || '';
-  document.getElementById('odClientId').value = localStorage.getItem('ras_gd_client_id') || '';
+  // Load GD client ID from Firestore (so it works on every device)
+  if (window.FIREBASE_READY && window.db) {
+    try {
+      const gdSnap = await window.db.collection('settings').doc('googledrive').get();
+      if (gdSnap.exists && gdSnap.data().clientId) {
+        const cid = gdSnap.data().clientId;
+        document.getElementById('odClientId').value = cid;
+        localStorage.setItem('ras_gd_client_id', cid);
+      } else {
+        document.getElementById('odClientId').value = localStorage.getItem('ras_gd_client_id') || '';
+      }
+    } catch(e) {
+      document.getElementById('odClientId').value = localStorage.getItem('ras_gd_client_id') || '';
+    }
+  } else {
+    document.getElementById('odClientId').value = localStorage.getItem('ras_gd_client_id') || '';
+  }
 }
 
 async function saveSettings(type) {
@@ -1488,7 +1504,13 @@ async function saveSettings(type) {
     const cid = document.getElementById('odClientId').value.trim();
     if (!cid) { alert('Please enter your Google OAuth Client ID.'); return; }
     localStorage.setItem('ras_gd_client_id', cid);
-    gdTokenClient = null; // reset so initGdrive() re-creates with new client ID
+    // Save to Firestore so it loads on every device automatically
+    if (window.FIREBASE_READY && window.db) {
+      try {
+        await window.db.collection('settings').doc('googledrive').set({ clientId: cid }, { merge: true });
+      } catch(e) { console.warn('GD settings Firestore save failed:', e.message); }
+    }
+    gdTokenClient = null;
     gdAccessToken = null; sessionStorage.removeItem('ras_gd_token'); sessionStorage.removeItem('ras_gd_token_exp');
     showNotice('gdNotice');
     const btn = document.getElementById('odPickerBtn');
@@ -1579,6 +1601,17 @@ async function initApp() {
         { id: 'ord2', product: 'Complete Worksheet Bundle', cat: 'bundle', amount: 999, phone: '9123456789', date: new Date(Date.now()-86400000*4).toISOString(), status: 'paid' },
       ]));
     }
+  }
+
+  // Pre-load GD client ID from Firestore into localStorage so the picker button
+  // appears on every device without needing to visit Settings first
+  if (window.FIREBASE_READY && window.db && !localStorage.getItem('ras_gd_client_id')) {
+    try {
+      const gdSnap = await window.db.collection('settings').doc('googledrive').get();
+      if (gdSnap.exists && gdSnap.data().clientId) {
+        localStorage.setItem('ras_gd_client_id', gdSnap.data().clientId);
+      }
+    } catch(e) { /* silent — non-critical */ }
   }
 
   await renderDashboard(true);
