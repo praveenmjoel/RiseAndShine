@@ -358,6 +358,78 @@ tr:hover td { background: var(--blue-50); }
 }
 .file-folder-files { padding-left: 16px; border-left: 2px solid var(--grey-200); margin-left: 8px; }
 
+/* ─── ONEDRIVE PICKER ─────────────────────────────────── */
+.od-modal-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.55);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 9999; padding: 16px;
+}
+.od-modal-overlay.hidden { display: none; }
+.od-modal {
+  background: white; border-radius: var(--r-lg);
+  width: 100%; max-width: 660px; max-height: 86vh;
+  display: flex; flex-direction: column;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.28);
+  overflow: hidden;
+}
+.od-modal-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 15px 20px; border-bottom: 1px solid var(--grey-200); flex-shrink: 0;
+}
+.od-modal-title { font-size: 0.95rem; font-weight: 700; color: var(--blue-800); }
+.od-modal-close {
+  width: 28px; height: 28px; display: flex; align-items: center; justify-content: center;
+  border-radius: 6px; background: var(--grey-100); cursor: pointer; font-size: 0.88rem;
+  transition: background 0.15s; flex-shrink: 0;
+}
+.od-modal-close:hover { background: var(--grey-200); }
+.od-breadcrumb {
+  display: flex; align-items: center; gap: 4px; padding: 8px 20px;
+  font-size: 0.78rem; color: var(--text-muted);
+  border-bottom: 1px solid var(--grey-100); flex-wrap: wrap; flex-shrink: 0; min-height: 38px;
+}
+.od-bc-item {
+  cursor: pointer; color: var(--blue-600); font-weight: 500; transition: color 0.15s;
+}
+.od-bc-item:hover { color: var(--blue-800); text-decoration: underline; }
+.od-bc-sep { color: var(--grey-400); }
+.od-bc-cur { color: var(--text); font-weight: 600; }
+.od-file-grid {
+  flex: 1; overflow-y: auto; padding: 12px 16px;
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 10px; align-content: start;
+}
+.od-file-item {
+  border: 1.5px solid var(--grey-200); border-radius: var(--r-md);
+  padding: 12px 8px; text-align: center; cursor: pointer; position: relative;
+  transition: border-color 0.15s, background 0.15s; user-select: none;
+}
+.od-file-item:hover { border-color: var(--blue-600); background: var(--blue-50); }
+.od-file-item.selected { border-color: var(--blue-700); background: var(--blue-50); }
+.od-check {
+  display: none; position: absolute; top: 5px; right: 7px;
+  background: var(--blue-800); color: white; border-radius: 50%;
+  width: 17px; height: 17px; font-size: 0.6rem; font-weight: 700;
+  line-height: 17px; text-align: center;
+}
+.od-file-item.selected .od-check { display: block; }
+.od-file-icon { font-size: 1.9rem; display: block; margin-bottom: 5px; }
+.od-file-name {
+  font-size: 0.7rem; color: var(--text); font-weight: 500;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.od-file-size { font-size: 0.63rem; color: var(--text-muted); margin-top: 2px; }
+.od-modal-footer {
+  padding: 12px 20px; border-top: 1px solid var(--grey-200);
+  display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-shrink: 0;
+}
+.od-sel-count { font-size: 0.8rem; color: var(--text-muted); flex: 1; }
+.od-msg {
+  grid-column: 1/-1; text-align: center;
+  padding: 40px; color: var(--text-muted); font-size: 0.85rem;
+}
+.od-msg.err { color: var(--red); }
+
 /* ─── EMPTY STATE ─────────────────────────────────────── */
 .empty-state {
   text-align: center; padding: 60px 20px;
@@ -453,11 +525,33 @@ tr:hover td { background: var(--blue-50); }
 }
 </style>
 <!-- Firebase SDK (compat) -->
+<!-- ─── ONEDRIVE PICKER MODAL ──────────────────────────── -->
+<div class="od-modal-overlay hidden" id="odPickerOverlay">
+  <div class="od-modal">
+    <div class="od-modal-header">
+      <span class="od-modal-title">📂 Pick from Google Drive</span>
+      <div class="od-modal-close" onclick="closeGdrivePicker()">✕</div>
+    </div>
+    <div class="od-breadcrumb" id="odBreadcrumb">
+      <span class="od-bc-cur">My Files</span>
+    </div>
+    <div class="od-file-grid" id="odFileGrid">
+      <div class="od-msg">Connecting to OneDrive…</div>
+    </div>
+    <div class="od-modal-footer">
+      <span class="od-sel-count" id="odSelCount">No files selected</span>
+      <button class="btn-sm btn-ghost" onclick="closeGdrivePicker()">Cancel</button>
+      <button class="btn-sm btn-primary" id="odAddBtn" onclick="addSelectedFromGdrive()" disabled>Add to Product</button>
+    </div>
+  </div>
+</div>
+
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-storage-compat.js"></script>
 <script src="firebase-config.js"></script>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
 
@@ -737,6 +831,18 @@ tr:hover td { background: var(--blue-50); }
             </div>
           </div>
           <div class="card">
+            <div class="card-header"><span class="card-title">Google Drive Integration</span></div>
+            <div class="card-body">
+              <div class="setting-row">
+                <label>Google OAuth Client ID</label>
+                <input type="text" id="odClientId" placeholder="xxxxxxxxxxxx-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.apps.googleusercontent.com" autocomplete="off">
+                <small>Go to <a href="https://console.cloud.google.com" target="_blank" style="color:var(--blue-600)">console.cloud.google.com</a> → APIs &amp; Services → Enable <strong>Google Drive API</strong>. Then Credentials → Create → OAuth 2.0 Client ID → Web application. Under <em>Authorised JavaScript origins</em> add <code>https://riseandshineacademy.in</code>. Copy the Client ID and paste it here.</small>
+              </div>
+              <button class="save-btn" onclick="saveSettings('gd')">Save &amp; Enable Picker</button>
+              <div class="save-notice" id="gdNotice">✓ Saved! "📂 Google Drive" button now appears in the file upload area.</div>
+            </div>
+          </div>
+          <div class="card">
             <div class="card-header"><span class="card-title">Admin Password</span></div>
             <div class="card-body">
               <div class="setting-row">
@@ -843,6 +949,7 @@ tr:hover td { background: var(--blue-50); }
               <div class="upload-zone-btns">
                 <button type="button" class="btn-sm btn-ghost" onclick="document.getElementById('fileInput').click()">Select Files</button>
                 <button type="button" class="btn-sm btn-ghost" onclick="document.getElementById('folderInput').click()">Select Folder</button>
+                <button type="button" class="btn-sm btn-ghost" id="odPickerBtn" onclick="openGdrivePicker()" style="display:none">📂 Google Drive</button>
               </div>
               <input type="file" id="fileInput" multiple accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" style="display:none" onchange="handleFileSelect(this.files)">
               <input type="file" id="folderInput" webkitdirectory multiple style="display:none" onchange="handleFileSelect(this.files, true)">
@@ -1349,6 +1456,7 @@ async function loadSettings() {
     document.getElementById('rzpKey').value = localStorage.getItem('ras_rzp_key') || '';
   }
   document.getElementById('waNumber').value = localStorage.getItem('ras_wa_number') || '';
+  document.getElementById('odClientId').value = localStorage.getItem('ras_gd_client_id') || '';
 }
 
 async function saveSettings(type) {
@@ -1376,6 +1484,15 @@ async function saveSettings(type) {
   } else if (type === 'wa') {
     localStorage.setItem('ras_wa_number', document.getElementById('waNumber').value.trim());
     showNotice('waNotice');
+  } else if (type === 'gd') {
+    const cid = document.getElementById('odClientId').value.trim();
+    if (!cid) { alert('Please enter your Google OAuth Client ID.'); return; }
+    localStorage.setItem('ras_gd_client_id', cid);
+    gdTokenClient = null; // reset so initGdrive() re-creates with new client ID
+    gdAccessToken = null; sessionStorage.removeItem('ras_gd_token'); sessionStorage.removeItem('ras_gd_token_exp');
+    showNotice('gdNotice');
+    const btn = document.getElementById('odPickerBtn');
+    if (btn) btn.style.display = 'inline-block';
   }
 }
 function showNotice(id) {
@@ -1565,6 +1682,9 @@ function openProductModal(id) {
   renderUploadList();
   document.getElementById('uploadStorageWarn').style.display =
     (window.FIREBASE_READY && !window.storage) ? 'block' : 'none';
+  // Show Google Drive button only when a Client ID has been saved
+  document.getElementById('odPickerBtn').style.display =
+    localStorage.getItem('ras_gd_client_id') ? 'inline-block' : 'none';
   document.getElementById('productOverlay').classList.add('open');
 }
 
@@ -1808,6 +1928,299 @@ async function seedDefaultProducts() {
 
 function closeProductModal(e) { if (e.target === document.getElementById('productOverlay')) closeProductModalDirect(); }
 function closeProductModalDirect() { document.getElementById('productOverlay').classList.remove('open'); }
+
+// ─── GOOGLE DRIVE INTEGRATION ────────────────────────────
+let gdTokenClient   = null;
+let gdAccessToken   = sessionStorage.getItem('ras_gd_token') || null;
+let gdTokenExpiry   = parseInt(sessionStorage.getItem('ras_gd_token_exp') || '0');
+let gdSelectedItems = new Map();
+let gdBreadcrumbStack = [{ id: 'root', name: 'My Drive' }];
+window.__gdItems = {};
+
+const GD_API   = 'https://www.googleapis.com/drive/v3';
+const GD_SCOPE = 'https://www.googleapis.com/auth/drive.readonly';
+
+function initGdrive() {
+  const cid = localStorage.getItem('ras_gd_client_id') || '';
+  if (!cid) return false;
+  if (!window.google || !window.google.accounts || !window.google.accounts.oauth2) return false;
+  try {
+    gdTokenClient = google.accounts.oauth2.initTokenClient({
+      client_id: cid,
+      scope: GD_SCOPE,
+      callback: () => {}, // overridden per-call in getGdriveToken()
+    });
+    return true;
+  } catch(e) { console.error('GIS init error:', e); return false; }
+}
+
+async function getGdriveToken() {
+  // Return cached token if still valid (with 60 s buffer)
+  if (gdAccessToken && Date.now() < gdTokenExpiry - 60000) return gdAccessToken;
+  if (!initGdrive()) {
+    throw new Error('Google Drive not configured. Add your OAuth Client ID in Settings → Google Drive Integration.');
+  }
+  return new Promise((resolve, reject) => {
+    gdTokenClient.callback = resp => {
+      if (resp.error) { reject(new Error(resp.error_description || resp.error)); return; }
+      gdAccessToken = resp.access_token;
+      gdTokenExpiry = Date.now() + ((resp.expires_in || 3600) * 1000);
+      // Cache in sessionStorage so the same tab doesn't re-auth on soft navigation
+      sessionStorage.setItem('ras_gd_token', gdAccessToken);
+      sessionStorage.setItem('ras_gd_token_exp', String(gdTokenExpiry));
+      resolve(gdAccessToken);
+    };
+    // prompt:'' = silent re-auth if user already granted access in this browser session
+    gdTokenClient.requestAccessToken({ prompt: '' });
+  });
+}
+
+async function gdApiGet(url) {
+  const token = await getGdriveToken();
+  const resp = await fetch(url, { headers: { Authorization: 'Bearer ' + token } });
+  if (!resp.ok) {
+    const txt = await resp.text().catch(() => '');
+    throw new Error('Drive API ' + resp.status + (txt ? ': ' + txt.slice(0, 140) : ''));
+  }
+  return resp.json();
+}
+
+// ── Picker open / close ───────────────────────────────────
+
+async function openGdrivePicker() {
+  if (!localStorage.getItem('ras_gd_client_id')) {
+    alert('\u26a0 Google Drive not configured.\n\nGo to Settings \u2192 Google Drive Integration and paste your OAuth Client ID.');
+    return;
+  }
+  if (!window.google || !window.google.accounts) {
+    alert('\u26a0 Google Sign-In library is still loading. Please wait a moment and try again.');
+    return;
+  }
+  gdSelectedItems.clear();
+  window.__gdItems = {};
+  gdBreadcrumbStack = [{ id: 'root', name: 'My Drive' }];
+  document.getElementById('odPickerOverlay').classList.remove('hidden');
+  gdRenderBreadcrumb();
+  gdUpdateFooter();
+  await gdLoadFolder('root');
+}
+
+function closeGdrivePicker() {
+  document.getElementById('odPickerOverlay').classList.add('hidden');
+  gdSelectedItems.clear();
+}
+
+// ── Folder navigation ─────────────────────────────────────
+
+async function gdBreadcrumbJump(idx) {
+  gdBreadcrumbStack = gdBreadcrumbStack.slice(0, idx + 1);
+  const crumb = gdBreadcrumbStack[idx];
+  gdRenderBreadcrumb();
+  await gdLoadFolder(crumb.id);
+}
+
+async function gdOpenFolder(itemId) {
+  const item = window.__gdItems[itemId];
+  if (!item) return;
+  gdBreadcrumbStack.push({ id: item.id, name: item.name });
+  gdRenderBreadcrumb();
+  await gdLoadFolder(item.id);
+}
+
+async function gdLoadFolder(folderId) {
+  const grid = document.getElementById('odFileGrid');
+  grid.innerHTML = '<div class="od-msg">\u23f3 Loading\u2026</div>';
+  try {
+    const parentId = folderId === 'root' ? 'root' : folderId;
+    const q      = encodeURIComponent("'" + parentId + "' in parents and trashed = false");
+    const fields = encodeURIComponent('files(id,name,mimeType,size)');
+    const url    = GD_API + '/files?q=' + q + '&fields=' + fields + '&orderBy=folder,name&pageSize=200&supportsAllDrives=true&includeItemsFromAllDrives=true';
+    const data   = await gdApiGet(url);
+    const items  = data.files || [];
+    window.__gdItems = {};
+    items.forEach(it => { window.__gdItems[it.id] = it; });
+    if (!items.length) {
+      grid.innerHTML = '<div class="od-msg">This folder is empty.</div>';
+      return;
+    }
+    grid.innerHTML = items.map(function(item) {
+      const isFolder = item.mimeType === 'application/vnd.google-apps.folder';
+      const isGdoc   = !isFolder && item.mimeType.startsWith('application/vnd.google-apps.');
+      const icon  = isFolder ? '\ud83d\udcc1' : gdFileIcon(item.mimeType, item.name);
+      const size  = (!isFolder && item.size) ? formatBytes(parseInt(item.size)) : '';
+      const sel   = gdSelectedItems.has(item.id);
+      const dim   = isGdoc ? ' style="opacity:0.4;cursor:not-allowed"' : '';
+      const click = isFolder
+        ? 'gdOpenFolder(' + JSON.stringify(item.id) + ')'
+        : (isGdoc
+          ? 'gdGdocAlert()'
+          : 'gdToggleFile(' + JSON.stringify(item.id) + ')');
+      return '<div class="od-file-item' + (sel ? ' selected' : '') + '" id="gdi-' + item.id + '"' + dim + ' onclick="' + click.replace(/"/g, '&quot;') + '">'
+        + '<span class="od-check">\u2713</span>'
+        + '<span class="od-file-icon">' + icon + '</span>'
+        + '<div class="od-file-name" title="' + gdEsc(item.name) + '">' + gdEsc(item.name) + '</div>'
+        + (size ? '<div class="od-file-size">' + size + '</div>' : '')
+        + '</div>';
+    }).join('');
+  } catch(e) {
+    grid.innerHTML = '<div class="od-msg err">\u26a0 ' + gdEsc(e.message) + '<br><small>Check your Client ID and that Google Drive API is enabled.</small></div>';
+  }
+}
+
+function gdToggleFile(itemId) {
+  const item = window.__gdItems[itemId];
+  if (!item) return;
+  const el = document.getElementById('gdi-' + itemId);
+  if (gdSelectedItems.has(itemId)) {
+    gdSelectedItems.delete(itemId);
+    if (el) el.classList.remove('selected');
+  } else {
+    gdSelectedItems.set(itemId, item);
+    if (el) el.classList.add('selected');
+  }
+  gdUpdateFooter();
+}
+
+function gdRenderBreadcrumb() {
+  document.getElementById('odBreadcrumb').innerHTML = gdBreadcrumbStack.map(function(crumb, idx) {
+    const isLast = idx === gdBreadcrumbStack.length - 1;
+    if (isLast) return '<span class="od-bc-cur">' + gdEsc(crumb.name) + '</span>';
+    return '<span class="od-bc-item" onclick="gdBreadcrumbJump(' + idx + ')">' + gdEsc(crumb.name) + '</span><span class="od-bc-sep"> \u203a </span>';
+  }).join('');
+}
+
+function gdUpdateFooter() {
+  const n = gdSelectedItems.size;
+  document.getElementById('odSelCount').textContent =
+    n === 0 ? 'No files selected' : (n + ' file' + (n !== 1 ? 's' : '') + ' selected');
+  document.getElementById('odAddBtn').disabled = (n === 0);
+}
+
+function gdGdocAlert() {
+  alert('Google Docs, Sheets, and Slides cannot be downloaded directly.\nPlease export the file from Google Drive first (File → Download As PDF or .docx), then upload it here.');
+}
+
+function gdFileIcon(mimeType, name) {
+  if (mimeType === 'application/pdf') return '\ud83d\udcc4';
+  if (mimeType.startsWith('image/'))  return '\ud83d\uddbc\ufe0f';
+  if (mimeType.includes('wordprocessingml')) return '\ud83d\udcdd';
+  if (mimeType.includes('spreadsheetml'))    return '\ud83d\udcca';
+  if (mimeType.includes('presentationml'))   return '\ud83d\udcca';
+  if (mimeType.includes('zip') || mimeType.includes('rar')) return '\ud83d\uddc4\ufe0f';
+  const ext = (name.split('.').pop() || '').toLowerCase();
+  if (ext === 'pdf') return '\ud83d\udcc4';
+  if (['jpg','jpeg','png','gif','webp'].includes(ext)) return '\ud83d\uddbc\ufe0f';
+  if (['doc','docx'].includes(ext)) return '\ud83d\udcdd';
+  return '\ud83d\udcce';
+}
+
+function gdEsc(s) {
+  return String(s)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ── Download from Google Drive \u2192 upload to Firebase Storage ──
+
+async function addSelectedFromGdrive() {
+  if (!gdSelectedItems.size) return;
+  const btn = document.getElementById('odAddBtn');
+  btn.disabled = true;
+  btn.textContent = 'Working\u2026';
+  const items = Array.from(gdSelectedItems.values());
+  const folderPrefix = gdBreadcrumbStack.length > 1
+    ? gdBreadcrumbStack.slice(1).map(function(b) { return b.name; }).join('/') + '/'
+    : '';
+  closeGdrivePicker();
+  for (const item of items) {
+    await gdQueueUpload(item, folderPrefix);
+  }
+  btn.textContent = 'Add to Product';
+}
+
+async function gdQueueUpload(item, folderPrefix) {
+  if (!window.FIREBASE_READY || !window.storage) {
+    document.getElementById('uploadStorageWarn').style.display = 'block';
+    return;
+  }
+  if (!editingProductId) return;
+
+  const displayName = folderPrefix + item.name;
+  const storagePath = 'products/' + editingProductId + '/' + displayName;
+  const uploadKey   = 'gd_' + Date.now() + '_' + Math.random().toString(36).slice(2,5);
+
+  const list = document.getElementById('uploadList');
+  if (list.querySelector('p')) list.innerHTML = '';
+  const row = document.createElement('div');
+  row.className = 'upload-item uploading';
+  row.id = uploadKey;
+  row.innerHTML = '<span class="upload-item-icon">\ud83d\udcc2</span>'
+    + '<div class="upload-item-info">'
+    + '<div class="upload-item-name">' + gdEsc(item.name) + '</div>'
+    + '<div class="upload-item-meta">Fetching from Google Drive\u2026</div>'
+    + '<div class="upload-item-bar"><div class="upload-item-bar-fill" id="' + uploadKey + '_bar" style="width:5%"></div></div>'
+    + '</div>';
+  list.appendChild(row);
+
+  try {
+    const token = await getGdriveToken();
+    const el    = document.getElementById(uploadKey);
+    if (el) el.querySelector('.upload-item-meta').textContent = 'Downloading from Google Drive\u2026';
+
+    // Download file content via Drive API alt=media
+    const dlResp = await fetch(
+      GD_API + '/files/' + encodeURIComponent(item.id) + '?alt=media&supportsAllDrives=true',
+      { headers: { Authorization: 'Bearer ' + token } }
+    );
+    if (!dlResp.ok) throw new Error('Download failed (' + dlResp.status + ')');
+    const blob = await dlResp.blob();
+    const file = new File([blob], item.name, { type: blob.type || 'application/octet-stream' });
+
+    const bar = document.getElementById(uploadKey + '_bar');
+    if (bar) bar.style.width = '40%';
+    if (el)  el.querySelector('.upload-item-meta').textContent = 'Uploading to storage\u2026';
+
+    const ref  = window.storage.ref(storagePath);
+    const task = ref.put(file);
+    task.on('state_changed',
+      function(snap) {
+        const pct = Math.round(snap.bytesTransferred / snap.totalBytes * 100);
+        const b2  = document.getElementById(uploadKey + '_bar');
+        if (b2) b2.style.width = pct + '%';
+        const elNow = document.getElementById(uploadKey);
+        if (elNow) elNow.querySelector('.upload-item-meta').textContent = pct + '% of ' + formatBytes(file.size);
+      },
+      function(err) {
+        const elNow = document.getElementById(uploadKey);
+        if (elNow) {
+          elNow.className = 'upload-item error';
+          elNow.querySelector('.upload-item-meta').textContent = '\u2717 ' + err.message;
+          elNow.querySelector('.upload-item-icon').textContent = '\u274c';
+        }
+      },
+      async function() {
+        const url = await task.snapshot.ref.getDownloadURL();
+        currentProductFiles.push({
+          name: item.name, displayName: displayName, path: storagePath,
+          url: url, size: file.size,
+          type: file.type || 'application/octet-stream',
+          uploadedAt: new Date().toISOString(),
+          source: 'googledrive',
+        });
+        renderUploadList();
+      }
+    );
+  } catch(e) {
+    const el = document.getElementById(uploadKey);
+    if (el) {
+      el.className = 'upload-item error';
+      el.querySelector('.upload-item-meta').textContent = '\u2717 ' + e.message;
+      const ic = el.querySelector('.upload-item-icon');
+      if (ic) ic.textContent = '\u274c';
+    }
+  }
+}
+
 
 // ─── BOOT ─────────────────────────────────────────────────
 if (window.FIREBASE_READY) {
