@@ -1715,9 +1715,21 @@ function openProductModal(id) {
   renderUploadList();
   document.getElementById('uploadStorageWarn').style.display =
     (window.FIREBASE_READY && !window.storage) ? 'block' : 'none';
-  // Show Google Drive button only when a Client ID has been saved
-  document.getElementById('odPickerBtn').style.display =
-    localStorage.getItem('ras_gd_client_id') ? 'inline-block' : 'none';
+  // Show Google Drive button — check localStorage first, then Firestore as fallback
+  (async () => {
+    let cid = localStorage.getItem('ras_gd_client_id');
+    if (!cid && window.FIREBASE_READY && window.db) {
+      try {
+        const snap = await window.db.collection('settings').doc('googledrive').get();
+        if (snap.exists && snap.data().clientId) {
+          cid = snap.data().clientId;
+          localStorage.setItem('ras_gd_client_id', cid);
+        }
+      } catch(e) { /* silent */ }
+    }
+    const btn = document.getElementById('odPickerBtn');
+    if (btn) btn.style.display = cid ? 'inline-block' : 'none';
+  })();
   document.getElementById('productOverlay').classList.add('open');
 }
 
