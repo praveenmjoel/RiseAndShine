@@ -947,14 +947,18 @@ async function renderPdfPages(url, pageCount, containerId, fromPage) {
     const end   = Math.min(start + safeCap - 1, pdf.numPages);
     container.innerHTML = '';
     const containerWidth = (container.offsetWidth || 620) - 2;
+    const dpr = window.devicePixelRatio || 1; // 2× on mobile/retina, 3× on some phones
     for (let n = start; n <= end; n++) {
       const page   = await pdf.getPage(n);
       const base   = page.getViewport({ scale: 1 });
-      const scale  = containerWidth / base.width;
+      // Scale to container width, then multiply by dpr for sharp rendering on HiDPI screens
+      const scale  = (containerWidth / base.width) * dpr;
       const vp     = page.getViewport({ scale });
       const canvas = document.createElement('canvas');
-      canvas.width  = vp.width;
+      canvas.width  = vp.width;           // physical pixels (2-3× larger)
       canvas.height = vp.height;
+      canvas.style.width  = (vp.width  / dpr) + 'px'; // CSS pixels (fits container)
+      canvas.style.height = (vp.height / dpr) + 'px';
       container.appendChild(canvas);
       await page.render({ canvasContext: canvas.getContext('2d'), viewport: vp }).promise;
     }
