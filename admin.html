@@ -1831,14 +1831,14 @@ function renderUploadList() {
         </label>
         ${f.isPreview ? `<span style="display:flex;align-items:center;gap:3px;flex-shrink:0">
           <span style="font-size:0.68rem;color:var(--text-muted)">pg</span>
-          <input type="number" value="${f.previewFromPage || 1}" min="1"
-            onchange="setPreviewPages('${safePath}','from',this.value)"
-            title="First page to show"
+          <input type="number" value="${f.previewFromPage || 1}" min="1" max="99"
+            oninput="setPreviewPages('${safePath}','from',this.value)"
+            title="First page to show (preview starts here)"
             style="width:36px;padding:2px 4px;border:1.5px solid var(--grey-200);border-radius:4px;font-size:0.7rem;text-align:center">
           <span style="font-size:0.68rem;color:var(--text-muted)">–</span>
-          <input type="number" value="${f.previewToPage || 2}" min="1"
-            onchange="setPreviewPages('${safePath}','to',this.value)"
-            title="Last page to show"
+          <input type="number" value="${f.previewToPage || 2}" min="1" max="99"
+            oninput="setPreviewPages('${safePath}','to',this.value)"
+            title="Last page to show (max 5 pages shown in preview)"
             style="width:36px;padding:2px 4px;border:1.5px solid var(--grey-200);border-radius:4px;font-size:0.7rem;text-align:center">
         </span>` : ''}
         <button class="upload-item-del" onclick="removeProductFile('${safePath}', '${safeDisp}')">✕</button>
@@ -1866,8 +1866,15 @@ function setPreviewPages(storagePath, which, val) {
   const f = currentProductFiles.find(f => f.path === storagePath);
   if (!f) return;
   const n = Math.max(1, parseInt(val) || 1);
-  if (which === 'from') f.previewFromPage = n;
-  if (which === 'to')   f.previewToPage   = Math.max(n, f.previewFromPage || 1);
+  if (which === 'from') {
+    f.previewFromPage = n;
+    // Keep 'to' at least equal to 'from'
+    if (!f.previewToPage || f.previewToPage < n) f.previewToPage = n + 1;
+  }
+  if (which === 'to') {
+    f.previewToPage = Math.max(n, f.previewFromPage || 1);
+  }
+  // Always recompute from the authoritative from/to values
   f.previewPageCount = Math.max(1, (f.previewToPage - f.previewFromPage) + 1);
 }
 

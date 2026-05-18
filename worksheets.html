@@ -941,8 +941,10 @@ async function renderPdfPages(url, pageCount, containerId, fromPage) {
   container.innerHTML = '<div class="prev-canvas-loading">⏳ Loading preview…</div>';
   try {
     const pdf   = await pdfjsLib.getDocument({ url, withCredentials: false }).promise;
-    const start = Math.max(1, fromPage || 1);
-    const end   = Math.min(start + (pageCount || 2) - 1, pdf.numPages);
+    const start = Math.max(1, parseInt(fromPage) || 1);
+    // Hard cap: never render more than 5 pages regardless of what admin set
+    const safeCap = Math.min(Math.max(1, parseInt(pageCount) || 2), 5);
+    const end   = Math.min(start + safeCap - 1, pdf.numPages);
     container.innerHTML = '';
     const containerWidth = (container.offsetWidth || 620) - 2;
     for (let n = start; n <= end; n++) {
@@ -1003,10 +1005,12 @@ function openPreview(idx) {
   if (previewFiles.length) {
     html += `<div class="prev-section-label" style="margin-top:18px">Sample Preview</div>`;
     previewFiles.forEach((f, fi) => {
-      const name      = (f.displayName || f.name || '').split('/').pop();
-      const fromPage  = f.previewFromPage || 1;
-      const pageCount = f.previewPageCount || 2;
-      const toPage    = fromPage + pageCount - 1;
+      const name     = (f.displayName || f.name || '').split('/').pop();
+      // Always derive page range from from/to — do NOT trust previewPageCount alone
+      const fromPage = Math.max(1, parseInt(f.previewFromPage) || 1);
+      const toPage   = Math.max(fromPage, parseInt(f.previewToPage) || (fromPage + 1));
+      // pageCount = actual span, capped at 5 pages max as a security safeguard
+      const pageCount = Math.min(toPage - fromPage + 1, 5);
       if (isImage(f)) {
         html += `<img src="${esc(f.url)}" class="prev-img" alt="${esc(name)}">`;
       } else if (isPdf(f)) {
@@ -1014,13 +1018,13 @@ function openPreview(idx) {
         html += `<div class="prev-embed-wrap">
           <div class="prev-embed-label">
             <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-            ${esc(name)} &nbsp;·&nbsp; page${pageCount > 1 ? 's ' + fromPage + '–' + toPage : ' ' + fromPage} (sample)
+            ${esc(name)} &nbsp;·&nbsp; page${pageCount > 1 ? 's ' + fromPage + '–' + (fromPage + pageCount - 1) : ' ' + fromPage} (sample)
           </div>
           <div class="prev-canvas-container" id="${cid}">
             <div class="prev-canvas-loading">⏳ Loading…</div>
           </div>
         </div>`;
-        pdfRenderQueue.push({ url: f.url, pageCount, fromPage: f.previewFromPage || 1, cid });
+        pdfRenderQueue.push({ url: f.url, pageCount, fromPage, cid });
       }
     });
   } else {
@@ -1035,8 +1039,10 @@ function openPreview(idx) {
   document.getElementById('prevOverlay').classList.add('open');
   document.body.style.overflow = 'hidden';
 
-  // Render PDFs after DOM is ready
-  pdfRenderQueue.forEach(task => renderPdfPages(task.url, task.pageCount, task.cid, task.fromPage));
+  // Render PDFs after DOM is painted (requestAnimationFrame ensures container has width)
+  requestAnimationFrame(() => {
+    pdfRenderQueue.forEach(task => renderPdfPages(task.url, task.pageCount, task.cid, task.fromPage));
+  });
 }
 
 function closePreview() {
