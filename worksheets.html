@@ -242,6 +242,25 @@ nav.scrolled { box-shadow: var(--shadow-md); }
 }
 .prev-close:hover { background: var(--grey-200); }
 .prev-body { flex: 1; overflow-y: auto; padding: 20px 22px; }
+
+.prev-scroll-hint { display: none; }
+/* ── Mobile: full-screen modal so PDF canvas can scroll without being clipped ── */
+@media (max-width: 640px) {
+  .prev-overlay { padding: 0; align-items: stretch; }
+  .prev-panel {
+    border-radius: 0;
+    max-width: 100%; max-height: 100dvh;
+    overflow: visible; /* stop clipping inner scroll containers */
+  }
+  .prev-body {
+    overflow: auto;                    /* scroll both X and Y */
+    -webkit-overflow-scrolling: touch; /* iOS smooth inertia */
+  }
+  .prev-scroll-hint {
+    display: inline; font-size: 0.65rem; font-weight: 400;
+    color: var(--text-muted); letter-spacing: 0; text-transform: none; margin-left: 6px;
+  }
+}
 .prev-section-label {
   font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;
   color: var(--blue-800); margin-bottom: 10px;
@@ -1018,7 +1037,9 @@ function openPreview(idx) {
 
   // Sample preview
   if (previewFiles.length) {
-    html += `<div class="prev-section-label" style="margin-top:18px">Sample Preview</div>`;
+    html += `<div class="prev-section-label" style="margin-top:18px">Sample Preview
+      <span class="prev-scroll-hint">↔ scroll to read</span>
+    </div>`;
     previewFiles.forEach((f, fi) => {
       const name     = (f.displayName || f.name || '').split('/').pop();
       // Always derive page range from from/to — do NOT trust previewPageCount alone
