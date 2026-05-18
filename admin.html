@@ -1816,19 +1816,31 @@ function renderUploadList() {
     files.forEach(f => {
       const dispName = (f.displayName || f.name).split('/').pop();
       const ext = dispName.split('.').pop().toUpperCase();
+      const safePath = (f.path||'').replace(/'/g,"\\'");
+      const safeDisp = (f.displayName||f.name).replace(/'/g,"\\'");
       html += `<div class="upload-item done">
         <span class="upload-item-icon">${ext === 'PDF' ? '📄' : ext.match(/JPG|JPEG|PNG/i) ? '🖼️' : '📎'}</span>
         <div class="upload-item-info">
           <div class="upload-item-name" title="${f.displayName || f.name}">${dispName}</div>
-          <div class="upload-item-meta">${formatBytes(f.size)}${f.url ? ' · <a href="'+f.url+'" target="_blank" style="color:var(--blue-600)">Preview</a>' : ''}</div>
+          <div class="upload-item-meta">${formatBytes(f.size)}${f.url ? ' · <a href="'+f.url+'" target="_blank" style="color:var(--blue-600)">View</a>' : ''}</div>
         </div>
-        <button class="upload-item-del" onclick="removeProductFile('${(f.path||'').replace(/'/g,"\\'")}', '${(f.displayName||f.name).replace(/'/g,"\\'")}')">✕</button>
+        <label title="Show this file as a sample preview on the product listing" style="display:flex;align-items:center;gap:4px;cursor:pointer;font-size:0.7rem;font-weight:600;color:var(--blue-700);white-space:nowrap;margin-right:4px;flex-shrink:0">
+          <input type="checkbox" ${f.isPreview ? 'checked' : ''} onchange="toggleFilePreview('${safePath}', this.checked)"
+            style="width:13px;height:13px;cursor:pointer;accent-color:var(--blue-800)">
+          Preview
+        </label>
+        <button class="upload-item-del" onclick="removeProductFile('${safePath}', '${safeDisp}')">✕</button>
       </div>`;
     });
     if (folder) html += '</div>';
   });
   html += '</div>';
   container.innerHTML = html;
+}
+
+function toggleFilePreview(storagePath, isPreview) {
+  const f = currentProductFiles.find(f => f.path === storagePath);
+  if (f) f.isPreview = isPreview;
 }
 
 function handleDragOver(e) {

@@ -204,6 +204,81 @@ nav.scrolled { box-shadow: var(--shadow-md); }
 .ws-buy-btn:hover { background: var(--blue-700); transform: translateY(-1px); }
 .ws-buy-btn svg { width: 13px; height: 13px; stroke: white; fill: none; stroke-width: 2.5; }
 
+/* Preview button */
+.ws-preview-btn {
+  width: 100%; border: none; background: none; cursor: pointer;
+  font-family: 'Inter', sans-serif; font-size: 0.75rem; font-weight: 600;
+  color: var(--blue-700); padding: 9px 22px 12px;
+  display: flex; align-items: center; justify-content: center; gap: 5px;
+  transition: color 0.15s;
+}
+.ws-preview-btn:hover { color: var(--blue-900); }
+.ws-preview-btn svg { width: 13px; height: 13px; stroke: currentColor; fill: none; stroke-width: 2; }
+
+/* ─── PREVIEW MODAL ───────────────────────────────────── */
+.prev-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.6);
+  z-index: 800; display: flex; align-items: center; justify-content: center;
+  padding: 16px; opacity: 0; pointer-events: none; transition: opacity 0.2s;
+}
+.prev-overlay.open { opacity: 1; pointer-events: all; }
+.prev-panel {
+  background: white; border-radius: 18px;
+  width: 100%; max-width: 700px; max-height: 92vh;
+  display: flex; flex-direction: column;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.28); overflow: hidden;
+}
+.prev-header {
+  padding: 18px 22px 16px; border-bottom: 1px solid var(--grey-100);
+  display: flex; gap: 14px; align-items: flex-start; flex-shrink: 0;
+}
+.prev-header-text { flex: 1; min-width: 0; }
+.prev-title { font-family: 'Playfair Display', serif; font-size: 1.05rem; font-weight: 700; color: var(--blue-900); line-height: 1.3; }
+.prev-subtitle { font-size: 0.75rem; color: var(--text-muted); margin-top: 3px; }
+.prev-close {
+  width: 30px; height: 30px; flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+  border-radius: 8px; background: var(--grey-100); cursor: pointer; font-size: 0.9rem;
+  transition: background 0.15s; border: none; color: var(--text-muted);
+}
+.prev-close:hover { background: var(--grey-200); }
+.prev-body { flex: 1; overflow-y: auto; padding: 20px 22px; }
+.prev-section-label {
+  font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;
+  color: var(--blue-800); margin-bottom: 10px;
+}
+.prev-file-list {
+  list-style: none; display: flex; flex-direction: column; gap: 6px; margin-bottom: 20px;
+}
+.prev-file-list li {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 0.8rem; color: var(--text-dark); padding: 7px 10px;
+  background: var(--grey-50); border-radius: 8px; border: 1px solid var(--grey-100);
+}
+.prev-file-list li span.pf-icon { font-size: 1rem; flex-shrink: 0; }
+.prev-embed-wrap { margin-bottom: 18px; }
+.prev-embed-label {
+  font-size: 0.75rem; color: var(--text-muted); margin-bottom: 6px;
+  display: flex; align-items: center; gap: 5px;
+}
+.prev-embed-label svg { width: 13px; height: 13px; stroke: currentColor; fill: none; stroke-width: 2; }
+.prev-frame {
+  width: 100%; height: 420px; border: none; border-radius: 10px;
+  background: var(--grey-50); display: block;
+}
+.prev-img { width: 100%; border-radius: 10px; margin-bottom: 12px; display: block; }
+.prev-no-preview {
+  text-align: center; padding: 36px 20px; color: var(--text-muted);
+}
+.prev-no-preview .prev-np-icon { font-size: 2.4rem; margin-bottom: 10px; }
+.prev-no-preview p { font-size: 0.85rem; }
+.prev-no-preview small { font-size: 0.75rem; margin-top: 4px; display: block; }
+.prev-footer {
+  padding: 14px 22px; border-top: 1px solid var(--grey-100);
+  display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-shrink: 0;
+}
+.prev-footer-price { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; color: var(--blue-900); }
+.prev-footer-label { font-size: 0.65rem; color: var(--text-muted); }
+
 /* Empty state */
 .ws-empty { grid-column: 1 / -1; text-align: center; padding: 60px 20px; color: var(--text-muted); }
 .ws-empty svg { width: 48px; height: 48px; stroke: var(--grey-200); fill: none; stroke-width: 1.2; margin: 0 auto 16px; }
@@ -540,6 +615,30 @@ footer ul li a:hover { color: var(--gold-light); }
 <!-- Toast notification -->
 <div class="toast" id="toast"></div>
 
+<!-- ─── PREVIEW MODAL ─────────────────────────────────── -->
+<div class="prev-overlay" id="prevOverlay" onclick="closePrevOverlay(event)">
+  <div class="prev-panel">
+    <div class="prev-header">
+      <div class="prev-header-text">
+        <div class="prev-title" id="prevTitle"></div>
+        <div class="prev-subtitle" id="prevSubtitle"></div>
+      </div>
+      <button class="prev-close" onclick="closePreview()">✕</button>
+    </div>
+    <div class="prev-body" id="prevBody"></div>
+    <div class="prev-footer">
+      <div>
+        <div class="prev-footer-price" id="prevFooterPrice"></div>
+        <div class="prev-footer-label">PDF download · instant access</div>
+      </div>
+      <button class="ws-buy-btn" id="prevBuyBtn" onclick="prevBuyNow()">
+        Buy Now
+        <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+
 <!-- WhatsApp Float -->
 <a class="wa-float" href="https://wa.me/919823888638" target="_blank" aria-label="Chat on WhatsApp">
   <div class="wa-float-tooltip">Chat with us</div>
@@ -681,7 +780,7 @@ function filterWS(cat, btn) {
 }
 
 // ─── CARD RENDERER ────────────────────────────────────────
-function buildCard(p) {
+function buildCard(p, idx) {
   const waNum = '919823888638';
   const waMsg = encodeURIComponent(`Hi, I'm interested in "${p.title}" (₹${p.price}). Please share more details.`);
   const badgeHtml = p.badge
@@ -721,6 +820,10 @@ function buildCard(p) {
           <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
         </button>
       </div>
+      <button class="ws-preview-btn" onclick="openPreview(${idx})">
+        <svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+        Preview Sample
+      </button>
     </div>`;
 }
 
@@ -766,6 +869,7 @@ async function loadProducts() {
   }
   if (products.length === 0) products = DEFAULT_PRODUCTS.filter(p => p.active !== false);
   allProducts = products;
+  window.__wsProducts = products; // used by openPreview()
 
   const bundles = products.filter(p => p.category === 'bundle');
   const nonBundles = products.filter(p => p.category !== 'bundle');
@@ -777,10 +881,111 @@ async function loadProducts() {
 
   // Render cards
   document.getElementById('wsLoading').style.display = 'none';
-  document.getElementById('wsGrid').insertAdjacentHTML('beforeend', nonBundles.map(buildCard).join(''));
+  document.getElementById('wsGrid').insertAdjacentHTML('beforeend', nonBundles.map((p, i) => buildCard(p, i)).join(''));
 
   // Apply current filter
   filterWS(activeFilter, null);
+}
+
+// ─── PREVIEW MODAL ───────────────────────────────────────
+let currentPreviewProduct = null;
+
+function fileIcon(f) {
+  const mt = f.type || '';
+  const ext = (f.name || '').split('.').pop().toLowerCase();
+  if (mt === 'application/pdf' || ext === 'pdf') return '📄';
+  if (mt.startsWith('image/') || ['jpg','jpeg','png','gif','webp'].includes(ext)) return '🖼️';
+  if (['doc','docx'].includes(ext)) return '📝';
+  return '📎';
+}
+
+function openPreview(idx) {
+  const products = window.__wsProducts || [];
+  const p = products[idx];
+  if (!p) return;
+  currentPreviewProduct = p;
+
+  document.getElementById('prevTitle').textContent = p.title;
+  document.getElementById('prevSubtitle').textContent =
+    [p.count, p.grade].filter(Boolean).join(' · ');
+  document.getElementById('prevFooterPrice').textContent = '₹' + p.price;
+
+  const files = p.files || [];
+  const previewFiles = files.filter(f => f.isPreview);
+  const allNames = files.map(f => {
+    const n = (f.displayName || f.name || '').split('/').pop();
+    return { name: n, icon: fileIcon(f) };
+  });
+
+  let html = '';
+
+  // What's included
+  if (allNames.length) {
+    html += `<div class="prev-section-label">What's included (${files.length} file${files.length !== 1 ? 's' : ''})</div>`;
+    html += `<ul class="prev-file-list">`;
+    allNames.forEach(f => {
+      html += `<li><span class="pf-icon">${f.icon}</span>${esc(f.name)}</li>`;
+    });
+    html += `</ul>`;
+  }
+
+  // Preview embeds
+  if (previewFiles.length) {
+    html += `<div class="prev-section-label">Sample Preview</div>`;
+    previewFiles.forEach(f => {
+      const name = (f.displayName || f.name || '').split('/').pop();
+      const mt = f.type || '';
+      const ext = name.split('.').pop().toLowerCase();
+      if (mt.startsWith('image/') || ['jpg','jpeg','png','gif','webp'].includes(ext)) {
+        html += `<img src="${f.url}" class="prev-img" alt="${esc(name)}">`;
+      } else {
+        // Use Google Docs Viewer for reliable cross-browser PDF embed
+        const viewerUrl = 'https://docs.google.com/viewer?url=' + encodeURIComponent(f.url) + '&embedded=true';
+        html += `<div class="prev-embed-wrap">
+          <div class="prev-embed-label">
+            <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            ${esc(name)}
+          </div>
+          <iframe class="prev-frame" src="${viewerUrl}" title="${esc(name)}" loading="lazy"></iframe>
+        </div>`;
+      }
+    });
+  } else {
+    html += `<div class="prev-no-preview">
+      <div class="prev-np-icon">📚</div>
+      <p>Sample preview not available for this product.</p>
+      <small>Purchase to get instant access to all worksheets.</small>
+    </div>`;
+  }
+
+  document.getElementById('prevBody').innerHTML = html;
+  document.getElementById('prevOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closePreview() {
+  document.getElementById('prevOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+  // Clear iframes to stop loading
+  document.getElementById('prevBody').innerHTML = '';
+}
+
+function closePrevOverlay(e) {
+  if (e.target === document.getElementById('prevOverlay')) closePreview();
+}
+
+function prevBuyNow() {
+  const p = currentPreviewProduct;
+  if (!p) return;
+  closePreview();
+  const label = (p.category === 'phonics' ? 'Phonics & Reading' :
+    p.category === 'grammar' ? 'English Grammar' :
+    p.category === 'cambridge' ? 'Cambridge' : 'Bundle');
+  openModal(p.id, p.title, p.price, label, p.pdfUrl || '');
+}
+
+function esc(s) {
+  return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
 // ─── RAZORPAY KEY (loaded from Firestore, cached globally) ───
