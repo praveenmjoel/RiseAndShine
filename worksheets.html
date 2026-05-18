@@ -268,6 +268,7 @@ nav.scrolled { box-shadow: var(--shadow-md); }
 .prev-canvas-container canvas {
   display: block; margin-bottom: 8px; border-radius: 8px;
   border: 1px solid var(--grey-200);
+  max-width: none !important; /* never shrink canvas below its rendered width */
   /* Prevent right-click save / long-press download */
   pointer-events: none; -webkit-user-select: none; user-select: none;
 }
@@ -955,7 +956,7 @@ async function renderPdfPages(url, pageCount, containerId, fromPage) {
     // On mobile, container may be ~360px wide — a full A4 page at that width compresses
     // 11pt text to ~7px (unreadable). Use a minimum of 750px so text stays ~14px+.
     // The container has overflow-x:auto so users can scroll horizontally on small screens.
-    const MIN_READABLE_WIDTH = 750;
+    const MIN_READABLE_WIDTH = 1100;
     for (let n = start; n <= end; n++) {
       const page   = await pdf.getPage(n);
       const base   = page.getViewport({ scale: 1 });
