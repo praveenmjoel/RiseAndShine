@@ -1824,11 +1824,23 @@ function renderUploadList() {
           <div class="upload-item-name" title="${f.displayName || f.name}">${dispName}</div>
           <div class="upload-item-meta">${formatBytes(f.size)}${f.url ? ' · <a href="'+f.url+'" target="_blank" style="color:var(--blue-600)">View</a>' : ''}</div>
         </div>
-        <label title="Show this file as a sample preview on the product listing" style="display:flex;align-items:center;gap:4px;cursor:pointer;font-size:0.7rem;font-weight:600;color:var(--blue-700);white-space:nowrap;margin-right:4px;flex-shrink:0">
+        <label title="Show as sample preview on the public product listing" style="display:flex;align-items:center;gap:4px;cursor:pointer;font-size:0.7rem;font-weight:600;color:var(--blue-700);white-space:nowrap;flex-shrink:0">
           <input type="checkbox" ${f.isPreview ? 'checked' : ''} onchange="toggleFilePreview('${safePath}', this.checked)"
             style="width:13px;height:13px;cursor:pointer;accent-color:var(--blue-800)">
           Preview
         </label>
+        ${f.isPreview ? `<span style="display:flex;align-items:center;gap:3px;flex-shrink:0">
+          <span style="font-size:0.68rem;color:var(--text-muted)">pg</span>
+          <input type="number" value="${f.previewFromPage || 1}" min="1"
+            onchange="setPreviewPages('${safePath}','from',this.value)"
+            title="First page to show"
+            style="width:36px;padding:2px 4px;border:1.5px solid var(--grey-200);border-radius:4px;font-size:0.7rem;text-align:center">
+          <span style="font-size:0.68rem;color:var(--text-muted)">–</span>
+          <input type="number" value="${f.previewToPage || 2}" min="1"
+            onchange="setPreviewPages('${safePath}','to',this.value)"
+            title="Last page to show"
+            style="width:36px;padding:2px 4px;border:1.5px solid var(--grey-200);border-radius:4px;font-size:0.7rem;text-align:center">
+        </span>` : ''}
         <button class="upload-item-del" onclick="removeProductFile('${safePath}', '${safeDisp}')">✕</button>
       </div>`;
     });
@@ -1840,7 +1852,23 @@ function renderUploadList() {
 
 function toggleFilePreview(storagePath, isPreview) {
   const f = currentProductFiles.find(f => f.path === storagePath);
-  if (f) f.isPreview = isPreview;
+  if (!f) return;
+  f.isPreview = isPreview;
+  if (isPreview) {
+    if (!f.previewFromPage) f.previewFromPage = 1;
+    if (!f.previewToPage)   f.previewToPage   = 2;
+    f.previewPageCount = Math.max(1, (f.previewToPage - f.previewFromPage) + 1);
+  }
+  renderUploadList(); // re-render to show/hide the page pickers
+}
+
+function setPreviewPages(storagePath, which, val) {
+  const f = currentProductFiles.find(f => f.path === storagePath);
+  if (!f) return;
+  const n = Math.max(1, parseInt(val) || 1);
+  if (which === 'from') f.previewFromPage = n;
+  if (which === 'to')   f.previewToPage   = Math.max(n, f.previewFromPage || 1);
+  f.previewPageCount = Math.max(1, (f.previewToPage - f.previewFromPage) + 1);
 }
 
 function handleDragOver(e) {

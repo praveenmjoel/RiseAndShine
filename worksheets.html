@@ -257,15 +257,27 @@ nav.scrolled { box-shadow: var(--shadow-md); }
 .prev-file-list li span.pf-icon { font-size: 1rem; flex-shrink: 0; }
 .prev-embed-wrap { margin-bottom: 18px; }
 .prev-embed-label {
-  font-size: 0.75rem; color: var(--text-muted); margin-bottom: 6px;
+  font-size: 0.75rem; color: var(--text-muted); margin-bottom: 8px;
   display: flex; align-items: center; gap: 5px;
 }
 .prev-embed-label svg { width: 13px; height: 13px; stroke: currentColor; fill: none; stroke-width: 2; }
-.prev-frame {
-  width: 100%; height: 420px; border: none; border-radius: 10px;
-  background: var(--grey-50); display: block;
+.prev-canvas-container canvas {
+  width: 100%; display: block; margin-bottom: 8px; border-radius: 8px;
+  border: 1px solid var(--grey-200);
+  /* Prevent right-click save / long-press download */
+  pointer-events: none; -webkit-user-select: none; user-select: none;
 }
-.prev-img { width: 100%; border-radius: 10px; margin-bottom: 12px; display: block; }
+.prev-canvas-loading {
+  text-align: center; padding: 32px; color: var(--text-muted); font-size: 0.82rem;
+  background: var(--grey-50); border-radius: 10px;
+}
+.prev-page-notice {
+  text-align: center; padding: 10px 16px; margin-top: 4px;
+  font-size: 0.72rem; color: var(--text-muted);
+  background: var(--grey-50); border: 1px dashed var(--grey-300); border-radius: 8px;
+}
+.prev-img { width: 100%; border-radius: 10px; margin-bottom: 12px; display: block;
+  pointer-events: none; -webkit-user-select: none; user-select: none; }
 .prev-no-preview {
   text-align: center; padding: 36px 20px; color: var(--text-muted);
 }
@@ -890,6 +902,9 @@ async function loadProducts() {
 // ─── PREVIEW MODAL ───────────────────────────────────────
 let currentPreviewProduct = null;
 
+// ─── PDF.js setup ────────────────────────────────────────
+const PDFJS_WORKER = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
 function fileIcon(f) {
   const mt = f.type || '';
   const ext = (f.name || '').split('.').pop().toLowerCase();
@@ -897,6 +912,60 @@ function fileIcon(f) {
   if (mt.startsWith('image/') || ['jpg','jpeg','png','gif','webp'].includes(ext)) return '🖼️';
   if (['doc','docx'].includes(ext)) return '📝';
   return '📎';
+}
+
+function isPdf(f) {
+  const mt = f.type || '';
+  const ext = (f.name || '').split('.').pop().toLowerCase();
+  return mt === 'application/pdf' || ext === 'pdf';
+}
+
+function isImage(f) {
+  const mt = f.type || '';
+  const ext = (f.name || '').split('.').pop().toLowerCase();
+  return mt.startsWith('image/') || ['jpg','jpeg','png','gif','webp'].includes(ext);
+}
+
+function esc(s) {
+  return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+async function renderPdfPages(url, pageCount, containerId, fromPage) {
+  const container = document.getElementById(containerId);
+  if (!container) return;
+  if (!window.pdfjsLib) {
+    container.innerHTML = '<div class="prev-canvas-loading">PDF preview unavailable — please try refreshing.</div>';
+    return;
+  }
+  pdfjsLib.GlobalWorkerOptions.workerSrc = PDFJS_WORKER;
+  container.innerHTML = '<div class="prev-canvas-loading">⏳ Loading preview…</div>';
+  try {
+    const pdf   = await pdfjsLib.getDocument({ url, withCredentials: false }).promise;
+    const start = Math.max(1, fromPage || 1);
+    const end   = Math.min(start + (pageCount || 2) - 1, pdf.numPages);
+    container.innerHTML = '';
+    const containerWidth = (container.offsetWidth || 620) - 2;
+    for (let n = start; n <= end; n++) {
+      const page   = await pdf.getPage(n);
+      const base   = page.getViewport({ scale: 1 });
+      const scale  = containerWidth / base.width;
+      const vp     = page.getViewport({ scale });
+      const canvas = document.createElement('canvas');
+      canvas.width  = vp.width;
+      canvas.height = vp.height;
+      container.appendChild(canvas);
+      await page.render({ canvasContext: canvas.getContext('2d'), viewport: vp }).promise;
+    }
+    if (pdf.numPages > (end - start + 1)) {
+      const notice = document.createElement('div');
+      notice.className = 'prev-page-notice';
+      notice.textContent = `Showing page${end > start ? 's ' + start + '–' + end : ' ' + start} of ${pdf.numPages} — purchase for full access.`;
+      container.appendChild(notice);
+    }
+  } catch(e) {
+    container.innerHTML = `<div class="prev-canvas-loading" style="color:#c0392b">Could not load preview. Please try again.</div>`;
+    console.warn('PDF preview error:', e);
+  }
 }
 
 function openPreview(idx) {
@@ -910,18 +979,19 @@ function openPreview(idx) {
     [p.count, p.grade].filter(Boolean).join(' · ');
   document.getElementById('prevFooterPrice').textContent = '₹' + p.price;
 
-  const files = p.files || [];
+  const files        = p.files || [];
   const previewFiles = files.filter(f => f.isPreview);
-  const allNames = files.map(f => {
-    const n = (f.displayName || f.name || '').split('/').pop();
-    return { name: n, icon: fileIcon(f) };
-  });
+  const allNames     = files.map(f => ({
+    name: (f.displayName || f.name || '').split('/').pop(),
+    icon: fileIcon(f),
+  }));
 
   let html = '';
+  const pdfRenderQueue = []; // deferred after innerHTML
 
   // What's included
   if (allNames.length) {
-    html += `<div class="prev-section-label">What's included (${files.length} file${files.length !== 1 ? 's' : ''})</div>`;
+    html += `<div class="prev-section-label">What's included — ${files.length} file${files.length !== 1 ? 's' : ''}</div>`;
     html += `<ul class="prev-file-list">`;
     allNames.forEach(f => {
       html += `<li><span class="pf-icon">${f.icon}</span>${esc(f.name)}</li>`;
@@ -929,25 +999,28 @@ function openPreview(idx) {
     html += `</ul>`;
   }
 
-  // Preview embeds
+  // Sample preview
   if (previewFiles.length) {
-    html += `<div class="prev-section-label">Sample Preview</div>`;
-    previewFiles.forEach(f => {
-      const name = (f.displayName || f.name || '').split('/').pop();
-      const mt = f.type || '';
-      const ext = name.split('.').pop().toLowerCase();
-      if (mt.startsWith('image/') || ['jpg','jpeg','png','gif','webp'].includes(ext)) {
-        html += `<img src="${f.url}" class="prev-img" alt="${esc(name)}">`;
-      } else {
-        // Use Google Docs Viewer for reliable cross-browser PDF embed
-        const viewerUrl = 'https://docs.google.com/viewer?url=' + encodeURIComponent(f.url) + '&embedded=true';
+    html += `<div class="prev-section-label" style="margin-top:18px">Sample Preview</div>`;
+    previewFiles.forEach((f, fi) => {
+      const name      = (f.displayName || f.name || '').split('/').pop();
+      const fromPage  = f.previewFromPage || 1;
+      const pageCount = f.previewPageCount || 2;
+      const toPage    = fromPage + pageCount - 1;
+      if (isImage(f)) {
+        html += `<img src="${esc(f.url)}" class="prev-img" alt="${esc(name)}">`;
+      } else if (isPdf(f)) {
+        const cid = 'pdfcanvas_' + fi;
         html += `<div class="prev-embed-wrap">
           <div class="prev-embed-label">
             <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-            ${esc(name)}
+            ${esc(name)} &nbsp;·&nbsp; page${pageCount > 1 ? 's ' + fromPage + '–' + toPage : ' ' + fromPage} (sample)
           </div>
-          <iframe class="prev-frame" src="${viewerUrl}" title="${esc(name)}" loading="lazy"></iframe>
+          <div class="prev-canvas-container" id="${cid}">
+            <div class="prev-canvas-loading">⏳ Loading…</div>
+          </div>
         </div>`;
+        pdfRenderQueue.push({ url: f.url, pageCount, fromPage: f.previewFromPage || 1, cid });
       }
     });
   } else {
@@ -961,13 +1034,15 @@ function openPreview(idx) {
   document.getElementById('prevBody').innerHTML = html;
   document.getElementById('prevOverlay').classList.add('open');
   document.body.style.overflow = 'hidden';
+
+  // Render PDFs after DOM is ready
+  pdfRenderQueue.forEach(task => renderPdfPages(task.url, task.pageCount, task.cid, task.fromPage));
 }
 
 function closePreview() {
   document.getElementById('prevOverlay').classList.remove('open');
   document.body.style.overflow = '';
-  // Clear iframes to stop loading
-  document.getElementById('prevBody').innerHTML = '';
+  document.getElementById('prevBody').innerHTML = ''; // frees PDF.js memory
 }
 
 function closePrevOverlay(e) {
@@ -978,14 +1053,8 @@ function prevBuyNow() {
   const p = currentPreviewProduct;
   if (!p) return;
   closePreview();
-  const label = (p.category === 'phonics' ? 'Phonics & Reading' :
-    p.category === 'grammar' ? 'English Grammar' :
-    p.category === 'cambridge' ? 'Cambridge' : 'Bundle');
+  const label = { phonics:'Phonics & Reading', grammar:'English Grammar', cambridge:'Cambridge', bundle:'Bundle' }[p.category] || p.category;
   openModal(p.id, p.title, p.price, label, p.pdfUrl || '');
-}
-
-function esc(s) {
-  return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
 // ─── RAZORPAY KEY (loaded from Firestore, cached globally) ───
@@ -1223,5 +1292,6 @@ document.addEventListener('DOMContentLoaded', () => {
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
 <script src="firebase-config.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 </body>
 </html>
