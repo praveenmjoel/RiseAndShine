@@ -451,6 +451,15 @@ tr:hover td { background: var(--blue-50); }
 }
 .setting-row input:focus { border-color: var(--blue-600); }
 .setting-row small { display: block; margin-top: 5px; font-size: 0.73rem; color: var(--text-muted); }
+.grade-chip-group { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+.grade-chip-group input[type="checkbox"] { display: none; }
+.grade-chip-group label {
+  padding: 5px 11px; border-radius: 20px; border: 1.5px solid var(--grey-200);
+  font-size: 0.75rem; font-weight: 600; cursor: pointer; user-select: none;
+  background: var(--white); color: var(--text-muted); transition: all 0.15s;
+}
+.grade-chip-group label:hover { border-color: var(--blue-600); color: var(--blue-700); background: var(--blue-50); }
+.grade-chip-group input:checked + label { background: var(--blue-800); color: #fff; border-color: var(--blue-800); }
 .save-btn {
   padding: 10px 24px; background: var(--blue-800); color: #fff;
   border-radius: var(--r-md); font-size: 0.85rem; font-weight: 600;
@@ -915,9 +924,23 @@ tr:hover td { background: var(--blue-50); }
           <label>Count Label</label>
           <input type="text" id="pCount" placeholder="e.g. 30 worksheets">
         </div>
-        <div class="setting-row">
-          <label>Grade / Age Range</label>
-          <input type="text" id="pGrade" placeholder="e.g. Ages 4–6 or Grade 7–9">
+        <div class="setting-row" style="grid-column:1/-1">
+          <label>Grade</label>
+          <div class="grade-chip-group" id="pGradeChecklist">
+            <input type="checkbox" id="gKG"   value="KG">  <label for="gKG">KG</label>
+            <input type="checkbox" id="gI"    value="I">   <label for="gI">I</label>
+            <input type="checkbox" id="gII"   value="II">  <label for="gII">II</label>
+            <input type="checkbox" id="gIII"  value="III"> <label for="gIII">III</label>
+            <input type="checkbox" id="gIV"   value="IV">  <label for="gIV">IV</label>
+            <input type="checkbox" id="gV"    value="V">   <label for="gV">V</label>
+            <input type="checkbox" id="gVI"   value="VI">  <label for="gVI">VI</label>
+            <input type="checkbox" id="gVII"  value="VII"> <label for="gVII">VII</label>
+            <input type="checkbox" id="gVIII" value="VIII"><label for="gVIII">VIII</label>
+            <input type="checkbox" id="gIX"   value="IX">  <label for="gIX">IX</label>
+            <input type="checkbox" id="gX"    value="X">   <label for="gX">X</label>
+            <input type="checkbox" id="gXI"   value="XI">  <label for="gXI">XI</label>
+            <input type="checkbox" id="gXII"  value="XII"> <label for="gXII">XII</label>
+          </div>
         </div>
         <div class="setting-row">
           <label>Badge</label>
@@ -1678,6 +1701,31 @@ async function renderProducts(force = false) {
 
 let currentProductFiles = []; // files staged for current product
 
+// ─── GRADE HELPERS ───────────────────────────────────────────
+const GRADE_LIST = ['KG','I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII'];
+
+function getSelectedGrades() {
+  return GRADE_LIST.filter(g => {
+    const cb = document.getElementById('g' + g);
+    return cb && cb.checked;
+  });
+}
+function setSelectedGrades(grades) {
+  GRADE_LIST.forEach(g => {
+    const cb = document.getElementById('g' + g);
+    if (cb) cb.checked = (grades || []).includes(g);
+  });
+}
+function gradesToDisplay(grades) {
+  if (!grades || !grades.length) return '';
+  if (grades.length === 1) return 'Grade ' + grades[0];
+  const idxs = grades.map(g => GRADE_LIST.indexOf(g)).filter(i => i >= 0).sort((a,b)=>a-b);
+  let consecutive = idxs.every((v,i) => i === 0 || v === idxs[i-1]+1);
+  return consecutive
+    ? 'Grade ' + GRADE_LIST[idxs[0]] + '–' + GRADE_LIST[idxs[idxs.length-1]]
+    : 'Grade ' + grades.join(', ');
+}
+
 function openProductModal(id) {
   // Pre-generate an ID for new products so uploads can use it immediately
   editingProductId = id || (Date.now().toString(36) + Math.random().toString(36).slice(2,5));
@@ -1692,7 +1740,7 @@ function openProductModal(id) {
     document.getElementById('pCategory').value = p.category || 'phonics';
     document.getElementById('pPrice').value = p.price || '';
     document.getElementById('pCount').value = p.count || '';
-    document.getElementById('pGrade').value = p.grade || '';
+    setSelectedGrades(p.grades || []);
     document.getElementById('pBadge').value = p.badge || '';
     document.getElementById('pSort').value = p.sortOrder ?? 99;
     document.getElementById('pDesc').value = p.description || '';
@@ -1705,7 +1753,7 @@ function openProductModal(id) {
     document.getElementById('pCategory').value = 'phonics';
     document.getElementById('pPrice').value = '';
     document.getElementById('pCount').value = '';
-    document.getElementById('pGrade').value = '';
+    setSelectedGrades([]);
     document.getElementById('pBadge').value = '';
     document.getElementById('pSort').value = '99';
     document.getElementById('pDesc').value = '';
@@ -1749,7 +1797,8 @@ async function saveProduct() {
     description: desc,
     price,
     count: document.getElementById('pCount').value.trim(),
-    grade: document.getElementById('pGrade').value.trim(),
+    grades: getSelectedGrades(),
+    grade: gradesToDisplay(getSelectedGrades()),
     badge: document.getElementById('pBadge').value,
     sortOrder: parseInt(document.getElementById('pSort').value) || 99,
     files: currentProductFiles,           // replaces pdfUrl

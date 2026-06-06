@@ -131,6 +131,26 @@ nav.scrolled { box-shadow: var(--shadow-md); }
 .filter-count { font-size: 0.78rem; color: var(--text-muted); white-space: nowrap; }
 .filter-count strong { color: var(--blue-800); }
 
+/* ─── GRADE FILTER ROW ───────────────────────────────── */
+.grade-filter-row {
+  max-width: 1200px; margin: 12px auto 0; padding-top: 12px;
+  border-top: 1px solid var(--grey-100);
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+}
+.grade-filter-label {
+  font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.08em; color: var(--text-muted); white-space: nowrap; flex-shrink: 0;
+}
+.grade-filter-tabs { display: flex; gap: 6px; flex-wrap: wrap; }
+.grade-tab {
+  font-size: 0.8rem; font-weight: 600; min-width: 38px; padding: 7px 10px;
+  text-align: center; border-radius: 8px; border: 2px solid var(--grey-200);
+  background: var(--grey-50); color: var(--text-muted); cursor: pointer;
+  transition: all 0.15s; white-space: nowrap;
+}
+.grade-tab:hover { border-color: var(--gold); color: var(--gold); background: var(--gold-pale); }
+.grade-tab.active { background: var(--gold-light); color: white; border-color: var(--gold-light); box-shadow: 0 2px 8px rgba(232,160,0,0.3); }
+
 /* ─── MARKETPLACE GRID ───────────────────────────────── */
 .marketplace-section { padding: 56px 5% 96px; background: var(--grey-50); }
 .marketplace-inner { max-width: 1200px; margin: 0 auto; }
@@ -563,6 +583,25 @@ footer ul li a:hover { color: var(--gold-light); }
     </div>
     <div class="filter-count">Showing <strong id="wsCount">0</strong> resources</div>
   </div>
+  <div class="grade-filter-row">
+    <span class="grade-filter-label">Grade</span>
+    <div class="grade-filter-tabs">
+      <button class="grade-tab active" onclick="filterGrade('all', this)">All</button>
+      <button class="grade-tab" onclick="filterGrade('KG', this)">KG</button>
+      <button class="grade-tab" onclick="filterGrade('I', this)">I</button>
+      <button class="grade-tab" onclick="filterGrade('II', this)">II</button>
+      <button class="grade-tab" onclick="filterGrade('III', this)">III</button>
+      <button class="grade-tab" onclick="filterGrade('IV', this)">IV</button>
+      <button class="grade-tab" onclick="filterGrade('V', this)">V</button>
+      <button class="grade-tab" onclick="filterGrade('VI', this)">VI</button>
+      <button class="grade-tab" onclick="filterGrade('VII', this)">VII</button>
+      <button class="grade-tab" onclick="filterGrade('VIII', this)">VIII</button>
+      <button class="grade-tab" onclick="filterGrade('IX', this)">IX</button>
+      <button class="grade-tab" onclick="filterGrade('X', this)">X</button>
+      <button class="grade-tab" onclick="filterGrade('XI', this)">XI</button>
+      <button class="grade-tab" onclick="filterGrade('XII', this)">XII</button>
+    </div>
+  </div>
 </div>
 
 <!-- Marketplace -->
@@ -800,19 +839,37 @@ const DEFAULT_PRODUCTS = [
 // ─── FILTER ───────────────────────────────────────────────
 let allProducts = [];
 let activeFilter = 'all';
+let activeGrade  = 'all';
+
+function applyFilters() {
+  const cards = document.querySelectorAll('.ws-card[data-cat]');
+  let shown = 0;
+  cards.forEach(c => {
+    const catOk   = activeFilter === 'all' || c.dataset.cat === activeFilter;
+    let gradeOk   = true;
+    if (activeGrade !== 'all') {
+      const gs = c.dataset.grades ? c.dataset.grades.split('|') : [];
+      gradeOk = gs.includes(activeGrade);
+    }
+    const show = catOk && gradeOk;
+    c.style.display = show ? '' : 'none';
+    if (show) shown++;
+  });
+  document.getElementById('wsCount').textContent = shown;
+}
 
 function filterWS(cat, btn) {
   activeFilter = cat;
   document.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active'));
   if (btn) btn.classList.add('active');
-  const cards = document.querySelectorAll('.ws-card[data-cat]');
-  let shown = 0;
-  cards.forEach(c => {
-    const show = cat === 'all' || c.dataset.cat === cat;
-    c.style.display = show ? '' : 'none';
-    if (show) shown++;
-  });
-  document.getElementById('wsCount').textContent = shown;
+  applyFilters();
+}
+
+function filterGrade(grade, btn) {
+  activeGrade = grade;
+  document.querySelectorAll('.grade-tab').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  applyFilters();
 }
 
 // ─── CARD RENDERER ────────────────────────────────────────
@@ -827,9 +884,10 @@ function buildCard(p, idx) {
   const idEsc    = (p.id || '').replace(/'/g, "\\'");
   const titleEsc = p.title.replace(/'/g, "\\'");
   const catEsc   = label.replace(/'/g, "\\'");
-  const pdfEsc   = (p.pdfUrl || '').replace(/'/g, "\\'");
+  const pdfEsc    = (p.pdfUrl || '').replace(/'/g, "\\'");
+  const gradesAttr = (p.grades || []).join('|');
   return `
-    <div class="ws-card" data-cat="${p.category}">
+    <div class="ws-card" data-cat="${p.category}" data-grades="${gradesAttr}">
       <div class="ws-card-visual ${p.category}">
         <div class="ws-visual-pattern"></div>
         <div class="ws-visual-icon">${icon}</div>
@@ -920,7 +978,7 @@ async function loadProducts() {
   document.getElementById('wsGrid').insertAdjacentHTML('beforeend', nonBundles.map((p, i) => buildCard(p, i)).join(''));
 
   // Apply current filter
-  filterWS(activeFilter, null);
+  applyFilters();
 }
 
 // ─── PREVIEW MODAL ───────────────────────────────────────
